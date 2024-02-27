@@ -1,4 +1,5 @@
 import torch.nn as nn
+from torch import Tensor
 
 class Generator(nn.Module):
     def __init__(self):
@@ -6,6 +7,6 @@ class Generator(nn.Module):
         #TODO: Define all layers of the network
         return
 
-    def forward(self, input):
+    def forward(self, input: Tensor) -> Tensor:
         #TODO: Define how the input passes through the layers
         return
