@@ -20,3 +20,7 @@ def weights_init(model: Generator) -> None:
     #TODO: Initialise the weights of the generator before training begins
     return
 
+if __name__ == "__main__":
+    print("hi")
+    #TODO: Call methods to setup and begin training. This is equivilant of the main method in java
+    #If statement used to dictate only main thread can execute not worker threads
