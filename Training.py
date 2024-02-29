@@ -2,12 +2,15 @@ from Models.Generator import Generator
 from Models.Discriminator import Discriminator
 import DataHandler
 import evaluator
+import numpy
 
 #Method parameters not stubbed as dependant on implementation
 #image input may need normalising to (128,128,3) as part of the dataloader
 def train_one_epoch(dataset) -> None:
     for batch,labels in dataset:
-        fake_images = 
+        random_image_noise = numpy.random.rand(128,128,128,3) #I am assuming a batch size of 128
+        random_image_noise = tf.convert_to_tensor(random_image_noise, dtype=float32)
+        fake_images = generator([
     #TODO: Implement training for both nets for one epoch
     return
 
