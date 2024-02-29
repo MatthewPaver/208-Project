@@ -60,7 +60,6 @@ def create_discriminator(): # in keras forward propogation is handled automatica
 
     return model
 
-discriminator = create_discriminator():
 
     #def forward(self, input: Tensor) -> Tensor:
         #TODO: Define how the input passes through the layers
