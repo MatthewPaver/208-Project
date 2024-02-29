@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import time
 import tensorflow_datasets as tfds
 from matplotlib import gridspec
+import numpy
 
 #class Discriminator(nn.Module):
     #def __init__(self):
