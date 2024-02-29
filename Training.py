@@ -12,7 +12,7 @@ from Models import Generator
 import DataHandler
 import numpy as np
 
-#Method parameters not stubbed as dependant on implementation
+#Method parameters not stubbed as dependent on implementation
 #image input may need normalising to (128,128,3) as part of the dataloader
 def train_one_epoch(dataset) -> None:
     for batch,labels in dataset:
@@ -40,5 +40,5 @@ if __name__ == "__main__":
     generator = Generator.create_generator()
     dataset = DataHandler.load_dataset()
     train(dataset,5)
-    #TODO: Call methods to setup and begin training. This is equivilant of the main method in java
+    #TODO: Call methods to setup and begin training. This is equivalent of the main method in java
     #If statement used to dictate only main thread can execute not worker threads
