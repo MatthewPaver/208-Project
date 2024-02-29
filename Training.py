@@ -1,6 +1,7 @@
 from Models.Generator import Generator
 from Models.Discriminator import Discriminator
 import DataHandler
+import evaluator
 
 #Method parameters not stubbed as dependant on implementation
 
