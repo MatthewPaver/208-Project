@@ -4,12 +4,16 @@ import DataHandler
 import evaluator
 
 #Method parameters not stubbed as dependant on implementation
-
-def train_one_epoch() -> None:
+#image input may need normalising to (128,128,3) as part of the dataloader
+def train_one_epoch(dataset) -> None:
+    for batch,labels in dataset:
+        fake_images = 
     #TODO: Implement training for both nets for one epoch
     return
 
 def train(dataset,5) -> None:
+    for epoch in range(1,epochs):
+        train_one_epoch(dataset)
     #TODO: Implement training loops to call train_one_epoch and do any needed setup
     return
 
