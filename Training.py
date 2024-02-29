@@ -20,17 +20,12 @@ def train_one_epoch(dataset) -> None:
         random_image_noise = numpy.random.rand(128,128,128,3) #I am assuming a batch size of 128
         random_image_noise = tf.convert_to_tensor(random_image_noise, dtype=float32)
         fake_images = generator([random_image_noise,labels])
-
-        # usually one would use .compile() and .fit() for this purpose, however since our model has its target labels concatenated into its input
-        # this standard method does not work so we must compute our own loss
-        # then update it using a custom optimizer
-        with tf.GradientTape() as first:
-            output = discriminator([batch,labels])
-            correct_labels = tf.ones_like(output)
-            loss = BinaryCrossentropy(correct_labels,output)
-        
-        # train discriminator on fake images
-        # train generator on noise
+        generator.compile('Adam','binary_crossentropy')
+        discriminator.compile('Adam','binary_crossentropy')
+        discriminator.fit((batch,labels),np.ones(128,),128,1)
+        discriminator.fit((fake_images,labels),np.zeros(128,),128,1)
+        generator.fit((random_image_noise,target),np.ones((128,3)),128,1 # this assumes that the generator generates three images in response to each vector, if it only generates 1
+        # jsut change the shape of np.one to (128,)
     #TODO: Implement training for both nets for one epoch
     return
 
