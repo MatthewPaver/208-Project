@@ -8,11 +8,6 @@ import tensorflow_datasets as tfds
 from matplotlib import gridspec
 import numpy
 
-#class Discriminator(nn.Module):
-    #def __init__(self):
-        #super(Discriminator, self).__init__()
-        #TODO: Define all layers of the network
-        #return
 
 def image_preprocessor(image_shape = (128,128,3)):
     x = layers.Input(shape=image_shape)
@@ -49,8 +44,3 @@ def create_discriminator(): # in keras forward propogation is handled automatica
     model = tf.keras.Model([stream1_input, stream2_input], x)
 
     return model
-
-
-    #def forward(self, input: Tensor) -> Tensor:
-        #TODO: Define how the input passes through the layers
-        #return

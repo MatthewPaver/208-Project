@@ -7,8 +7,6 @@ import time
 import tensorflow_datasets as tfds
 from matplotlib import gridspec
 
-from Models.Generator import Generator
-from Models.Discriminator import Discriminator
 import DataHandler
 import evaluator
 import numpy
