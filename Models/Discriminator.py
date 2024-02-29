@@ -1,21 +1,10 @@
-import torch.nn as nn
-from torch import Tensor
-import numpy as np
-import torch.nn as nn
-import torch.optim as optim
-from torchvision import datasets, transforms
-from torch.autograd import Variable
-from torchvision.utils import save_image
-from torchvision.utils import make_grid
-from torch.utils.tensorboard import SummaryWriter
-from torchsummary import summary
+#things I am importing because I might need them
+import tensorflow as tf
+from tensorflow.keras import layers
+from IPython import display
 import matplotlib.pyplot as plt
-import datetime
-from numpy import asarray
-from numpy.random import randn
-from numpy.random import randint
-from numpy import linspace
-from matplotlib import pyplot
+import time
+import tensorflow_datasets as tfds
 from matplotlib import gridspec
 
 #class Discriminator(nn.Module):
