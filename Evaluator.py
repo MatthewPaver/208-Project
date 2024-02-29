@@ -1,0 +1,1 @@
+#TODO: Create and implement the model needed to evaluate the generator based on an inception score
