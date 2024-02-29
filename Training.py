@@ -20,13 +20,14 @@ def train_one_epoch(dataset) -> None:
         random_image_noise = numpy.random.rand(128,128,128,3) #I am assuming a batch size of 128
         random_image_noise = convert_to_tensor(random_image_noise, dtype=float32)
         fake_images = generator([random_image_noise,labels])
-        with 
 
         # usually one would use .compile() and .fit() for this purpose, however since our model has its target labels concatenated into its input
-        # this standard method not work and we must calculate the variance of output from expected using like_one or like_zero on the output labels
-        # then calculate gradient and store this on gradient tape,
-        # before computing loss by running on a manually instantiated optimizer.
-        # train discriminator on real images
+        # this standard method does not work so we must compute our own loss
+        # then update it using a custom optimizer
+        with tf.GradientTape() as first:
+            output = discriminator([batch,labels])
+            correct_labels = ones_like(output)
+            loss = binary_cross_entropy(correct_labels,output)
         
         # train discriminator on fake images
         # train generator on noise
