@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import time
 import tensorflow_datasets as tfds
 from matplotlib import gridspec
-
+from Models import Generator
 import DataHandler
 import evaluator
 import numpy
@@ -18,7 +18,7 @@ import numpy
 def train_one_epoch(dataset) -> None:
     for batch,labels in dataset:
         random_image_noise = numpy.random.rand(128,128,128,3) #I am assuming a batch size of 128
-        random_image_noise = tf.convert_to_tensor(random_image_noise, dtype=float32)
+        random_image_noise = tf.convert_to_tensor(random_image_noise, dtype=tf.float32)
         fake_images = generator([random_image_noise,labels])
         generator.compile('Adam','binary_crossentropy')
         discriminator.compile('Adam','binary_crossentropy')
@@ -39,6 +39,8 @@ def train(dataset,epochs=5) -> None:
 if __name__ == "__main__":
     print("hi")
     discriminator = Discriminator.create_discriminator()
-    train(ds,5)
+    generator = Generator.create_generator()
+    dataset = DataHandler.load_dataset()
+    train(dataset,5)
     #TODO: Call methods to setup and begin training. This is equivilant of the main method in java
     #If statement used to dictate only main thread can execute not worker threads
