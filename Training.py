@@ -12,6 +12,8 @@ import time
 import tensorflow_datasets as tfds
 from matplotlib import gridspec
 
+# this instantiates the optimizer for the generator, it is outside of the training loop because it only needs to run once, and takes a lot of time.
+generator_optimizer = tf.keras.optimizers.Adam(lr = 0.0002, beta_1 = 0.5, beta_2 = 0.999 )
 
 #Method parameters not stubbed as dependent on implementation
 #image input may need normalising to (128,128,3) as part of the dataloader
@@ -20,12 +22,21 @@ def train_one_epoch(dataset: Dataset) -> None:
         random_image_noise = np.random.rand(128,128,128,3) #I am assuming a batch size of 128
         random_image_noise = tf.convert_to_tensor(random_image_noise, dtype=tf.float32)
         fake_images = generator([random_image_noise,labels])
-        generator.compile('Adam','binary_crossentropy')
         discriminator.compile('Adam','binary_crossentropy')
         discriminator.fit((batch,labels),np.ones(128,),128,1)
         discriminator.fit((fake_images,labels),np.zeros(128,),128,1)
-        generator.fit((random_image_noise,target),np.ones((128,3)),128,1) # this assumes that the generator generates three images in response to each vector, if it only generates 1
-        # just change the shape of np.one to (128,1)
+        # the generator has a non standard loss function (using the loss of another model to update)
+        # therefore we cannot use the .fit() function and must manually instantiate the optimizer and loss function
+        with tf.GradientTape() as gen_tape:
+            generated_images = conditional_gen([noise,target], training=True) # this is a forward pass of the generator before 
+            fake_output = conditional_discriminator([generated_images,target], training=True) # this which is a forward pass of the discriminator
+            real_targets = tf.ones_like(fake_output) # this generates an array of ones the size of the discriminator output so that
+            gen_loss = binary_cross_entropy(real_targets, fake_output) # it can be compared with the values output from the discriminator to calculate loss
+
+ 
+        gradients_of_gen = gen_tape.gradient(gen_loss, conditional_gen.trainable_variables) # the information recorded by the GradientTape() object is then applyed via a black box
+        # tensorflow process to calculate updated weights for the generator
+        generator_optimizer.apply_gradients(zip(gradients_of_gen, conditional_gen.trainable_variables)) # which is then backpropogated.   
     #TODO: Implement training for both nets for one epoch
     #TODO: Parameterize batch_size, image height and width as they are unknown parameters right now
     return
