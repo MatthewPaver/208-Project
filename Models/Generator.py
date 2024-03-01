@@ -38,3 +38,5 @@ generator = build_generator(latent_dim)
 
 # Summary of the generator model
 generator.summary()
+
+#Tesing github push from vscode
