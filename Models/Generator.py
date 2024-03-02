@@ -7,10 +7,10 @@ def build_generator(latent_dim):
 
     x = layers.Dense(8*8*128)(inputs)
     x = layers.BatchNormalization()(x)
-    x = layers.ReLU()(x)
+    x = layers.ELU()(x)
     x = layers.Reshape((8, 8, 128))(x)
     
-    #Activation function will be Sigomid and ReLU (Can change to Leaky ReLU if required)
+    #Activation function will be Sigomid and ELU (Can change to Leaky ReLU/ReLU after further experiments)
     #Strides are doubling the input size
     #Batch normalization to ensure smooth training
     
@@ -18,18 +18,18 @@ def build_generator(latent_dim):
     x = layers.Conv2DTranspose(128, kernel_size=4, strides=2, padding='same')(x)
     #16 x 16
     x = layers.BatchNormalization()(x)
-    x = layers.ReLU()(x)
+    x = layers.ELU()(x)
    
     
     x = layers.Conv2DTranspose(256, kernel_size=4, strides=2, padding='same')(x)
     #32 x 32
     x = layers.BatchNormalization()(x)
-    x = layers.ReLU()(x)
+    x = layers.ELU()(x)
 
     x = layers.Conv2DTranspose(512, kernel_size=4, strides=2, padding='same')(x)
     #64 x 64
     x = layers.BatchNormalization()(x)
-    x = layers.ReLU()(x)
+    x = layers.ELU()(x)
     
     
    
