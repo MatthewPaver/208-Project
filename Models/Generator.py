@@ -2,6 +2,10 @@ from tensorflow.keras import layers, Model
 import numpy as np
 import matplotlib.pyplot as plt
 
+def normalized_tanh(x):
+    return (tf.tanh(x) + 1) / 2
+
+
 def build_generator(latent_dim): 
     inputs = layers.Input(shape=(latent_dim,))
 
@@ -10,10 +14,10 @@ def build_generator(latent_dim):
     x = layers.ELU()(x)
     x = layers.Reshape((8, 8, 128))(x)
     
-    #Activation function will be Sigomid and ELU (Can change to Leaky ReLU/ReLU after further experiments)
+    #Activation function will be Tanh and ELU (Can change to Leaky ReLU/ReLU after further experiments)
     #Strides are doubling the input size
     #Batch normalization to ensure smooth training
-    
+    #Tanh is typically better and outputs to [-1, 1] but using a normlized tanh function it outputs [0,1] instead
     
     x = layers.Conv2DTranspose(128, kernel_size=4, strides=2, padding='same')(x)
     #16 x 16
@@ -35,7 +39,7 @@ def build_generator(latent_dim):
    
     
     
-    outputs = layers.Conv2D(3, kernel_size=4, padding='same', activation='sigmoid')(x)
+    outputs = layers.Conv2D(3, kernel_size=4, padding='same', activation=normalized_tanh)(x)
 
     model = Model(inputs=inputs, outputs=outputs, name='generator')
     return model
