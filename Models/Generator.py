@@ -6,6 +6,12 @@ def normalized_tanh(x):
     return (tf.tanh(x) + 1) / 2
 
 def image_preprocessing(image_shape = (128,128,3)) -> tf.Tensor:
+    inputs = layers.Input(shape=(latent_dim,))
+
+    x = layers.Dense(8*8*128)(inputs)
+    x = layers.BatchNormalization()(x)
+    x = layers.ELU()(x)
+    x = layers.Reshape((8, 8, 128))(x)
 
 
 def build_generator(latent_dim): 
