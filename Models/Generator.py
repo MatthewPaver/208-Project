@@ -6,18 +6,19 @@ def normalized_tanh(x):
     return (tf.tanh(x) + 1) / 2
 
 def image_preprocessing(image_shape = (128,128,3)) -> tf.Tensor:
-    inputs = layers.Input(shape=(image_shape))
-    x = layers.Dense(8*8*128)(inputs)
+    inputs = layers.Input(shape=(latent_dim,))
+    x = layers.Dense(512*4*4)(inputs)
     x = layers.BatchNormalization()(x)
     x = layers.ELU()(x)
-    x = layers.Reshape((8, 8, 128))(x)
+    x = layers.Reshape((4*4*512))(x)
     return x
 
 
 def tag_preprocessing() -> tf.Tensor:
     x = layers.Input(shape=(1,))
     x = layers.Embedding(3,50)(x)
-    x = layers.Dense((128,128,3)) (x)
+    x = layers.Dense((4,4)) (x)
+    x = layers.ReShape(4,4,1)(x)
     return x 
 
 
@@ -25,7 +26,7 @@ def build_generator(latent_dim):
     input_stream1 = image_preprocessing()
     input_stream2 = tag_preprocessing()
 
-    
+    x = layers.Concatenate() ([input_stream1,input_stream2])
     
     #Activation function will be Tanh and ELU (Can change to Leaky ReLU/ReLU after further experiments)
     #Strides are doubling the input size
