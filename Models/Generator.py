@@ -59,7 +59,7 @@ def build_generator(latent_dim):
     return model
 
 # Define latent dimension
-latent_dim = 128
+#latent_dim = 128
 
 # Build the generator
 generator = build_generator(latent_dim)
