@@ -55,7 +55,7 @@ def build_generator(latent_dim):
     
     outputs = layers.Conv2D(3, kernel_size=4, padding='same', activation=normalized_tanh)(x)
 
-    model = Model(inputs=inputs, outputs=outputs, name='generator')
+    model = tf.keras.Model(inputs=inputs, outputs=outputs, name='generator')
     return model
 
 # Define latent dimension
