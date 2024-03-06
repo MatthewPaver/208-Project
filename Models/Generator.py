@@ -10,7 +10,11 @@ def image_preprocessing(image_shape = (128,128,3)) -> tf.Tensor:
     return images
 
 
-def tag_preprocessing() <- tf.Tensor:
+def tag_preprocessing() -> tf.Tensor:
+    x = layers.Input(shape=(1,))
+    x = layers.Embedding(3,50)(x)
+    x = layers.Dense((128,128,3)) (x)
+    return x 
 
 
 def build_generator(latent_dim): 
