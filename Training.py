@@ -58,7 +58,7 @@ def train(dataset: Dataset, epochs=5) -> None:
 
 if __name__ == "__main__":
     discriminator = Discriminator.create_discriminator()
-    generator = Generator.create_generator()
+    generator = Generator.build_generator()
     dataset = DataHandler.load_dataset()
     train(dataset,epochs1)
     #TODO: Call methods to setup and begin training. This is equivalent of the main method in java
