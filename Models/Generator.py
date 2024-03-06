@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 def normalized_tanh(x):
     return (tf.tanh(x) + 1) / 2
 
+def image_preprocessing(
+
 
 def build_generator(latent_dim): 
     inputs = layers.Input(shape=(latent_dim,))
