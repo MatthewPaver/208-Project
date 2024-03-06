@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 def normalized_tanh(x):
     return (tf.tanh(x) + 1) / 2
 
-def image_preprocessing(image_shape = (128,128,3)) -> tf.Tensor:
-    inputs = layers.Input(shape=(latent_dim,))
+def image_preprocessing(latent_dim1 = 100) -> tf.Tensor:
+    inputs = layers.Input(shape=(latent_dim1,))
     x = layers.Dense(512*4*4)(inputs)
     x = layers.BatchNormalization()(x)
     x = layers.ELU()(x)
@@ -23,7 +23,7 @@ def tag_preprocessing() -> tf.Tensor:
 
 
 def build_generator(latent_dim): 
-    input_stream1 = image_preprocessing()
+    input_stream1 = image_preprocessing(latent_dim)
     input_stream2 = tag_preprocessing()
 
     x = layers.Concatenate() ([input_stream1,input_stream2])
