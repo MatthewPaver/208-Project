@@ -42,6 +42,6 @@ def create_discriminator() -> Model: # in keras forward propagation is handled a
     x = layers.Dropout(0.3) (x)
     x = layers.Dense(1,activation ='sigmoid') (x)
 
-    model = Model([stream1_input, stream2_input], x)
+    model = tf.keras.Model([stream1_input, stream2_input], x)
 
     return model
