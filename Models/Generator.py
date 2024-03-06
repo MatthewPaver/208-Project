@@ -26,7 +26,7 @@ def build_generator(latent_dim):
     input_stream1 = image_preprocessing(latent_dim)
     input_stream2 = tag_preprocessing()
 
-    x = layers.Concatenate() ([input_stream1,input_stream2])
+    x = layers.Concatenate() ([input_stream2,input_stream1])
     
     #Activation function will be Tanh and ELU (Can change to Leaky ReLU/ReLU after further experiments)
     #Strides are doubling the input size
