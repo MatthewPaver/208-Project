@@ -18,7 +18,7 @@ def label_preprocessor() -> tf.Tensor: # in order for keras concatenation layer 
     x = layers.Input(shape=(1,)) # this expresses the expected shape of this input stream, if it differs the model will not work (or you can change the shape)
     x = layers.Embedding(3,50)(x) # an embedding layer converts the declarative input into a tensor (so it can be reshaped) 50 refers to the size of the output, 3 is the input
     # dimension, and I frankly don't know what that is (but three seems the standard value).
-    x = layers.Dense((128,128,3)) (x) # 128,128,3 is the shape of the image input using the tensorflow rock-paper-scissors dataset
+    x = layers.Dense((128*128*3)) (x) # 128,128,3 is the shape of the image input using the tensorflow rock-paper-scissors dataset
     return x # in order for keras concatenation layer to work, both inputs must have the same dimensionality
 
 def create_discriminator() -> Model: # in keras forward propagation is handled automatically when one calls 'discriminator' with input data
