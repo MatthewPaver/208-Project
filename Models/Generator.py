@@ -7,7 +7,7 @@ def normalized_tanh(x):
 
 def image_preprocessing(image_shape = (128,128,3)) -> tf.Tensor:
     inputs = layers.Input(shape=(image_shape))
-
+    return images
 
 
 def tag_preprocessing(
