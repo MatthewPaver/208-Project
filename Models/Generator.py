@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 def normalized_tanh(x):
     return (tf.tanh(x) + 1) / 2
 
-def image_preprocessing(
+def image_preprocessing(image_shape = (128,128,3)) -> tf.Tensor:
 
 
 def build_generator(latent_dim): 
