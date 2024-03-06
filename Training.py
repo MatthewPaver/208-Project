@@ -32,7 +32,7 @@ def train_one_epoch(dataset: Dataset) -> None:
             fake_output = conditional_discriminator([generated_images,target], training=True) # this which is a forward pass of the discriminator
             real_targets = tf.ones_like(fake_output) # this generates an array of ones the size of the discriminator output so that
             gen_loss = binary_cross_entropy(real_targets, fake_output) # it can be compared with the values output from the discriminator to calculate loss
-
+            #binary cross entropy is a pre-built loss function from the tensorflow core library
  
         gradients_of_gen = gen_tape.gradient(gen_loss, conditional_gen.trainable_variables) # the information recorded by the GradientTape() object is then applyed via a black box
         # tensorflow process to calculate updated weights for the generator
