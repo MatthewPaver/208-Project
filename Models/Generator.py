@@ -10,7 +10,7 @@ def image_preprocessing(image_shape = (128,128,3)) -> tf.Tensor:
     return images
 
 
-def tag_preprocessing(
+def tag_preprocessing() <- tf.Tensor:
 
 
 def build_generator(latent_dim): 
