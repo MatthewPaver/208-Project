@@ -1,6 +1,7 @@
 from tensorflow.keras import layers, Model
 import numpy as np
 import matplotlib.pyplot as plt
+import tensorflow as tf
 
 def normalized_tanh(x):
     return (tf.tanh(x) + 1) / 2
@@ -13,7 +14,7 @@ def normalized_tanh(x):
 # otherwise tensroflow expects the shape of the inputs to be 4,4,512, (which is the shape of the input after pre-processing,
 # and not 128,128,3 which is their shape when they are passed to the funcion.
 # if these layers are inside the pre-processing functions, the code will crash.
-def build_generator():
+def build_generator(latent_dim):
     #pre-processing for first input stream
     inputs1 = layers.Input(shape=(latent_dim,))
     x = layers.Dense(512*4*4)(inputs1)
@@ -65,17 +66,3 @@ def build_generator():
     
     model = tf.keras.Model(inputs=[inputs1,inputs2], outputs=outputs, name='generator')
     return model
-
-
-
-
-
-# Define latent dimension
-#latent_dim = 128
-
-# Build the generator
-generator = build_generator(latent_dim)
-
-# Summary of the generator model
-generator.summary()
-

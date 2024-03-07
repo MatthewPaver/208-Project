@@ -15,7 +15,7 @@ import numpy
 
 # I have changed the preprocessing functions in the discriminator to image_preprocessor1 and label_preprocessor1, so that they do nmot overload the definitions for the smamge functions
 # in generator.py, when they are both imported to train.py
-def create_discriminator():
+def build_discriminator():
     #input preprocessing for first stream
     con_label = layers.Input(shape=(1,))
     x = layers.Embedding(3, 50)(con_label)

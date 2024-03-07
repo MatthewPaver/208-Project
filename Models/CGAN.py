@@ -15,5 +15,3 @@ class CGAN(Model):
     def compile(self, gen_optimiser: Optimizer, disc_optimiser: Optimizer) -> None:
         self.g_optimiser = gen_optimiser
         self.d_optimiser = disc_optimiser
-
-
