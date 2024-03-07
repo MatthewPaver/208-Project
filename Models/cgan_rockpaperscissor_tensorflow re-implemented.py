@@ -49,26 +49,19 @@ latent_dim = 100
 def normalized_tanh(x):
     return (tf.tanh(x) + 1) / 2
 
-inputs1 = layers.Input(shape=(latent_dim,))
-def image_preprocessing():
+def build_generator():
+    #pre-processing for first input stream
+    inputs1 = layers.Input(shape=(latent_dim,))
     x = layers.Dense(512*4*4)(inputs1)
     x = layers.BatchNormalization()(x)
     x = layers.ELU()(x)
-    x = layers.Reshape((4,4,512))(x)
-    return x
-
-
-inputs2 = layers.Input(shape=(1,))
-def tag_preprocessing():
+    input_stream1 = layers.Reshape((4,4,512))(x)
+    #pre_processing for second input stream
+    inputs2 = layers.Input(shape=(1,))
     x = layers.Embedding(3,50)(inputs2)
     x = layers.Dense((4*4)) (x)
-    x = layers.Reshape((4,4,1))(x)
-    return x 
-
-
-def build_generator(): 
-    input_stream2 = tag_preprocessing()
-    input_stream1 = image_preprocessing()
+    input_stream2 = layers.Reshape((4,4,1))(x)
+    #input_stream1 = image_preprocessing()
     x = layers.Concatenate() ([input_stream1,input_stream2])
     
     #Activation function will be Tanh and ELU (Can change to Leaky ReLU/ReLU after further experiments)
@@ -113,21 +106,14 @@ generator = build_generator()
 
 print(generator.summary())
 
-def label_preprocessor1(in_shape=(128,128,3)):
+def create_discriminator():
+    #input preprocessing for first stream
     con_label = layers.Input(shape=(1,))
     x = layers.Embedding(3, 50)(con_label)
     x = layers.Dense((128*128*3))(x)
-    x = layers.Reshape((128, 128, 3))(x)
-    return con_label, x
-
-
-def image_preprocessor1(in_shape=(128,128,3)):
-    inp_image = layers.Input(shape=in_shape)
-    return inp_image
-
-def create_discriminator():
-    con_label, stream2_input = label_preprocessor1()
-    stream1_input = image_preprocessor1()
+    stream2_input = layers.Reshape((128, 128, 3))(x)
+    # input preprocessing for second stream
+    stream1_input = layers.Input(shape=in_shape)
     # concat label as a channel
     merge = layers.Concatenate()([stream1_input, stream2_input])
     
@@ -291,3 +277,4 @@ latent_dim = 100
 noise = tf.random.normal([num_examples_to_generate, latent_dim])
 
 generate_images(conditional_gen, noise)
+
