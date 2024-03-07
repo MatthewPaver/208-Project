@@ -23,7 +23,7 @@ def tag_preprocessing() -> tf.Tensor:
 
 
 def build_generator(latent_dim): 
-input_stream2 = tag_preprocessing()
+    input_stream2 = tag_preprocessing()
     input_stream1 = image_preprocessing()
     x = layers.Concatenate() ([input_stream1,input_stream2])
     
