@@ -1,4 +1,4 @@
-from tensorflow.keras import layers, Model
+from tensorflow.keras import layers
 import tensorflow as tf
 
 def normalized_tanh(x):
@@ -8,11 +8,11 @@ def normalized_tanh(x):
 
 
 # however changed this code back to an earlier version last night, be aware that I had to re-debug it.
-# inputs1 and inputs2 have to be outside the function calls so that they can be refered to as the inputs for the model in its declaration
-# otherwise tensroflow expects the shape of the inputs to be 4,4,512, (which is the shape of the input after pre-processing,
-# and not 128,128,3 which is their shape when they are passed to the funcion.
+# inputs1 and inputs2 have to be outside the function calls so that they can be referred to as the inputs for the model in its declaration
+# otherwise TensorFlow expects the shape of the inputs to be 4,4,512, (which is the shape of the input after pre-processing,
+# and not 128,128,3 which is their shape when they are passed to the function.
 # if these layers are inside the pre-processing functions, the code will crash.
-def build_generator(latent_dim):
+def build_generator(latent_dim=100):
     #pre-processing for first input stream
     inputs1 = layers.Input(shape=(latent_dim,))
     x = layers.Dense(512*4*4)(inputs1)
@@ -30,7 +30,7 @@ def build_generator(latent_dim):
     #Activation function will be Tanh and ELU (Can change to Leaky ReLU/ReLU after further experiments)
     #Strides are doubling the input size
     #Batch normalization to ensure smooth training
-    #Tanh is typically better and outputs to [-1, 1] but using a normlized tanh function it outputs [0,1] instead
+    #Tanh is typically better and outputs to [-1, 1] but using a normalized tanh function it outputs [0,1] instead
     
     x = layers.Conv2DTranspose(64*16, kernel_size=4, strides=2, padding='same')(x)
     #8 x 8

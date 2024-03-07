@@ -1,8 +1,9 @@
 from keras.models import Model
 from tensorflow.keras.optimizers import Optimizer
+import tensorflow as tf
 
 
-#TODO: Define training step, calculate losses, track metrics
+#TODO: calculate losses and backpropergate, track metrics
 class CGAN(Model):
     def __init__(self, generator: Model , discriminator: Model) -> None:
         """
@@ -39,7 +40,29 @@ class CGAN(Model):
         :param data: The batch of data. [images, labels]
         :return:
         """
+
         images , labels = data
+        batch_size = tf.shape(images)[0]
+        latent_dim = 100
+
+        noise = tf.random.normal([batch_size, latent_dim])
+        with tf.GradientTape() as gen_tape:
+            generated_images = self.generator([noise, labels],training=True)
+
+            real_output = self.discriminator([images,labels], training= True)
+            fake_output = self.discriminator([generated_images, labels], training=True)
+
+            gen_loss =
+            disc_loss =
+
+        gradients_of_gen = gen_tape.gradient(gen_loss, self.generator.trainable_variables)
+        gradients_of_disc = gen_tape.gradient(disc_loss, self.discriminator.trainable_variables)
+
+        self.g_optimiser.apply_gradients(zip(gradients_of_gen, self.generator.trainable_variables))
+        self.d_optimiser.apply_gradients(zip(gradients_of_disc, self.discriminator.trainable_variables))
+
+        g_loss = gen_loss/ batch_size
+        d_loss = disc_loss/ batch_size
 
         return
 

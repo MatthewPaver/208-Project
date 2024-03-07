@@ -200,7 +200,7 @@ def train(dataset, epochs):
             K.set_value(discriminator.optimizer.learning_rate, learning_rate1)
             discriminator.fit((imgs,target),np.ones(128,),128,1)
             discriminator.fit((fake_images,target),np.zeros(128,),128,1)
-            # the generator has a non standard loss function (using the loss of another model to update)
+            # the generator has a non-standard loss function (using the loss of another model to update)
             # therefore we cannot use the .fit() function and must manually instantiate the optimizer and loss function
             with tf.GradientTape() as gen_tape:
                 generated_images = generator([random_image_noise,target], training=True) # this is a forward pass of the generator before 
@@ -208,7 +208,7 @@ def train(dataset, epochs):
                 real_targets = tf.ones_like(fake_output) # this generates an array of ones the size of the discriminator output so that
                 gen_loss = binary_cross_entropy(real_targets, fake_output) # it can be compared with the values output from the discriminator to calculate loss
                 #binary cross entropy is a pre-built loss function from the tensorflow core library
-            gradients_of_gen = gen_tape.gradient(gen_loss, generator.trainable_variables) # the information recorded by the GradientTape() object is then applyed via a black box
+            gradients_of_gen = gen_tape.gradient(gen_loss, generator.trainable_variables) # the information recorded by the GradientTape() object is then applied via a black box
             # tensorflow process to calculate updated weights for the generator
             generator_optimizer.apply_gradients(zip(gradients_of_gen, generator.trainable_variables)) # which is then backp
 
