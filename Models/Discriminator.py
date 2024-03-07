@@ -7,6 +7,9 @@ from tensorflow.keras import layers
 
 # I have changed the preprocessing functions in the discriminator to image_preprocessor1 and label_preprocessor1, so that they do not overload the definitions for the smamge functions
 # in generator.py, when they are both imported to train.py
+
+IMAGE_DIMENSIONS = (28, 28, 1) #(H,W,C)
+
 def build_discriminator():
     #input preprocessing for first stream
     con_label = layers.Input(shape=(1,))

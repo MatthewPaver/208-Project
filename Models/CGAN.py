@@ -83,7 +83,7 @@ class CGAN(Model):
         latent_dim = 100
 
         noise = tf.random.normal([batch_size, latent_dim])
-        with tf.GradientTape() as gen_tape:
+        with tf.GradientTape() as gen_tape, tf.GradientTape() as disc_tape:
             generated_images = self.generator([noise, labels],training=True)
 
             real_output = self.discriminator([images,labels], training= True)
@@ -93,7 +93,7 @@ class CGAN(Model):
             disc_loss = discriminator_loss(real_output, fake_output)
 
         gradients_of_gen = gen_tape.gradient(gen_loss, self.generator.trainable_variables)
-        gradients_of_disc = gen_tape.gradient(disc_loss, self.discriminator.trainable_variables)
+        gradients_of_disc = disc_tape.gradient(disc_loss, self.discriminator.trainable_variables)
 
         self.g_optimiser.apply_gradients(zip(gradients_of_gen, self.generator.trainable_variables))
         self.d_optimiser.apply_gradients(zip(gradients_of_disc, self.discriminator.trainable_variables))
