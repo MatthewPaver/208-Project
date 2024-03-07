@@ -5,8 +5,7 @@ import matplotlib.pyplot as plt
 def normalized_tanh(x):
     return (tf.tanh(x) + 1) / 2
 
-def normalized_tanh(x):
-    return (tf.tanh(x) + 1) / 2
+
 
 
 # however changed this code back to an earlier version last night, be aware that I had to re-debug it.
@@ -14,26 +13,19 @@ def normalized_tanh(x):
 # otherwise tensroflow expects the shape of the inputs to be 4,4,512, (which is the shape of the input after pre-processing,
 # and not 128,128,3 which is their shape when they are passed to the funcion.
 # if these layers are inside the pre-processing functions, the code will crash.
-inputs1 = layers.Input(shape=(latent_dim,))
-def image_preprocessing():
+def build_generator():
+    #pre-processing for first input stream
+    inputs1 = layers.Input(shape=(latent_dim,))
     x = layers.Dense(512*4*4)(inputs1)
     x = layers.BatchNormalization()(x)
     x = layers.ELU()(x)
-    x = layers.Reshape((4,4,512))(x)
-    return x
-
-
-inputs2 = layers.Input(shape=(1,))
-def tag_preprocessing():
+    input_stream1 = layers.Reshape((4,4,512))(x)
+    #pre_processing for second input stream
+    inputs2 = layers.Input(shape=(1,))
     x = layers.Embedding(3,50)(inputs2)
     x = layers.Dense((4*4)) (x)
-    x = layers.Reshape((4,4,1))(x)
-    return x 
-
-
-def build_generator(): 
-    input_stream2 = tag_preprocessing()
-    input_stream1 = image_preprocessing()
+    input_stream2 = layers.Reshape((4,4,1))(x)
+    #input_stream1 = image_preprocessing()
     x = layers.Concatenate() ([input_stream1,input_stream2])
     
     #Activation function will be Tanh and ELU (Can change to Leaky ReLU/ReLU after further experiments)
@@ -73,6 +65,9 @@ def build_generator():
     
     model = tf.keras.Model(inputs=[inputs1,inputs2], outputs=outputs, name='generator')
     return model
+
+
+
 
 
 # Define latent dimension
