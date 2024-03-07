@@ -15,23 +15,25 @@ import numpy
 
 # I have changed the preprocessing functions in the discriminator to image_preprocessor1 and label_preprocessor1, so that they do nmot overload the definitions for the smamge functions
 # in generator.py, when they are both imported to train.py
-def image_preprocessor1(image_shape = (128,128,3)):
-    x = layers.Input(shape=image_shape)
-    return x # when calling the model from the training loop, images and labels are passed automatically and do not need to be referenced in function calls.
+def label_preprocessor1(in_shape=(128,128,3)):
+    con_label = layers.Input(shape=(1,))
+    x = layers.Embedding(3, 50)(con_label)
+    x = layers.Dense((128*128*3))(x)
+    x = layers.Reshape((128, 128, 3))(x)
+    return con_label, x
 
-def label_preprocessor1(): # in order for keras concatenation layer to work, both inputs must have the same dimensionality
-    x = layers.Input(shape=(1,)) # this expresses the expected shape of this input stream, if it differs the model will not work (or you can change the shape)
-    x = layers.Embedding(3,50)(x) # an embedding layer converts the declarative input into a tensor (so it can be reshaped) 50 refers to the size of the output, 3 is the input
-    # dimension, and I frankly don't know what that is (but three seems the standard value).
-    x = layers.Dense((128*128*3)) (x) # 128,128,3 is the shape of the image input using the tensorflow rock-paper-scissors dataset
-    return x # in order for keras concatenation layer to work, both inputs must have the same dimensionality
 
-def create_discriminator(): # in keras forward propagation is handled automatically when one calls 'discriminator' with input data
-    stream1_input = image_preprocessor() #keras simply assigns the first dimension of the input tensor (when the model is called) to the first input layer it encounters, and so on.
-    stream2_input = label_preprocessor() # it is therefore very important that input is passed image,label and not label,image.
-    x = layers.Concatenate() ([stream1_input,stream2_input])
+def image_preprocessor1(in_shape=(128,128,3)):
+    inp_image = layers.Input(shape=in_shape)
+    return inp_image
 
-    x = layers.Conv2D(64,4) (x)
+def create_discriminator():
+    con_label, stream2_input = label_preprocessor1()
+    stream1_input = image_preprocessor1()
+    # concat label as a channel
+    merge = layers.Concatenate()([stream1_input, stream2_input])
+    
+    x = layers.Conv2D(64,4) (merge)
     x = layers.BatchNormalization() (x)
     x = layers.ReLU() (x)
 
@@ -47,6 +49,6 @@ def create_discriminator(): # in keras forward propagation is handled automatica
     x = layers.Dropout(0.3) (x)
     x = layers.Dense(1,activation ='sigmoid') (x)
 
-    model = tf.keras.Model([stream1_input, stream2_input], x)
+    model = tf.keras.Model([stream1_input, con_label], x)
 
     return model
