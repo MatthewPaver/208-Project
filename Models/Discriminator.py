@@ -9,12 +9,13 @@ import tensorflow_datasets as tfds
 from matplotlib import gridspec
 import numpy
 
-
-def image_preprocessor(image_shape = (128,128,3)) -> tf.Tensor:
+# I have changed the preprocessing functions in the discriminator to image_preprocessor1 and label_preprocessor1, so that they do nmot overload the definitions for the smamge functions
+# in generator.py, when they are both imported to train.py
+def image_preprocessor1(image_shape = (128,128,3)) -> tf.Tensor:
     x = layers.Input(shape=image_shape)
     return x # when calling the model from the training loop, images and labels are passed automatically and do not need to be referenced in function calls.
 
-def label_preprocessor() -> tf.Tensor: # in order for keras concatenation layer to work, both inputs must have the same dimensionality
+def label_preprocessor1() -> tf.Tensor: # in order for keras concatenation layer to work, both inputs must have the same dimensionality
     x = layers.Input(shape=(1,)) # this expresses the expected shape of this input stream, if it differs the model will not work (or you can change the shape)
     x = layers.Embedding(3,50)(x) # an embedding layer converts the declarative input into a tensor (so it can be reshaped) 50 refers to the size of the output, 3 is the input
     # dimension, and I frankly don't know what that is (but three seems the standard value).
