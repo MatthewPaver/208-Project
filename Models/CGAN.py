@@ -1,15 +1,31 @@
-from keras.models import Model
+from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Optimizer
-import tensorflow as tf
 from tensorflow.keras.losses import binary_crossentropy
+import tensorflow as tf
 
 
-#TODO: calculate losses and backpropergate, track metrics
+#TODO: track metrics
 def generator_loss(fake_output):
+    """
+    Calculates the total generator loss over the batch
+
+    :param fake_output: The discriminator's output when fed the generated images conditioned on
+    the labels
+    :return: The calculated loss
+    """
     return binary_crossentropy(tf.ones_like(fake_output), fake_output)
 
 
 def discriminator_loss(real_output, fake_output):
+    """
+    Calculates the total discriminators loss over the batch
+
+    :param real_output: The discriminator's output when fed the real images conditioned on the
+    labels
+    :param fake_output: The discriminator's output when fed the generated images conditioned on
+    the labels
+    :return: The calculated loss
+    """
     real_loss = binary_crossentropy(tf.ones_like(real_output), real_output)
     fake_loss = binary_crossentropy(tf.zeros_like(fake_output), fake_output)
     total_loss = real_loss + fake_loss
@@ -31,13 +47,14 @@ class CGAN(Model):
         self.d_optimiser = None
         self.g_optimiser = None
 
+
     def compile(self, gen_optimiser: Optimizer, disc_optimiser: Optimizer) -> None:
 
         """
         Adds optimisers for both models
 
-        Overwrites the compile method from tf.keras.Model superclass. Saves optimisers as attributes to use later
-        Need to call this method before training or tuning
+        Overwrites the compile method from tf.keras.Model superclass. Saves optimisers
+        as attributes to use later. Need to call this method before training or tuning
 
         :param gen_optimiser: A keras optimiser to use for the generator
         :param disc_optimiser: A keras optimiser to use for the discriminator
@@ -47,12 +64,18 @@ class CGAN(Model):
         self.g_optimiser = gen_optimiser
         self.d_optimiser = disc_optimiser
 
+
     def train_step(self, data):
         """
         Defines how training of one batch and backpropagation works
 
-        :param data: The batch of data. [images, labels]
-        :return:
+        Overwrites train_step from tf.keras.Model. Gets the output from the model in a forward
+        pass, calculates the loss for both the generator and discriminator and then performs a
+        backwards pass updating the gradient values
+
+        :param data: A batch of images and labels [images,labels]
+        :return: A tuple of the average losses over the batch for the generator and discriminator.
+         Order -> generator loss, discriminator loss
         """
 
         images , labels = data
@@ -78,5 +101,4 @@ class CGAN(Model):
         g_loss = gen_loss/ batch_size
         d_loss = disc_loss/ batch_size
 
-        return
-
+        return g_loss, d_loss

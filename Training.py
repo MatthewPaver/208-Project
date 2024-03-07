@@ -2,7 +2,6 @@ from Models import Discriminator
 from Models import Generator
 import tensorflow as tf
 from tensorflow.data import Dataset
-import DataHandler
 import numpy as np
 from tensorflow.keras.losses import BinaryCrossentropy
 from tensorflow.keras import backend as K

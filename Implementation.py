@@ -1,5 +1,5 @@
-from DataHandler import load_dataset
 from keras_tuner import tuners
+from Data_Handler import load_dataset
 from Models.HyperCGAN import HyperCGAN
 
 
@@ -14,4 +14,3 @@ if __name__ == "__main__":
     )
 
     tuner.search(x,y, epochs=5)
-
