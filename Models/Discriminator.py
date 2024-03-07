@@ -1,11 +1,11 @@
 import tensorflow as tf
 from tensorflow.keras import layers
 
-# please do not put <-ft.tensor after my declerations, as it defaults to requiring the tensor output of the pre-processors be the same size as the input functions, and create_discriminator
-# does not return an ft.keras.Model object to the caller, it returns it to a tensorflow function, which in turn finds the calling object and overides the return, so requiring the function
+# please do not put <-ft.tensor after my declarations, as it defaults to requiring the tensor output of the pre-processors be the same size as the input functions, and create_discriminator
+# does not return an ft.keras.Model object to the caller, it returns it to a tensorflow function, which in turn finds the calling object and overrides the return, so requiring the function
 # to directly return a model object crashes the code.
 
-# I have changed the preprocessing functions in the discriminator to image_preprocessor1 and label_preprocessor1, so that they do nmot overload the definitions for the smamge functions
+# I have changed the preprocessing functions in the discriminator to image_preprocessor1 and label_preprocessor1, so that they do not overload the definitions for the smamge functions
 # in generator.py, when they are both imported to train.py
 def build_discriminator():
     #input preprocessing for first stream
