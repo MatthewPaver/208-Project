@@ -3,8 +3,8 @@ from tensorflow.keras import Model
 from Models.CGAN import CGAN
 from Models.Generator import build_generator
 from Models.Discriminator import build_discriminator
+from tensorflow.keras.optimizers import Adam
 
-#TODO: Create and call functions to define the optimisers
 class HyperCGAN(HyperModel):
     def build(self, hp) -> Model:
         latent_dim = hp.Choice('Latent Dim', [100])
@@ -15,9 +15,16 @@ class HyperCGAN(HyperModel):
             generator=generator,
             discriminator=discriminator,
         )
+
+        lr1 = hp.Choice('Generator LR', [1e-3])
+        lr2 = hp.Choice('Discriminator LR', [1e-3])
+
+        gen_optim = Adam(learning_rate = lr1, beta_1 = 0.5, beta_2 = 0.999 )
+        disc_optim = Adam(learning_rate = lr2, beta_1 = 0.5, beta_2 = 0.999 )
+
         cgan.compile(
-            gen_optimiser=,
-            disc_optimiser=,
+            gen_optimiser= gen_optim,
+            disc_optimiser=disc_optim,
         )
         return cgan
 
