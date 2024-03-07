@@ -9,7 +9,7 @@ from Models.HyperCGAN import HyperCGAN
 #TODO: Change objective to be a tracked metric
 
 if __name__ == "__main__":
-    dataset = load_dataset()
+    x , y = load_dataset()
     gen = build_generator(100)
     disc = build_discriminator()
     cgan = CGAN(generator=gen, discriminator=disc)
@@ -19,5 +19,5 @@ if __name__ == "__main__":
     )
 
 
-    tuner.search(dataset, epochs=5)
+    tuner.search(x,y, epochs=5)
 

@@ -5,12 +5,6 @@ from tensorflow.data import Dataset
 import DataHandler
 import numpy as np
 from tensorflow.keras.losses import BinaryCrossentropy
-from tensorflow.keras import layers
-from IPython import display
-import matplotlib.pyplot as plt
-import time
-import tensorflow_datasets as tfds
-from matplotlib import gridspec
 from tensorflow.keras import backend as K
 
 #tuneable parameters

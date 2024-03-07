@@ -1,6 +1,4 @@
 from tensorflow.keras import layers, Model
-import numpy as np
-import matplotlib.pyplot as plt
 import tensorflow as tf
 
 def normalized_tanh(x):

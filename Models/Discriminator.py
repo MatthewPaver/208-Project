@@ -1,13 +1,5 @@
 import tensorflow as tf
 from tensorflow.keras import layers
-from tensorflow.keras import Model
-from tensorflow import keras
-from IPython import display
-import matplotlib.pyplot as plt
-import time
-import tensorflow_datasets as tfds
-from matplotlib import gridspec
-import numpy
 
 # please do not put <-ft.tensor after my declerations, as it defaults to requiring the tensor output of the pre-processors be the same size as the input functions, and create_discriminator
 # does not return an ft.keras.Model object to the caller, it returns it to a tensorflow function, which in turn finds the calling object and overides the return, so requiring the function
@@ -22,7 +14,7 @@ def build_discriminator():
     x = layers.Dense((128*128*3))(x)
     stream2_input = layers.Reshape((128, 128, 3))(x)
     # input preprocessing for second stream
-    stream1_input = layers.Input(shape=in_shape)
+    stream1_input = layers.Input(shape=(128,128,3))
     # concat label as a channel
     merge = layers.Concatenate()([stream1_input, stream2_input])
     

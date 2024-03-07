@@ -39,5 +39,7 @@ class CGAN(Model):
         :param data: The batch of data. [images, labels]
         :return:
         """
+        images , labels = data
+
         return
 
