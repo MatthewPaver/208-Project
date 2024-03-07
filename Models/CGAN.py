@@ -1,6 +1,8 @@
 from keras.models import Model
 from tensorflow.keras.optimizers import Optimizer
 
+
+#TODO: Define training step, calculate losses, track metrics
 class CGAN(Model):
     def __init__(self, generator: Model , discriminator: Model) -> None:
         super(CGAN,self).__init__()
