@@ -1,6 +1,7 @@
 from keras.models import Model
 from tensorflow.keras.optimizers import Optimizer
 import tensorflow as tf
+from tensorflow.keras.losses import binary_crossentropy
 
 
 #TODO: calculate losses and backpropergate, track metrics
@@ -52,8 +53,8 @@ class CGAN(Model):
             real_output = self.discriminator([images,labels], training= True)
             fake_output = self.discriminator([generated_images, labels], training=True)
 
-            gen_loss =
-            disc_loss =
+            gen_loss = self.generator_loss(fake_output)
+            disc_loss = self.discriminator_loss(real_output, fake_output)
 
         gradients_of_gen = gen_tape.gradient(gen_loss, self.generator.trainable_variables)
         gradients_of_disc = gen_tape.gradient(disc_loss, self.discriminator.trainable_variables)
@@ -65,4 +66,13 @@ class CGAN(Model):
         d_loss = disc_loss/ batch_size
 
         return
+
+    def generator_loss(self, fake_output):
+        return binary_crossentropy(tf.ones_like(fake_output), fake_output)
+
+    def discriminator_loss(self, real_output, fake_output):
+        real_loss = binary_crossentropy(tf.ones_like(real_output), real_output)
+        fake_loss = binary_crossentropy(tf.zeros_like(fake_output), fake_output)
+        total_loss = real_loss + fake_loss
+        return total_loss
 
