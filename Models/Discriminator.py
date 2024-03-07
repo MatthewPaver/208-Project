@@ -1,23 +1,23 @@
 import tensorflow as tf
+from tensorflow.keras.models import Model
 from tensorflow.keras import layers
 
-# please do not put <-ft.tensor after my declarations, as it defaults to requiring the tensor output of the pre-processors be the same size as the input functions, and create_discriminator
+# please do not put <-fxt.tensor after my declarations, as it defaults to requiring the tensor output of the pre-processors be the same size as the input functions, and create_discriminator
 # does not return an ft.keras.Model object to the caller, it returns it to a tensorflow function, which in turn finds the calling object and overrides the return, so requiring the function
 # to directly return a model object crashes the code.
 
 # I have changed the preprocessing functions in the discriminator to image_preprocessor1 and label_preprocessor1, so that they do not overload the definitions for the smamge functions
 # in generator.py, when they are both imported to train.py
 
-IMAGE_DIMENSIONS = (28, 28, 1) #(H,W,C)
-
-def build_discriminator():
+def build_discriminator() -> Model:
+    IMAGE_DIMENSIONS = (128, 128, 3)  # (H,W,C)
     #input preprocessing for first stream
     con_label = layers.Input(shape=(1,))
     x = layers.Embedding(3, 50)(con_label)
-    x = layers.Dense((128*128*3))(x)
-    stream2_input = layers.Reshape((128, 128, 3))(x)
+    x = layers.Dense(tf.reduce_prod(IMAGE_DIMENSIONS))(x)
+    stream2_input = layers.Reshape(IMAGE_DIMENSIONS)(x)
     # input preprocessing for second stream
-    stream1_input = layers.Input(shape=(128,128,3))
+    stream1_input = layers.Input(shape=IMAGE_DIMENSIONS)
     # concat label as a channel
     merge = layers.Concatenate()([stream1_input, stream2_input])
     

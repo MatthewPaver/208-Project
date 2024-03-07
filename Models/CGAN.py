@@ -49,7 +49,6 @@ class CGAN(Model):
 
 
     def compile(self, gen_optimiser: Optimizer, disc_optimiser: Optimizer) -> None:
-
         """
         Adds optimisers for both models
 
