@@ -5,24 +5,33 @@ import matplotlib.pyplot as plt
 def normalized_tanh(x):
     return (tf.tanh(x) + 1) / 2
 
+def normalized_tanh(x):
+    return (tf.tanh(x) + 1) / 2
+
+
+# however changed this code back to an earlier version last night, be aware that I had to re-debug it.
+# inputs1 and inputs2 have to be outside the function calls so that they can be refered to as the inputs for the model in its declaration
+# otherwise tensroflow expects the shape of the inputs to be 4,4,512, (which is the shape of the input after pre-processing,
+# and not 128,128,3 which is their shape when they are passed to the funcion.
+# if these layers are inside the pre-processing functions, the code will crash.
 inputs1 = layers.Input(shape=(latent_dim,))
 def image_preprocessing():
-    x = layers.Dense(512*4*4)(inputs)
+    x = layers.Dense(512*4*4)(inputs1)
     x = layers.BatchNormalization()(x)
     x = layers.ELU()(x)
     x = layers.Reshape((4,4,512))(x)
     return x
 
+
 inputs2 = layers.Input(shape=(1,))
 def tag_preprocessing():
-    x = layers.Input(shape=(1,))
-    x = layers.Embedding(3,50)(x)
+    x = layers.Embedding(3,50)(inputs2)
     x = layers.Dense((4*4)) (x)
     x = layers.Reshape((4,4,1))(x)
     return x 
 
 
-def build_generator(latent_dim): 
+def build_generator(): 
     input_stream2 = tag_preprocessing()
     input_stream1 = image_preprocessing()
     x = layers.Concatenate() ([input_stream1,input_stream2])
@@ -64,6 +73,7 @@ def build_generator(latent_dim):
     
     model = tf.keras.Model(inputs=[inputs1,inputs2], outputs=outputs, name='generator')
     return model
+
 
 # Define latent dimension
 #latent_dim = 128
