@@ -5,15 +5,15 @@ import matplotlib.pyplot as plt
 def normalized_tanh(x):
     return (tf.tanh(x) + 1) / 2
 
-def image_preprocessing(latent_dim1 = 100):
-    inputs = layers.Input(shape=(latent_dim1,))
+inputs1 = layers.Input(shape=(latent_dim,))
+def image_preprocessing():
     x = layers.Dense(512*4*4)(inputs)
     x = layers.BatchNormalization()(x)
     x = layers.ELU()(x)
     x = layers.Reshape((4,4,512))(x)
     return x
 
-
+inputs2 = layers.Input(shape=(1,))
 def tag_preprocessing():
     x = layers.Input(shape=(1,))
     x = layers.Embedding(3,50)(x)
