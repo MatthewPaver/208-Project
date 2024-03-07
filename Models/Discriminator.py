@@ -15,21 +15,14 @@ import numpy
 
 # I have changed the preprocessing functions in the discriminator to image_preprocessor1 and label_preprocessor1, so that they do nmot overload the definitions for the smamge functions
 # in generator.py, when they are both imported to train.py
-def label_preprocessor1(in_shape=(128,128,3)):
+def create_discriminator():
+    #input preprocessing for first stream
     con_label = layers.Input(shape=(1,))
     x = layers.Embedding(3, 50)(con_label)
     x = layers.Dense((128*128*3))(x)
-    x = layers.Reshape((128, 128, 3))(x)
-    return con_label, x
-
-
-def image_preprocessor1(in_shape=(128,128,3)):
-    inp_image = layers.Input(shape=in_shape)
-    return inp_image
-
-def create_discriminator():
-    con_label, stream2_input = label_preprocessor1()
-    stream1_input = image_preprocessor1()
+    stream2_input = layers.Reshape((128, 128, 3))(x)
+    # input preprocessing for second stream
+    stream1_input = layers.Input(shape=in_shape)
     # concat label as a channel
     merge = layers.Concatenate()([stream1_input, stream2_input])
     
@@ -52,3 +45,5 @@ def create_discriminator():
     model = tf.keras.Model([stream1_input, con_label], x)
 
     return model
+
+
