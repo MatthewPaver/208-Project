@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 def normalized_tanh(x):
     return (tf.tanh(x) + 1) / 2
 
-def image_preprocessing(latent_dim1 = 100) -> tf.Tensor:
+def image_preprocessing(latent_dim1 = 100):
     inputs = layers.Input(shape=(latent_dim1,))
     x = layers.Dense(512*4*4)(inputs)
     x = layers.BatchNormalization()(x)
@@ -14,11 +14,11 @@ def image_preprocessing(latent_dim1 = 100) -> tf.Tensor:
     return x
 
 
-def tag_preprocessing() -> tf.Tensor:
+def tag_preprocessing():
     x = layers.Input(shape=(1,))
     x = layers.Embedding(3,50)(x)
     x = layers.Dense((4*4)) (x)
-    x = layers.ReShape((4,4,1))(x)
+    x = layers.Reshape((4,4,1))(x)
     return x 
 
 
