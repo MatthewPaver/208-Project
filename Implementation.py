@@ -9,8 +9,9 @@ if __name__ == "__main__":
     x , y = load_dataset()
     tuner = tuners.GridSearch(
         hypermodel=HyperCGAN(),
+        overwrite=True,
+        project_name="hyper_tuning"
     )
-
 
     tuner.search(x,y, epochs=5)
 
