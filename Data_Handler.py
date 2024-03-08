@@ -1,4 +1,3 @@
-from tensorflow.keras import datasets
 import tensorflow_datasets as tfds
 import tensorflow as tf
 

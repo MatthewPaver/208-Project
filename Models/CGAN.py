@@ -2,6 +2,7 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Optimizer
 from tensorflow.keras.losses import binary_crossentropy
 import tensorflow as tf
+from keras import metrics
 
 
 #TODO: track metrics
@@ -46,6 +47,8 @@ class CGAN(Model):
         self.discriminator = discriminator
         self.d_optimiser = None
         self.g_optimiser = None
+        self.d_loss = metrics.Mean(name="d_loss")
+        self.g_loss = metrics.Mean(name="g_loss")
 
 
     def compile(self, gen_optimiser: Optimizer, disc_optimiser: Optimizer) -> None:
@@ -101,4 +104,11 @@ class CGAN(Model):
         g_loss = gen_loss/ batch_size
         d_loss = disc_loss/ batch_size
 
-        return {"Generator_loss": g_loss, "Discriminator_loss":d_loss}
+        self.d_loss.update_state(d_loss)
+        self.g_loss.update_state(g_loss)
+
+        return {"Generator Loss": self.g_loss.result(), "Discriminator Loss": self.d_loss.result()}
+
+    @property
+    def metrics(self):
+        return [self.d_loss, self.g_loss]
