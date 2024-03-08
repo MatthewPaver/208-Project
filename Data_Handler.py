@@ -18,4 +18,6 @@ def load_dataset():
         x = x/255
         images.append(x)
         labels.append(y)
+    images = tf.stack(images)
+    labels = tf.stack(labels)
     return images, labels

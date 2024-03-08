@@ -97,6 +97,7 @@ class CGAN(Model):
         self.g_optimiser.apply_gradients(zip(gradients_of_gen, self.generator.trainable_variables))
         self.d_optimiser.apply_gradients(zip(gradients_of_disc, self.discriminator.trainable_variables))
 
+        batch_size = tf.cast(batch_size, tf.float32)
         g_loss = gen_loss/ batch_size
         d_loss = disc_loss/ batch_size
 
