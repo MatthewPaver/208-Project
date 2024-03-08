@@ -13,15 +13,15 @@ def build_discriminator() -> Model:
     :return: The fully built model
     """
 
-    IMAGE_DIMENSIONS = (128, 128, 3)  # (H,W,C) - Input Image Dimensions
+    IMAGE_DIMENSIONS = (128, 128, 3) # (H,W,C) - Input Image Dimensions
 
     con_label = layers.Input(shape=(1,))
-    x = layers.Embedding(3, 50)(con_label) #Encoding the label as a tensor
+    x = layers.Embedding(3, 50)(con_label) # Encoding the label as a tensor
     x = layers.Dense(tf.reduce_prod(IMAGE_DIMENSIONS))(x)
-    stream2_input = layers.Reshape(IMAGE_DIMENSIONS)(x) #Reshapes tensor to be the same shape as the image
+    stream2_input = layers.Reshape(IMAGE_DIMENSIONS)(x) # Reshapes tensor to be the same shape as the image
 
     stream1_input = layers.Input(shape=IMAGE_DIMENSIONS)
-    merge = layers.Concatenate()([stream1_input, stream2_input]) #Adds tensor as an extra colour channel in the image
+    merge = layers.Concatenate()([stream1_input, stream2_input]) # Adds tensor as an extra colour channel in the image
     
     x = layers.Conv2D(64,4) (merge)
     x = layers.BatchNormalization() (x)
@@ -42,5 +42,3 @@ def build_discriminator() -> Model:
     model = tf.keras.Model([stream1_input, con_label], x)
 
     return model
-
-
