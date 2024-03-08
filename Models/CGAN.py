@@ -5,7 +5,6 @@ import tensorflow as tf
 from keras import metrics
 
 
-#TODO: track metrics
 def generator_loss(fake_output):
     """
     Calculates the total generator loss over the batch
@@ -111,4 +110,9 @@ class CGAN(Model):
 
     @property
     def metrics(self):
+        """
+        A property dynamically set to the loss values. Needed to prevent error at end of epoch
+        
+        :return: Tuple of discriminator loss and generator loss
+        """""
         return [self.d_loss, self.g_loss]

@@ -2,24 +2,22 @@ import tensorflow as tf
 from tensorflow.keras.models import Model
 from tensorflow.keras import layers
 
-# please do not put <-fxt.tensor after my declarations, as it defaults to requiring the tensor output of the pre-processors be the same size as the input functions, and create_discriminator
-# does not return an ft.keras.Model object to the caller, it returns it to a tensorflow function, which in turn finds the calling object and overrides the return, so requiring the function
-# to directly return a model object crashes the code.
-
-# I have changed the preprocessing functions in the discriminator to image_preprocessor1 and label_preprocessor1, so that they do not overload the definitions for the smamge functions
-# in generator.py, when they are both imported to train.py
-
 def build_discriminator() -> Model:
-    IMAGE_DIMENSIONS = (128, 128, 3)  # (H,W,C)
-    #input preprocessing for first stream
+    """
+    Defines the architecture of the discriminator
+
+    :return: The fully built model
+    """
+
+    IMAGE_DIMENSIONS = (128, 128, 3)  # (H,W,C) - Input Image Dimensions
+
     con_label = layers.Input(shape=(1,))
-    x = layers.Embedding(3, 50)(con_label)
+    x = layers.Embedding(3, 50)(con_label) #Encoding the label as a tensor
     x = layers.Dense(tf.reduce_prod(IMAGE_DIMENSIONS))(x)
-    stream2_input = layers.Reshape(IMAGE_DIMENSIONS)(x)
-    # input preprocessing for second stream
+    stream2_input = layers.Reshape(IMAGE_DIMENSIONS)(x) #Reshapes tensor to be the same shape as the image
+
     stream1_input = layers.Input(shape=IMAGE_DIMENSIONS)
-    # concat label as a channel
-    merge = layers.Concatenate()([stream1_input, stream2_input])
+    merge = layers.Concatenate()([stream1_input, stream2_input]) #Adds tensor as an extra colour channel in the image
     
     x = layers.Conv2D(64,4) (merge)
     x = layers.BatchNormalization() (x)

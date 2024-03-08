@@ -1,5 +1,4 @@
-from Models import Discriminator
-from Models import Generator
+from Models import Generator , Discriminator
 import tensorflow as tf
 from tensorflow.data import Dataset
 import numpy as np
@@ -31,7 +30,7 @@ def train_one_epoch(dataset: Dataset) -> None:
             generated_images = generator([random_image_noise,labels], training=True) # this is a forward pass of the generator before 
             fake_output = discriminator([generated_images,labels], training=True) # this which is a forward pass of the discriminator
             real_targets = tf.ones_like(fake_output) # this generates an array of ones the size of the discriminator output so that
-            gen_loss = binary_cross_entropy(real_targets, fake_output) # it can be compared with the values output from the discriminator to calculate loss
+            gen_loss = BinaryCrossentropy(real_targets, fake_output) # it can be compared with the values output from the discriminator to calculate loss
             #binary cross entropy is a pre-built loss function from the tensorflow core library
  
         gradients_of_gen = gen_tape.gradient(gen_loss, generator.trainable_variables) # the information recorded by the GradientTape() object is then applied via a black box
@@ -48,6 +47,6 @@ def train(dataset: Dataset, epochs=5) -> None:
 if __name__ == "__main__":
     discriminator = Discriminator.build_discriminator()
     generator = Generator.build_generator(100)
-    dataset = DataHandler.load_dataset()
+    dataset = Data_Handler.load_dataset()
     train(dataset,epochs1)
     #If statement used to dictate only main thread can execute not worker threads

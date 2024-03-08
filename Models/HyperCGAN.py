@@ -3,6 +3,7 @@ from tensorflow.keras.models import Model
 from keras_tuner import HyperModel
 from Models import Generator, Discriminator, CGAN
 
+#TODO: Add Custom Callbacks so checkpointing can be implemented so it doesn't need to run uninterrupted
 
 class HyperCGAN(HyperModel):
     def build(self, hp) -> Model:
