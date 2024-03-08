@@ -101,4 +101,4 @@ class CGAN(Model):
         g_loss = gen_loss/ batch_size
         d_loss = disc_loss/ batch_size
 
-        return g_loss, d_loss
+        return {"Generator_loss": g_loss, "Discriminator_loss":d_loss}
