@@ -1,11 +1,20 @@
+"""
+Module handles loading all datasets
+
+This module currently loads the RockPaperScissors dataset but will be adapted
+in the future in order to load and preprocess our custom dataset
+"""
+
 import tensorflow_datasets as tfds
 import tensorflow as tf
 
 IMAGE_DIMENSIONS = (128,128)
 
+#TODO: Load and process custom dataset
+
 def load_dataset():
     """
-    Loads the MNIST Dataset and normalises it between 0 and 1
+    Loads the RockPaperScissors Dataset and normalises it between 0 and 1.
 
     :return: A tuple containing images and labels. Order -> images, labels
     """
@@ -14,7 +23,7 @@ def load_dataset():
     labels = []
     for x,y in ds:
         x = tf.image.resize(x, IMAGE_DIMENSIONS)
-        x = x/255
+        x = x / 255
         images.append(x)
         labels.append(y)
     images = tf.stack(images)

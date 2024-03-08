@@ -1,3 +1,7 @@
+"""
+This module handles building of the generator model
+"""
+
 from tensorflow.keras import layers
 import tensorflow as tf
 
@@ -26,7 +30,9 @@ def build_generator(latent_dim=100):
     x = layers.Dense(512*4*4)(inputs1)
     x = layers.BatchNormalization()(x)
     x = layers.ELU()(x)
-    input_stream1 = layers.Reshape((4,4,512))(x) #Upsamples latent vector (B, 4, 4, 512) B = batch_size
+
+    # Up samples latent vector (B, 4, 4, 512) B = batch_size
+    input_stream1 = layers.Reshape((4,4,512))(x)
 
     inputs2 = layers.Input(shape=(1,))
     x = layers.Embedding(3,50)(inputs2) #Encoding the label as a tensor

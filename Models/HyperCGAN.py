@@ -1,3 +1,11 @@
+"""
+The hypermodel class a CGAN
+
+This module contains the hypermodel class for building a CGAN based on a HyperParameter
+object passed to it. It contains a build method to construct it and a fit method to edit
+the training process before each epoch
+"""
+
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.models import Model
 from keras_tuner import HyperModel

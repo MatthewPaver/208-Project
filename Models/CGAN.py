@@ -1,3 +1,13 @@
+"""
+Contains the CGAN model class
+
+This module defines how a CGAN will function with the 2 different models composing it
+as well as a custom training process along with custom loss functions and metric
+reporting. generator_loss and discriminator_loss are functions but shouldn't be
+used outside this file while the CGAN class itself contains init, compile and a
+dynamic property called metrics that can be used by other code
+"""
+
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Optimizer
 from tensorflow.keras.losses import binary_crossentropy
