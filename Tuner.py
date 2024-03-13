@@ -68,7 +68,7 @@ class MyTuner(tuners.GridSearch):
             print(f"Resuming at the end of epoch: {epoch}")
             print(f"Remaining epochs: {kwargs['epochs']}")
             self.reloaded = False
-
+        self.save()
         model_checkpoint = Callback.MyCallback(save_directory)
         original_callbacks = kwargs.pop("callbacks", [])
         copied_kwargs = copy.copy(kwargs)
