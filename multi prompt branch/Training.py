@@ -10,6 +10,7 @@ learning_rate1 = 0.1
 epochs1 = 5
 latent_dim = 100
 batch_size = 128 # does nothing until dataloader active
+n_classes = 1
 
 # this instantiates the optimizer for the generator, it is outside the training loop because it only needs to run once, and takes a lot of time.
 generator_optimizer = tf.keras.optimizers.Adam(lr = learning_rate1, beta_1 = 0.5, beta_2 = 0.999 )
@@ -18,7 +19,7 @@ generator_optimizer = tf.keras.optimizers.Adam(lr = learning_rate1, beta_1 = 0.5
 #image input may need normalising to (128,128,3) as part of the dataloader
 def train_one_epoch(dataset: Dataset) -> None:
     for batch,labels in dataset:
-        random_image_noise = tf.random.normal([labels.shape[0], latent_dim])
+        random_image_noise = tf.random.normal([batch_size, latent_dim])
         fake_images = generator([random_image_noise,labels])
         discriminator.compile('Adam','binary_crossentropy')
         K.set_value(discriminator.optimizer.learning_rate, learning_rate1)
