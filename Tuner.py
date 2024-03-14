@@ -1,3 +1,8 @@
+"""
+This module defines a custom grid search tuner with the ability to save and reload
+each epoch without loosing any data
+"""
+
 from keras_tuner import tuners
 from keras_tuner.src.engine import tuner_utils
 import copy
@@ -21,6 +26,21 @@ class MyTuner(tuners.GridSearch):
                  max_consecutive_failed_trials=3,
                  **kwargs):
 
+        """
+        Instantiates the custom tuner which inherits from GridSearch
+
+        :param hypermodel: see superclass method for more information
+        :param objective: see superclass method for more information
+        :param max_trials: see superclass method for more information
+        :param seed: see superclass method for more information
+        :param hyperparameters: see superclass method for more information
+        :param tune_new_entries: see superclass method for more information
+        :param allow_new_entries: see superclass method for more information
+        :param max_retries_per_trial: see superclass method for more information
+        :param max_consecutive_failed_trials: see superclass method for more information
+        :param kwargs: see superclass method for more information
+        """
+
         self.reloaded = False
 
         super(MyTuner, self).__init__(hypermodel,
@@ -36,6 +56,21 @@ class MyTuner(tuners.GridSearch):
 
 
     def run_trial(self, trial, *args, **kwargs):
+        """
+        Calls methods to build model, tuner, callbacks and begin training
+
+        This method is copied from the superclass methods run_trial and _build_and_fit_model
+        the two methods have been combined into one with some additional code added to test if
+        the program has been reloaded after being interrupted previously. If it has then the model
+        and optimiser states are retrieved and the loaded back into the current trial. Training
+        then resumes at the last fully completed epoch
+
+        :param trial: The current trial
+        :param args: See superclass method for more information
+        :param kwargs: See superclass method for more information
+        :return: The return value of `model.fit(), a dictionary or a float
+        """
+
         hp = trial.hyperparameters
         model = self._try_build(hp)
         save_directory = os.path.join(self.get_trial_dir(trial.trial_id), "saves")
@@ -71,6 +106,12 @@ class MyTuner(tuners.GridSearch):
         return results
 
     def find_latest_epoch(self, save_directory):
+        """
+        Searches the save_directory and returns the last epoch that successfully saved
+
+        :param save_directory: The directory to be searched
+        :return: The last completed epoch
+        """
         epochs_seen = []
         for file in os.listdir(save_directory):
             if file.startswith("generator_epoch_"):
@@ -81,8 +122,15 @@ class MyTuner(tuners.GridSearch):
             return 0
 
     def reload(self):
+        """
+        Reloads the custom tuner and all necessary values
+
+        Due to an oversight in keras_tuner this is needed to reload a GridSearch tuner
+        as _ordered_ids and _populate_next are not reloaded in the superclass
+        version of this method
+        """
         self.reloaded = True
-        directory = os.path.join(self.project_dir, "linked_list_data.json", )
+        directory = os.path.join(self.project_dir, "GridSearch.json", )
         with open(directory, "r") as file:
             loaded_data = json.load(file)
         self.from_dict(loaded_data["_ordered_ids"])
@@ -90,17 +138,33 @@ class MyTuner(tuners.GridSearch):
         super(MyTuner, self).reload()
 
     def save(self):
+        """
+        Saves the current state of _ordered_ids and _populate_next
+
+        Due to an oversight in keras_tuner this is needed to reload a GridSearch tuner
+        as _ordered_ids and _populate_next are not saved in the superclass
+        version of this method
+        """
+
         data = {
             '_ordered_ids': self.to_dict(),
             '_populate_next': self.oracle._populate_next
         }
-        directory = os.path.join(self.project_dir, "linked_list_data.json",)
+        directory = os.path.join(self.project_dir, "GridSearch.json",)
         with open(directory, "w") as file:
             json.dump(data, file)
         super(MyTuner, self).save()
-        return
 
     def to_dict(self):
+        """
+        Serialises the _ordered_ids linked list
+
+        Since only serialised objects can be stored in a.json format this is needed
+        to extract and serialise the _ordered_ids before saving to disk
+
+        :return: A dictionary containing relevant values of the linked list
+        _memory, _data_to_index, _next_index, _last_index
+        """
         linked_list = self.oracle._ordered_ids
         next_index_dict = dict(linked_list._next_index)
         return {
@@ -112,12 +176,9 @@ class MyTuner(tuners.GridSearch):
 
     def from_dict(self, data):
         """
-        Serialises the components of the _ordered_ids linked list
+        Reloads the json data back into the linked list _ordered_ids
         
-        Due to an o
-        
-        :param data: 
-        :return: 
+        :param data: The json data fetched from GridSearch.json
         """
         self.oracle._ordered_ids._memory= data["_memory"]
         self.oracle._ordered_ids._data_to_index = data["_data_to_index"]
