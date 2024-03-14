@@ -34,7 +34,7 @@ def build_generator(latent_dim=100):
     # Up samples latent vector (B, 4, 4, 512) B = batch_size
     input_stream1 = layers.Reshape((4,4,512))(x)
 
-    inputs2 = layers.Input(shape=(1,))
+    inputs2 = layers.Input(shape=(n_classes,))
     x = layers.Embedding(3,50)(inputs2) # Encoding the label as a tensor
     x = layers.Dense((4*4)) (x)
     input_stream2 = layers.Reshape((4,4,1))(x) # Reshapes tensor to be the same shape as the image
