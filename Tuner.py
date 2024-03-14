@@ -1,7 +1,7 @@
 from keras_tuner import tuners
 from keras_tuner.src.engine import tuner_utils
 import copy
-import Callback
+from Callback import MyCallback
 import os
 import pickle
 from tensorflow.keras.optimizers import Adam
@@ -20,6 +20,9 @@ class MyTuner(tuners.GridSearch):
                  max_retries_per_trial=0,
                  max_consecutive_failed_trials=3,
                  **kwargs):
+
+        self.reloaded = False
+
         super(MyTuner, self).__init__(hypermodel,
                                       objective,
                                       max_trials,
@@ -30,38 +33,25 @@ class MyTuner(tuners.GridSearch):
                                       max_retries_per_trial,
                                       max_consecutive_failed_trials,
                                       **kwargs)
-        self.reloaded = False
+
 
     def run_trial(self, trial, *args, **kwargs):
-        """
-        Overwritten superclass method to allow reloading each epoch
-
-        Majority of code copied from superclass with some modifications to allow models
-        to be reloaded after a crash or termination. The model is loaded with all the
-        weights and gradients of the last completed epoch. Model weights are loaded
-        from the .h5 files and optimiser states are loaded from the pickle dumps
-
-        :param trial:
-        :param args:
-        :param kwargs:
-        :return:
-        """
         hp = trial.hyperparameters
         model = self._try_build(hp)
-        save_directory = os.path.join(self.get_trial_dir(trial.trial_id), "/saves")
+        save_directory = os.path.join(self.get_trial_dir(trial.trial_id), "saves")
         if self.reloaded:
             epoch = self.find_latest_epoch(save_directory)
 
-            with open("saves/generator_optimizer_epoch_0.pkl", 'rb') as f:
+            with open(os.path.join(save_directory, f"generator_optimiser_epoch_{epoch}.pkl"), 'rb') as f:
                 generator_optimizer_config = pickle.load(f)
             model.generator_optimizer = Adam(**generator_optimizer_config)
 
-            with open("saves/discriminator_optimizer_epoch_0.pkl", 'rb') as f:
+            with open(os.path.join(save_directory, f"discriminator_optimiser_epoch_{epoch}.pkl"), 'rb') as f:
                 discriminator_optimizer_config = pickle.load(f)
             model.discriminator_optimizer = Adam(**discriminator_optimizer_config)
 
-            model.generator.load_weights("saves/generator_epoch_0.h5")
-            model.discriminator.load_weights("saves/discriminator_epoch_0.h5")
+            model.generator.load_weights(os.path.join(save_directory, f"generator_epoch_{epoch}.h5"))
+            model.discriminator.load_weights(os.path.join(save_directory, f"discriminator_epoch_{epoch}.h5"))
 
             kwargs['epochs'] -= epoch
             print("Loaded model weights")
@@ -69,22 +59,22 @@ class MyTuner(tuners.GridSearch):
             print(f"Remaining epochs: {kwargs['epochs']}")
             self.reloaded = False
         self.save()
-        model_checkpoint = Callback.MyCallback(save_directory)
+        model_checkpoint = MyCallback(save_directory)
         original_callbacks = kwargs.pop("callbacks", [])
         copied_kwargs = copy.copy(kwargs)
         callbacks = self._deepcopy_callbacks(original_callbacks)
-        callbacks.append(tuner_utils.TunerCallback(self, trial))
         self._configure_tensorboard_dir(callbacks, trial, 0)
+        callbacks.append(tuner_utils.TunerCallback(self, trial))
         callbacks.append(model_checkpoint)
         copied_kwargs["callbacks"] = callbacks
-        results = self.hypermodel.fit(hp, model, *args, **kwargs)
+        results = self.hypermodel.fit(hp, model, *args, **copied_kwargs)
         return results
 
     def find_latest_epoch(self, save_directory):
         epochs_seen = []
         for file in os.listdir(save_directory):
             if file.startswith("generator_epoch_"):
-                epochs_seen =  int(file.split("_")[2].split(".")[0])
+                epochs_seen.append(int(file.split("_")[2].split(".")[0]))
         if epochs_seen:
             return max(epochs_seen)
         else:
@@ -121,6 +111,14 @@ class MyTuner(tuners.GridSearch):
         }
 
     def from_dict(self, data):
+        """
+        Serialises the components of the _ordered_ids linked list
+        
+        Due to an o
+        
+        :param data: 
+        :return: 
+        """
         self.oracle._ordered_ids._memory= data["_memory"]
         self.oracle._ordered_ids._data_to_index = data["_data_to_index"]
         self.oracle._ordered_ids._next_index = collections.defaultdict(lambda: None, data["_next_index"])
