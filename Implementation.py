@@ -12,7 +12,7 @@ if __name__ == "__main__":
     x, y = load_dataset()
     tuner = Tuner.MyTuner(
         hypermodel=HyperCGAN.HyperCGAN(),
-        objective= keras_tuner.Objective("g_loss", "max"),
+        objective= keras_tuner.Objective("Generator Loss", "max"),
         overwrite=False,
         project_name="hyper_tuning"
     )
