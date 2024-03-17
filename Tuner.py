@@ -12,47 +12,35 @@ import pickle
 from tensorflow.keras.optimizers import Adam
 import json
 import collections
+import Oracle
 
 class MyTuner(tuners.GridSearch):
     def __init__(self,
-                 hypermodel=None,
-                 objective=None,
-                 max_trials=None,
-                 seed=None,
-                 hyperparameters=None,
-                 tune_new_entries=True,
-                 allow_new_entries=True,
-                 max_retries_per_trial=0,
-                 max_consecutive_failed_trials=3,
-                 **kwargs):
-
-        """
-        Instantiates the custom tuner which inherits from GridSearch
-
-        :param hypermodel: see superclass method for more information
-        :param objective: see superclass method for more information
-        :param max_trials: see superclass method for more information
-        :param seed: see superclass method for more information
-        :param hyperparameters: see superclass method for more information
-        :param tune_new_entries: see superclass method for more information
-        :param allow_new_entries: see superclass method for more information
-        :param max_retries_per_trial: see superclass method for more information
-        :param max_consecutive_failed_trials: see superclass method for more information
-        :param kwargs: see superclass method for more information
-        """
-
+        trial_id = None,
+        hypermodel=None,
+        objective=None,
+        max_trials=None,
+        seed=None,
+        hyperparameters=None,
+        tune_new_entries=True,
+        allow_new_entries=True,
+        max_retries_per_trial=0,
+        max_consecutive_failed_trials=3,
+        **kwargs):
         self.reloaded = False
-
-        super(MyTuner, self).__init__(hypermodel,
-                                      objective,
-                                      max_trials,
-                                      seed,
-                                      hyperparameters,
-                                      tune_new_entries,
-                                      allow_new_entries,
-                                      max_retries_per_trial,
-                                      max_consecutive_failed_trials,
-                                      **kwargs)
+        self.seed = seed
+        oracle = Oracle.MyOracle(
+            trial_id=trial_id,
+            objective=objective,
+            max_trials=max_trials,
+            seed=seed,
+            hyperparameters=hyperparameters,
+            tune_new_entries=tune_new_entries,
+            allow_new_entries=allow_new_entries,
+            max_retries_per_trial=max_retries_per_trial,
+            max_consecutive_failed_trials=max_consecutive_failed_trials,
+        )
+        super(tuners.GridSearch, self).__init__(oracle, hypermodel, **kwargs)
 
 
     def run_trial(self, trial, *args, **kwargs):
