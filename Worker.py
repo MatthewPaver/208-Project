@@ -23,7 +23,9 @@ def callback(ch, method, properties, body):
         overwrite=False,
         trial_id="MyTestTrial",
     )
-    tuner.search(x,y, epochs=2)
+    tuner.search(x,y, epochs=200)
+
+    ch.basic_ack(delivery_tag=method.delivery_tag)
 
 
 #--------------------------------------------------Main-----------------------------------------------------------------
@@ -31,10 +33,10 @@ def callback(ch, method, properties, body):
 connection = pika.BlockingConnection(pika.URLParameters('amqps://bfjzexuw:h91qsaFYNrHc8Ag_5WVOOVdFH2MpnOby@whale.rmq.cloudamqp.com/bfjzexuw'))
 channel = connection.channel()
 
-channel.queue_declare(queue='task_queue', durable=True)
+channel.queue_declare(queue='Tuning', durable=True)
 print(' [*] Waiting for tasks. To exit press CTRL+C')
 
 channel.basic_qos(prefetch_count=1)
-channel.basic_consume(queue='task_queue', on_message_callback=callback)
+channel.basic_consume(queue='Tuning', on_message_callback=callback)
 
 channel.start_consuming()
