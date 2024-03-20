@@ -1,0 +1,12 @@
+album: /Users/mattpaver/opt/anaconda3/bin/python "/Users/mattpaver/Desktop/Generated
+  Images/Generate Images.py"
+bot: midjourney
+download: true
+prompt:
+- Photo realistic image of the front of a brick house-1
+- Photo realistic image of the front of a brick house-2
+suffix: ' --ar 3:2'
+thumbnail: false
+upscale: true
+variation: true
+wait: 180s
