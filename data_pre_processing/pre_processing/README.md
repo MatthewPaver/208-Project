@@ -4,7 +4,7 @@ This Python script is designed for pre-processing images for machine learning ta
 
 ## Features
 
-- **Resiing**: Changes the dimensions of the images to 1024x1024 pixels to ensure uniformity.
+- **Resizing**: Changes the dimensions of the images to 1024x1024 pixels to ensure uniformity.
 - **Augmentation**: Applies grayscale conversion, rotation, and horizontal flipping to images to enhance the robustness of the model.
 - **Normalisation**: Adjusts pixel values to a range of [0, 1] for better model convergence.
 - **Noise Addition**: Introduces random noise to images to reduce overfitting and improve generalization.
