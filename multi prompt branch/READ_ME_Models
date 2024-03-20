@@ -1,0 +1,8 @@
+The files discriminator and Generator constitute the two sides of a conditional generative adversarial network, specifically designed to generate images conditioned on prompts consisting of a setting of values for all 
+possible classes.
+
+The input to the generator is a set of feature maps consisting of noise, and a vector encoding the values for each category in the dataset, in general one will not run this file on its own (and will do so via CGAN.py)
+, this is because the model needs to go though a training loop alongside the discriminator in order to function.
+
+The input to the discriminator is an image (typically the output of the generator) and once again a vector encoding the values for each category in the dataset, similarly this model must be trained via CGAN.py before
+it can do anything useful.
