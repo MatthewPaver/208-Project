@@ -25,8 +25,7 @@ class HyperCGAN(HyperModel):
         :param hp: A keras_tuner HyperParameter object that defines all values to use in this trial
         :return: Returns a CGAN model
         """
-
-        latent_dim = hp.Choice('Latent Dim', [100])
+        latent_dim = hp['Latent Dim']
         generator = Generator.build_generator(latent_dim)
         discriminator = Discriminator.build_discriminator()
 
@@ -34,9 +33,8 @@ class HyperCGAN(HyperModel):
             generator=generator,
             discriminator=discriminator,
         )
-
-        lr1 = hp.Choice('Generator LR', [1e-3])
-        lr2 = hp.Choice('Discriminator LR', [1e-3])
+        lr1 = hp['Generator LR']
+        lr2 = hp['Discriminator LR']
 
         gen_optim = Adam(learning_rate = lr1, beta_1 = 0.5, beta_2 = 0.999 )
         disc_optim = Adam(learning_rate = lr2, beta_1 = 0.5, beta_2 = 0.999 )
@@ -62,5 +60,5 @@ class HyperCGAN(HyperModel):
         :param kwargs: Refer to superclass for extra information
         :return: Refer to superclass for extra information
         """
-        batch_size = hp.Choice('Batch Size', [128])
+        batch_size = hp['Batch Size']
         return model.fit(*args, **kwargs, batch_size=batch_size)

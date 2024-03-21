@@ -63,24 +63,25 @@ class MyTuner(tuners.GridSearch):
         model = self._try_build(hp)
         save_directory = os.path.join(self.get_trial_dir(trial.trial_id), "saves")
         if self.reloaded:
-            epoch = self.find_latest_epoch(save_directory)
+            if os.path.exists(save_directory):
+                epoch = self.find_latest_epoch(save_directory)
 
-            with open(os.path.join(save_directory, f"generator_optimiser_epoch_{epoch}.pkl"), 'rb') as f:
-                generator_optimizer_config = pickle.load(f)
-            model.generator_optimizer = Adam(**generator_optimizer_config)
+                with open(os.path.join(save_directory, f"generator_optimiser_epoch_{epoch}.pkl"), 'rb') as f:
+                    generator_optimizer_config = pickle.load(f)
+                model.generator_optimizer = Adam(**generator_optimizer_config)
 
-            with open(os.path.join(save_directory, f"discriminator_optimiser_epoch_{epoch}.pkl"), 'rb') as f:
-                discriminator_optimizer_config = pickle.load(f)
-            model.discriminator_optimizer = Adam(**discriminator_optimizer_config)
+                with open(os.path.join(save_directory, f"discriminator_optimiser_epoch_{epoch}.pkl"), 'rb') as f:
+                    discriminator_optimizer_config = pickle.load(f)
+                model.discriminator_optimizer = Adam(**discriminator_optimizer_config)
 
-            model.generator.load_weights(os.path.join(save_directory, f"generator_epoch_{epoch}.h5"))
-            model.discriminator.load_weights(os.path.join(save_directory, f"discriminator_epoch_{epoch}.h5"))
+                model.generator.load_weights(os.path.join(save_directory, f"generator_epoch_{epoch}.h5"))
+                model.discriminator.load_weights(os.path.join(save_directory, f"discriminator_epoch_{epoch}.h5"))
 
-            kwargs['epochs'] -= epoch
-            print("Loaded model weights")
-            print(f"Resuming at the end of epoch: {epoch}")
-            print(f"Remaining epochs: {kwargs['epochs']}")
-            self.reloaded = False
+                kwargs['epochs'] -= epoch
+                print("Loaded model weights")
+                print(f"Resuming at the end of epoch: {epoch}")
+                print(f"Remaining epochs: {kwargs['epochs']}")
+                self.reloaded = False
         self.save()
         model_checkpoint = MyCallback(save_directory)
         original_callbacks = kwargs.pop("callbacks", [])

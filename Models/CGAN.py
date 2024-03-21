@@ -56,8 +56,8 @@ class CGAN(Model):
         self.discriminator = discriminator
         self.d_optimiser = None
         self.g_optimiser = None
-        self.d_loss = metrics.Mean(name="d_loss")
-        self.g_loss = metrics.Mean(name="g_loss")
+        self.d_loss = metrics.Mean(name="Discriminator Loss")
+        self.g_loss = metrics.Mean(name="Generator Loss")
 
 
     def compile(self, gen_optimiser: Optimizer, disc_optimiser: Optimizer) -> None:
