@@ -33,5 +33,3 @@ def create_tasks():
         id += 1
     with open(FILE_PATH, "w") as file:
         json.dump(list_of_trials, file)
-
-create_tasks()
