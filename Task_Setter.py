@@ -22,7 +22,7 @@ def set_tasks():
 
 def create_tasks():
     lr = [1e-1, 1e-2, 1e-3, 1e-4, 1e-5, 1e-6]
-    batch_size = [32, 64, 128, 256]
+    batch_size = [4,8]
     latent_dim = [100]
     id = 0
     combinations = product(lr, lr, batch_size, latent_dim)
@@ -33,3 +33,5 @@ def create_tasks():
         id += 1
     with open(FILE_PATH, "w") as file:
         json.dump(list_of_trials, file)
+
+set_tasks()
