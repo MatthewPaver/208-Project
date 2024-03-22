@@ -12,7 +12,7 @@ import pickle
 from tensorflow.keras.optimizers import Adam
 import json
 import collections
-import Oracle
+import Solo_Oracle
 
 class MyTuner(tuners.GridSearch):
     def __init__(self,

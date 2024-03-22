@@ -1,3 +1,8 @@
+"""
+This module details a class to handle distributed hyperparameter tuning for using
+Distributed_Oracle for each trial
+"""
+
 from keras_tuner import tuners
 from keras_tuner.src.engine import tuner_utils
 import copy
@@ -5,10 +10,10 @@ from Callback import MyCallback
 import os
 import pickle
 from tensorflow.keras.optimizers import Adam
-import RandomSearchOracle
+import Distributed_Oracle
 
 
-class MyTuner2(tuners.RandomSearch):
+class Distributed_Tuner(tuners.RandomSearch):
     def __init__(
         self,
         hypermodel=None,
@@ -25,7 +30,7 @@ class MyTuner2(tuners.RandomSearch):
     ):
         self.reloaded = False
         self.seed = seed
-        oracle = RandomSearchOracle.myotheroracle(
+        oracle = Distributed_Oracle.Distributed_Oracle(
             objective=objective,
             max_trials=max_trials,
             seed=seed,

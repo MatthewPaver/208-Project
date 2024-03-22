@@ -1,7 +1,7 @@
 import os.path
 import keras_tuner
 import json
-import tuner2
+import Distributed_Tuner
 import Data_Handler
 from Models import HyperCGAN
 from multiprocessing import Pool
@@ -34,12 +34,11 @@ def run_trial(args):
     x, y = Data_Handler.load_dataset()
 
     print(f"Starting trial {id}")
-    tuner = tuner2.MyTuner2(
+    tuner = tuner2.Distributed_Tuner(
         hypermodel= HyperCGAN.HyperCGAN(),
         directory= "hyper_tuning",
         objective= keras_tuner.Objective("Generator Loss", "min"),
         project_name='MyTuner',
-        allow_new_entries= False,
         hyperparameters= hp,
         overwrite=False,
         trial_id=f"{id}",
