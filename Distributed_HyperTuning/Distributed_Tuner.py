@@ -6,11 +6,11 @@ Distributed_Oracle for each trial
 from keras_tuner import tuners
 from keras_tuner.src.engine import tuner_utils
 import copy
-from Callback import MyCallback
+from Solo_HyperTuning.Callback import MyCallback
 import os
 import pickle
 from tensorflow.keras.optimizers import Adam
-import Distributed_Oracle
+from Distributed_HyperTuning import Distributed_Oracle
 
 
 class Distributed_Tuner(tuners.RandomSearch):

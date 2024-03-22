@@ -6,13 +6,14 @@ each epoch without loosing any data
 from keras_tuner import tuners
 from keras_tuner.src.engine import tuner_utils
 import copy
-from Callback import MyCallback
+from Solo_HyperTuning.Callback import MyCallback
 import os
 import pickle
 from tensorflow.keras.optimizers import Adam
 import json
 import collections
-import Solo_Oracle
+from Solo_HyperTuning import Solo_Oracle
+
 
 class MyTuner(tuners.GridSearch):
     def __init__(self,
@@ -29,7 +30,7 @@ class MyTuner(tuners.GridSearch):
         **kwargs):
         self.reloaded = False
         self.seed = seed
-        oracle = Oracle.MyOracle(
+        oracle = Solo_Oracle.MyOracle(
             trial_id=trial_id,
             objective=objective,
             max_trials=max_trials,

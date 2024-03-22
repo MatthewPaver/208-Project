@@ -2,7 +2,7 @@ import pika
 import json
 from itertools import product
 
-FILE_PATH = "AllTasks.json"
+FILE_PATH = "../AllTasks.json"
 
 def set_tasks():
     connection = pika.BlockingConnection(pika.URLParameters('amqps://bfjzexuw:h91qsaFYNrHc8Ag_5WVOOVdFH2MpnOby@whale.rmq.cloudamqp.com/bfjzexuw'))
