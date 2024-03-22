@@ -16,14 +16,23 @@ import Distributed_Tuner
 
 FILE_PATH = "tasks.json"
 
-
 def remove_task(trial_id):
+    """
+    Removes a task from the FILE_PATH json file
+
+    :param trial_id: The trial to be removed
+    """
     tasks = load_tasks()
     tasks.pop(f"{trial_id}")
     with open(FILE_PATH, "w") as file:
         json.dump(tasks, file)
 
 def load_tasks():
+    """
+    Loads and converts to a dict the FILE_PATH json file
+
+    :return: The loaded dict of trial ids to hyperparameters
+    """
     if os.path.exists(FILE_PATH):
         with open(FILE_PATH, "r") as file:
             return json.load(file)
