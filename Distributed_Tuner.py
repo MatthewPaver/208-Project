@@ -28,6 +28,24 @@ class Distributed_Tuner(tuners.RandomSearch):
         trial_id = None,
         **kwargs
     ):
+        """
+        Instantiates a Distributed_Tuner object
+
+        Method copied and modified from superclass to set reloaded flag and use my
+        Distributed_Oracle class as the oracle. Passes to the grandfather class method
+
+        :param hypermodel: Refer to superclass DocString
+        :param objective: Refer to superclass DocString
+        :param max_trials: Refer to superclass DocString
+        :param seed: Refer to superclass DocString
+        :param hyperparameters: The hyperparameters to use for the one trial to run
+        :param tune_new_entries: Refer to superclass DocString
+        :param allow_new_entries: Refer to superclass DocString
+        :param max_retries_per_trial: Refer to superclass DocString
+        :param max_consecutive_failed_trials: Refer to superclass DocString
+        :param trial_id: The trial id to be used for the one trial to run
+        :param kwargs: Refer to superclass DocString
+        """
         self.reloaded = False
         self.seed = seed
         oracle = Distributed_Oracle.Distributed_Oracle(
@@ -45,6 +63,20 @@ class Distributed_Tuner(tuners.RandomSearch):
 
 
     def run_trial(self, trial, *args, **kwargs):
+        """
+        Calls methods to build model, tuner, callbacks and begin training
+
+        This method is copied from the superclass methods run_trial and _build_and_fit_model
+        the two methods have been combined into one with some additional code added to test if
+        the program has been reloaded after being interrupted previously. If it has then the model
+        and optimiser states are retrieved and the loaded back into the current trial. Training
+        then resumes at the last fully completed epoch
+
+        :param trial: The current trial
+        :param args: See superclass method for more information
+        :param kwargs: See superclass method for more information
+        :return: The return value of `model.fit(), a dictionary or a float
+        """
         hp = trial.hyperparameters
         model = self._try_build(hp)
         save_directory = os.path.join(self.get_trial_dir(trial.trial_id), "saves")
@@ -81,6 +113,12 @@ class Distributed_Tuner(tuners.RandomSearch):
         return results
 
     def find_latest_epoch(self, save_directory):
+        """
+        Searches save_directory to find last saved epoch
+
+        :param save_directory: The directory to be searched
+        :return: Int - The last saved epoch
+        """
         epochs_seen = []
         for file in os.listdir(save_directory):
             if file.startswith("generator_epoch_"):
@@ -91,5 +129,8 @@ class Distributed_Tuner(tuners.RandomSearch):
             return 0
 
     def reload(self):
+        """
+        Sets reloaded flag to true then passes to superclass method
+        """
         self.reloaded = True
         super().reload()
