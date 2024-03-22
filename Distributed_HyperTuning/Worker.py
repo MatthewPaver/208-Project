@@ -126,7 +126,7 @@ def run_a_thread():
 if __name__ == "__main__":
     paused_tasks = load_tasks()
     if paused_tasks:
-        with Pool(processes=2) as pool:
+        with Pool(processes=MAX_WORKERS) as pool:
             pool.map(run_trial, paused_tasks.items())
             pool.close()
             pool.join()
