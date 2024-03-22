@@ -15,6 +15,7 @@ import Distributed_Tuner
 
 
 FILE_PATH = "tasks.json"
+MAX_WORKERS = 1
 
 def remove_task(trial_id):
     """
@@ -40,8 +41,16 @@ def load_tasks():
         return {}
 
 
-def run_trial(args):
-    id, hyperparameters = args
+def run_trial(task):
+    """
+    Runs a trial for a given task
+
+    Given a task it will run the trial using the distributed tuner.
+    Once the search has finished it will remove the FILE_PATH json file
+
+    :param task: A Tuple with (trial_id, dict of hyperparameters)
+    """
+    id, hyperparameters = task
     hp = keras_tuner.HyperParameters()
     for k, v in hyperparameters.items():
         hp.Choice(k, [v])
@@ -62,6 +71,12 @@ def run_trial(args):
 
 
 def save_task(info, trial_id):
+    """
+    Saves the task to the FILE_PATH json file
+
+    :param info: A dict of hyperparameters to a value
+    :param trial_id: The trial_id corresponding to the set of hyperparameters
+    """
     tasks = load_tasks()
     info["running"] = True
     tasks[trial_id] = info
@@ -78,6 +93,10 @@ def callback(ch, method, _, body):
     run_trial((trial_id, info))
 
 def run_a_thread():
+    """
+    Constantly checks for a new task. Once one is received, it calls the method
+    callback in order to begin the tuning for that message
+    """
     while True:
         connection = pika.BlockingConnection(pika.URLParameters(
             'amqps://bfjzexuw:h91qsaFYNrHc8Ag_5WVOOVdFH2MpnOby@whale.rmq.cloudamqp.com/bfjzexuw'))
@@ -96,13 +115,12 @@ def run_a_thread():
 #--------------------------------------------------Main-----------------------------------------------------------------
 if __name__ == "__main__":
     tasks = load_tasks()
-    max_workers = 1
     if tasks:
         with Pool(processes=2) as pool:
             pool.map(run_trial, tasks.items())
             pool.close()
             pool.join()
     print("tasks finished")
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        for i in range(max_workers):
+    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+        for i in range(MAX_WORKERS):
             executor.submit(run_a_thread)
