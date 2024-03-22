@@ -1,6 +1,5 @@
 import keras_tuner.src.tuners.gridsearch as gs
 from keras_tuner.src.engine import trial as trial_module
-import datetime
 
 class MyOracle(gs.GridSearchOracle):
     def __init__(

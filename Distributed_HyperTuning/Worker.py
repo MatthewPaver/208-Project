@@ -1,11 +1,17 @@
+"""
+Run this module to act as a worker for distributed tuning. Change num_workers based on your
+hardware limitations.
+"""
+
 import os.path
-import keras_tuner
 import json
+from multiprocessing import Pool
+from concurrent.futures import ThreadPoolExecutor
+import keras_tuner
+import pika
 import Data_Handler
 from Models import HyperCGAN
-from multiprocessing import Pool
-import pika
-from concurrent.futures import ThreadPoolExecutor
+import Distributed_Tuner
 
 
 FILE_PATH = "tasks.json"
@@ -33,7 +39,7 @@ def run_trial(args):
     x, y = Data_Handler.load_dataset()
 
     print(f"Starting trial {id}")
-    tuner = tuner2.Distributed_Tuner(
+    tuner = Distributed_Tuner.Distributed_Tuner(
         hypermodel= HyperCGAN.HyperCGAN(),
         directory= "hyper_tuning",
         objective= keras_tuner.Objective("Generator Loss", "min"),
@@ -57,14 +63,15 @@ def callback(ch, method, _, body):
     ch.basic_ack(delivery_tag=method.delivery_tag)
     ch.close()
     info = json.loads(body)
-    id = info["trial_id"]
+    trial_id = info["trial_id"]
     info.pop("trial_id")
-    save_task(info,id)
-    run_trial((id, info))
+    save_task(info,trial_id)
+    run_trial((trial_id, info))
 
 def run_a_thread():
     while True:
-        connection = pika.BlockingConnection(pika.URLParameters('amqps://bfjzexuw:h91qsaFYNrHc8Ag_5WVOOVdFH2MpnOby@whale.rmq.cloudamqp.com/bfjzexuw'))
+        connection = pika.BlockingConnection(pika.URLParameters(
+            'amqps://bfjzexuw:h91qsaFYNrHc8Ag_5WVOOVdFH2MpnOby@whale.rmq.cloudamqp.com/bfjzexuw'))
         channel = connection.channel()
 
         channel.queue_declare(queue='Tuning', durable=True)
@@ -80,7 +87,7 @@ def run_a_thread():
 #--------------------------------------------------Main-----------------------------------------------------------------
 if __name__ == "__main__":
     tasks = load_tasks()
-    max_workers = 2
+    max_workers = 1
     if tasks:
         with Pool(processes=2) as pool:
             pool.map(run_trial, tasks.items())

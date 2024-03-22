@@ -2,9 +2,9 @@
 This module sets up an oracle to handle distributed hyperparameter trials.
 """
 
+import collections
 import keras_tuner.src.tuners.randomsearch as rs
 from keras_tuner.src.engine import trial as trial_module
-import collections
 
 class Distributed_Oracle(rs.RandomSearchOracle):
     def __init__(
@@ -20,7 +20,7 @@ class Distributed_Oracle(rs.RandomSearchOracle):
         trial_id = None
     ):
         """
-        Instantiates a Distributed_Oracle object
+        Instantiates a Distributed Oracle to handle a distributed trial
 
         Sets self.trial_id and then passes to superclass
 
