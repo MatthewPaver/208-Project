@@ -19,3 +19,5 @@ RAM is nearing ~80-90 percent do not increase it further.
 ## **Running as a worker**
 After determining how many threads you can run, you can leave Worker.py running and it will continuously
 run trials. This can be paused by terminating the program and it will reset to the last saved epoch. 
+
+# **DO NOT RUN Task_Setter.py**
