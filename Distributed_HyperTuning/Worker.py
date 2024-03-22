@@ -130,7 +130,7 @@ if __name__ == "__main__":
             pool.map(run_trial, paused_tasks.items())
             pool.close()
             pool.join()
-    print("tasks finished")
+    print("All Paused Tasks Finished")
     with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
         for i in range(MAX_WORKERS):
             executor.submit(run_a_thread)

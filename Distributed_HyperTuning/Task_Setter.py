@@ -5,7 +5,7 @@ import json
 from itertools import product
 import pika
 
-FILE_PATH = "./AllTasks.json"
+FILE_PATH = "../AllTasks.json"
 
 def set_tasks():
     """
