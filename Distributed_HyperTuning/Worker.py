@@ -50,13 +50,13 @@ def run_trial(task):
 
     :param task: A Tuple with (trial_id, dict of hyperparameters)
     """
-    id, hyperparameters = task
+    task_id, hyperparameters = task
     hp = keras_tuner.HyperParameters()
     for k, v in hyperparameters.items():
         hp.Choice(k, [v])
     x, y = Data_Handler.load_dataset()
 
-    print(f"Starting trial {id}")
+    print(f"Starting trial {task_id}")
     tuner = Distributed_Tuner.Distributed_Tuner(
         hypermodel= HyperCGAN.HyperCGAN(),
         directory= "hyper_tuning",
@@ -64,10 +64,10 @@ def run_trial(task):
         project_name='MyTuner',
         hyperparameters= hp,
         overwrite=False,
-        trial_id=f"{id}",
+        trial_id=f"{task_id}",
     )
     tuner.search(x,y, epochs=2)
-    remove_task(id)
+    remove_task(task_id)
 
 
 def save_task(info, trial_id):
@@ -84,6 +84,18 @@ def save_task(info, trial_id):
         json.dump(tasks, file)
 
 def callback(ch, method, _, body):
+    """
+    Callback method for what to do when receiving a message
+
+    The method acknowledges the message and closes the connection and then
+    adds it to the tasks in the FILE_PATH json file. Finally, it calls
+    run_trial to start the tuning of this message
+
+    :param ch: The pika channel the message came from
+    :param method: Information about the message used to acknowledge it
+    :param _: Unused in this method
+    :param body: The contents of the method
+    """
     ch.basic_ack(delivery_tag=method.delivery_tag)
     ch.close()
     info = json.loads(body)
@@ -111,13 +123,11 @@ def run_a_thread():
         channel.start_consuming()
 
 
-
-#--------------------------------------------------Main-----------------------------------------------------------------
 if __name__ == "__main__":
-    tasks = load_tasks()
-    if tasks:
+    paused_tasks = load_tasks()
+    if paused_tasks:
         with Pool(processes=2) as pool:
-            pool.map(run_trial, tasks.items())
+            pool.map(run_trial, paused_tasks.items())
             pool.close()
             pool.join()
     print("tasks finished")
