@@ -14,12 +14,12 @@ IMAGE_DIMENSIONS = (128,128)
 
 def load_dataset():
     tf.keras.utils.image_dataset_from_directory(
-    directory = "data_pre_processing/,
+    directory = "data_pre_processing/processed_images/train",
     labels='inferred',
     label_mode='int',
     class_names=None,
     color_mode='rgb',
-    batch_size=32,
+    batch_size=hp,
     image_size=(256, 256),
     shuffle=True,
     seed=None,
