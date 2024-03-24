@@ -17,13 +17,13 @@ def load_dataset():
     value as passed in the run_trial function in HyperCGAN if the path to data_pre_processing
     changes the relative path will need to be adjusted
     """
-    images, labels = tf.keras.utils.image_dataset_from_directory(
+    dataset = tf.keras.utils.image_dataset_from_directory(
         directory="data_pre_processing/processed_images/train",
         labels='inferred',
         label_mode='int',
         class_names=None,
         color_mode='rgb',
-        batch_size=hp[2],
+        batch_size=None,
         image_size=(128, 128),
         shuffle=True,
         seed=None,
@@ -32,9 +32,8 @@ def load_dataset():
         interpolation='bilinear',
         follow_links=False,
         crop_to_aspect_ratio=False,
-        **kwargs
     )
-    return images, labels
+    return dataset
 
 
 def load_test_dataset():
@@ -42,13 +41,13 @@ def load_test_dataset():
     I have also taken the liberty of adding a load_test_dataset function, for when we want to
     evaluate the models performance
     """
-    images, labels = tf.keras.utils.image_dataset_from_directory(
+    dataset = tf.keras.utils.image_dataset_from_directory(
         directory="data_pre_processing/processed_images/test",
         labels='inferred',
         label_mode='int',
         class_names=None,
         color_mode='rgb',
-        batch_size=hp[2],
+        batch_size=None,
         image_size=(128, 128),
         shuffle=True,
         seed=None,
@@ -56,10 +55,9 @@ def load_test_dataset():
         subset=None,
         interpolation='bilinear',
         follow_links=False,
-        crop_to_aspect_ratio=False,
-        **kwargs
+        crop_to_aspect_ratio=False
     )
-    return images, labels
+    return dataset
 
 
 def load_dataset_rock_paper_scissors():
