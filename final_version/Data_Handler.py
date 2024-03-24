@@ -13,8 +13,11 @@ IMAGE_DIMENSIONS = (128,128)
 #TODO: Load and process custom dataset
 
 def load_dataset():
+    python_file_path = Path(__File__)
+
+    parent_directory = python_file_path.parent
     tf.keras.utils.image_dataset_from_directory(
-    directory = "data_pre_processing/processed_images/train",
+    directory = str(str(parent_directory) + "/data_pre_processing/processed_images/train"),
     labels='inferred',
     label_mode='int',
     class_names=None,
@@ -34,12 +37,15 @@ def load_dataset():
 
     """
     this loads the training area of the dataset, setting batch size equal to the hyperparameter value as passed in the run_trial function in HyperCGAN
-    if the path to data_pre_processing changes so that this file and it do not have the same root directory, the relative path will need to be adjusted
+    if the path to data_pre_processing changes so that the relative path below data_pre_processing changes, the relative path will need to be adjusted
     """
 
 def load_test_dataset():
-        tf.keras.utils.image_dataset_from_directory(
-    directory = "data_pre_processing/processed_images/test",
+    python_file_path = Path(__File__)
+
+    parent_directory = python_file_path.parent
+    tf.keras.utils.image_dataset_from_directory(
+    directory = str(str(parent_directory) + "/data_pre_processing/processed_images/train"),
     labels='inferred',
     label_mode='int',
     class_names=None,
