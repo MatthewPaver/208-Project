@@ -43,7 +43,7 @@ def discriminator_loss(real_output, fake_output):
 
 
 class CGAN(Model):
-    def __init__(self, generator: Model , discriminator: Model) -> None:
+    def __init__(self, generator: Model, discriminator: Model) -> None:
         """
         Instantiates an instance of a CGAN
 
@@ -51,14 +51,13 @@ class CGAN(Model):
         :param discriminator: An instance of the Generator model class
         """
 
-        super(CGAN,self).__init__()
+        super(CGAN, self).__init__()
         self.generator = generator
         self.discriminator = discriminator
         self.d_optimiser = None
         self.g_optimiser = None
         self.d_loss = metrics.Mean(name="Discriminator Loss")
         self.g_loss = metrics.Mean(name="Generator Loss")
-
 
     def compile(self, gen_optimiser: Optimizer, disc_optimiser: Optimizer) -> None:
         """
@@ -75,7 +74,6 @@ class CGAN(Model):
         self.g_optimiser = gen_optimiser
         self.d_optimiser = disc_optimiser
 
-
     def train_step(self, data):
         """
         Defines how training of one batch and backpropagation works
@@ -89,15 +87,15 @@ class CGAN(Model):
          Order -> generator loss, discriminator loss
         """
 
-        images , labels = data
+        images, labels = data
         batch_size = tf.shape(images)[0]
         latent_dim = 100
 
         noise = tf.random.normal([batch_size, latent_dim])
         with tf.GradientTape() as gen_tape, tf.GradientTape() as disc_tape:
-            generated_images = self.generator([noise, labels],training=True)
+            generated_images = self.generator([noise, labels], training=True)
 
-            real_output = self.discriminator([images,labels], training= True)
+            real_output = self.discriminator([images, labels], training=True)
             fake_output = self.discriminator([generated_images, labels], training=True)
 
             gen_loss = generator_loss(fake_output)
@@ -110,8 +108,8 @@ class CGAN(Model):
         self.d_optimiser.apply_gradients(zip(gradients_of_disc, self.discriminator.trainable_variables))
 
         batch_size = tf.cast(batch_size, tf.float32)
-        g_loss = gen_loss/ batch_size
-        d_loss = disc_loss/ batch_size
+        g_loss = gen_loss / batch_size
+        d_loss = disc_loss / batch_size
 
         self.d_loss.update_state(d_loss)
         self.g_loss.update_state(g_loss)

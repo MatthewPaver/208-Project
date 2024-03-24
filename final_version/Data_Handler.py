@@ -10,8 +10,6 @@ import tensorflow as tf
 
 IMAGE_DIMENSIONS = (128,128)
 
-#TODO: Load and process custom dataset
-
 def load_dataset():
     python_file_path = Path(__File__)
 

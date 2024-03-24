@@ -11,7 +11,6 @@ from tensorflow.keras.models import Model
 from keras_tuner import HyperModel
 from Models import Generator, Discriminator, CGAN
 
-#TODO: Add Custom Callbacks so checkpointing can be implemented so it doesn't need to run uninterrupted
 
 class HyperCGAN(HyperModel):
     def build(self, hp) -> Model:
@@ -36,15 +35,14 @@ class HyperCGAN(HyperModel):
         lr1 = hp['Generator LR']
         lr2 = hp['Discriminator LR']
 
-        gen_optim = Adam(learning_rate = lr1, beta_1 = 0.5, beta_2 = 0.999 )
-        disc_optim = Adam(learning_rate = lr2, beta_1 = 0.5, beta_2 = 0.999 )
+        gen_optim = Adam(learning_rate=lr1, beta_1=0.5, beta_2=0.999)
+        disc_optim = Adam(learning_rate=lr2, beta_1=0.5, beta_2=0.999)
 
         cgan.compile(
-            gen_optimiser= gen_optim,
+            gen_optimiser=gen_optim,
             disc_optimiser=disc_optim,
         )
         return cgan
-
 
     def fit(self, hp, model, *args, **kwargs):
         """

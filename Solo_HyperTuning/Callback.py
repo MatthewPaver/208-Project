@@ -6,6 +6,7 @@ from keras import callbacks
 import os
 import pickle
 
+
 class MyCallback(callbacks.Callback):
     def __init__(self, save_directory):
         """
@@ -46,7 +47,7 @@ class MyCallback(callbacks.Callback):
         with open(discriminator_optimiser_filename, 'wb') as f:
             pickle.dump(self.model.d_optimiser.get_config(), f)
 
-        print(f"\n Models and optimizers saved for epoch {epoch }.")
+        print(f"\n Models and optimizers saved for epoch {epoch}.")
 
     def find_latest_epoch(self):
         epochs_seen = []

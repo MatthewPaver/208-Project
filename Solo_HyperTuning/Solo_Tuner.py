@@ -17,17 +17,17 @@ from Solo_HyperTuning import Solo_Oracle
 
 class MyTuner(tuners.GridSearch):
     def __init__(self,
-        trial_id = None,
-        hypermodel=None,
-        objective=None,
-        max_trials=None,
-        seed=None,
-        hyperparameters=None,
-        tune_new_entries=True,
-        allow_new_entries=True,
-        max_retries_per_trial=0,
-        max_consecutive_failed_trials=3,
-        **kwargs):
+                 trial_id=None,
+                 hypermodel=None,
+                 objective=None,
+                 max_trials=None,
+                 seed=None,
+                 hyperparameters=None,
+                 tune_new_entries=True,
+                 allow_new_entries=True,
+                 max_retries_per_trial=0,
+                 max_consecutive_failed_trials=3,
+                 **kwargs):
         self.reloaded = False
         self.seed = seed
         oracle = Solo_Oracle.MyOracle(
@@ -42,7 +42,6 @@ class MyTuner(tuners.GridSearch):
             max_consecutive_failed_trials=max_consecutive_failed_trials,
         )
         super(tuners.GridSearch, self).__init__(oracle, hypermodel, **kwargs)
-
 
     def run_trial(self, trial, *args, **kwargs):
         """
@@ -140,7 +139,7 @@ class MyTuner(tuners.GridSearch):
             '_ordered_ids': self.to_dict(),
             '_populate_next': self.oracle._populate_next
         }
-        directory = os.path.join(self.project_dir, "GridSearch.json",)
+        directory = os.path.join(self.project_dir, "GridSearch.json", )
         with open(directory, "w") as file:
             json.dump(data, file)
         super(MyTuner, self).save()
@@ -158,7 +157,7 @@ class MyTuner(tuners.GridSearch):
         linked_list = self.oracle._ordered_ids
         next_index_dict = dict(linked_list._next_index)
         return {
-            "_memory":linked_list._memory,
+            "_memory": linked_list._memory,
             "_data_to_index": linked_list._data_to_index,
             "_next_index": next_index_dict,
             "_last_index": linked_list._last_index
@@ -170,7 +169,7 @@ class MyTuner(tuners.GridSearch):
         
         :param data: The json data fetched from GridSearch.json
         """
-        self.oracle._ordered_ids._memory= data["_memory"]
+        self.oracle._ordered_ids._memory = data["_memory"]
         self.oracle._ordered_ids._data_to_index = data["_data_to_index"]
         self.oracle._ordered_ids._next_index = collections.defaultdict(lambda: None, data["_next_index"])
         self.oracle._ordered_ids._last_index = data["_last_index"]

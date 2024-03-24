@@ -70,7 +70,7 @@ def load_dataset_rock_paper_scissors():
     ds = tfds.load('RockPaperScissors', split='train', as_supervised=True, shuffle_files=True)
     images = []
     labels = []
-    for x,y in ds:
+    for x, y in ds:
         x = tf.image.resize(x, IMAGE_DIMENSIONS)
         x = x / 255
         images.append(x)
