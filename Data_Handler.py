@@ -13,11 +13,32 @@ IMAGE_DIMENSIONS = (128,128)
 #TODO: Load and process custom dataset
 
 def load_dataset():
-    """
+    tf.keras.utils.image_dataset_from_directory(
+    directory = "data_pre_processing/,
+    labels='inferred',
+    label_mode='int',
+    class_names=None,
+    color_mode='rgb',
+    batch_size=32,
+    image_size=(256, 256),
+    shuffle=True,
+    seed=None,
+    validation_split=None,
+    subset=None,
+    interpolation='bilinear',
+    follow_links=False,
+    crop_to_aspect_ratio=False,
+    **kwargs
+    )
+
+
+    return images, labels
+
+"""def load_dataset():
+    
     Loads the RockPaperScissors Dataset and normalises it between 0 and 1.
 
     :return: A tuple containing images and labels. Order -> images, labels
-    """
     ds = tfds.load('RockPaperScissors', split='train', as_supervised=True, shuffle_files=True)
     images = []
     labels = []
@@ -30,4 +51,4 @@ def load_dataset():
     labels = labels[:20]
     images = tf.stack(images)
     labels = tf.stack(labels)
-    return images, labels
+    return images, labels """
