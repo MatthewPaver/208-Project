@@ -19,8 +19,8 @@ def load_dataset():
     label_mode='int',
     class_names=None,
     color_mode='rgb',
-    batch_size=hp,
-    image_size=(256, 256),
+    batch_size=hp[2],
+    image_size=(128, 128),
     shuffle=True,
     seed=None,
     validation_split=None,
@@ -30,9 +30,36 @@ def load_dataset():
     crop_to_aspect_ratio=False,
     **kwargs
     )
-
-
     return images, labels
+
+    """
+    this loads the training area of the dataset, setting batch size equal to the hyperparameter value as passed in the run_trial function in HyperCGAN
+    if the path to data_pre_processing changes so that this file and it do not have the same root directory, the relative path will need to be adjusted
+    """
+
+def load_test_dataset():
+        tf.keras.utils.image_dataset_from_directory(
+    directory = "data_pre_processing/processed_images/test",
+    labels='inferred',
+    label_mode='int',
+    class_names=None,
+    color_mode='rgb',
+    batch_size=hp[2],
+    image_size=(128, 128),
+    shuffle=True,
+    seed=None,
+    validation_split=None,
+    subset=None,
+    interpolation='bilinear',
+    follow_links=False,
+    crop_to_aspect_ratio=False,
+    **kwargs
+    )
+    return images, labels
+
+    """
+    I have also taken the liberty of adding a load_test_dataset function, for when we want to evaluate the models performance
+    """
 
 """def load_dataset():
     
