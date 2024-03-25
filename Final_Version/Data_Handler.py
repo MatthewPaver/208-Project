@@ -7,8 +7,10 @@ in the future in order to load and preprocess our custom dataset
 
 import tensorflow_datasets as tfds
 import tensorflow as tf
+from pathlib import Path
 
 IMAGE_DIMENSIONS = (128, 128)
+PATH = Path(__file__)
 
 
 def load_dataset():
@@ -18,9 +20,8 @@ def load_dataset():
     changes so that the relative path below data_pre_processing changes, the relative path
     will need to be adjusted
     """
-    python_file_path = Path(__File__)
 
-    parent_directory = python_file_path.parent
+    parent_directory = PATH.parent
     dataset = tf.keras.utils.image_dataset_from_directory(
         directory=str(str(parent_directory) + "/data_pre_processing/processed_images/train"),
         labels='inferred',
@@ -28,7 +29,7 @@ def load_dataset():
         class_names=None,
         color_mode='rgb',
         batch_size=None,
-        image_size=(128, 128),
+        image_size=IMAGE_DIMENSIONS,
         shuffle=True,
         seed=None,
         validation_split=None,
@@ -45,9 +46,8 @@ def load_test_dataset():
     I have also taken the liberty of adding a load_test_dataset function, for when we want to
     evaluate the models performance
     """
-    python_file_path = Path(__File__)
 
-    parent_directory = python_file_path.parent
+    parent_directory = PATH.parent
     dataset = tf.keras.utils.image_dataset_from_directory(
         directory=str(str(parent_directory) + "/data_pre_processing/processed_images/train"),
         labels='inferred',
@@ -55,7 +55,7 @@ def load_test_dataset():
         class_names=None,
         color_mode='rgb',
         batch_size=None,
-        image_size=(128, 128),
+        image_size=IMAGE_DIMENSIONS,
         shuffle=True,
         seed=None,
         validation_split=None,
