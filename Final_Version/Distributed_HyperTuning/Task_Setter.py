@@ -37,8 +37,8 @@ def create_tasks():
     Creates all tasks by using cross product to get all combinations. Writes all of them
     into FILE_PATH for permanent storage
     """
-    lr = [1e-1, 1e-2, 1e-3, 1e-4, 1e-5, 1e-6]
-    batch_size = [4, 8]
+    lr = [1e-4]
+    batch_size = [128]
     latent_dim = [100]
     trial_id = 0
     combinations = product(lr, lr, batch_size, latent_dim)

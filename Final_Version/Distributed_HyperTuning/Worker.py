@@ -127,7 +127,6 @@ def run_a_thread():
 
 
 if __name__ == "__main__":
-    run_a_thread()
     paused_tasks = load_tasks()
     if paused_tasks:
         with Pool(processes=MAX_WORKERS) as pool:
@@ -135,7 +134,6 @@ if __name__ == "__main__":
             pool.close()
             pool.join()
     print("All Paused Tasks Finished")
-
     with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
         for i in range(MAX_WORKERS):
             executor.submit(run_a_thread)
