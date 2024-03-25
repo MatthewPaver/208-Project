@@ -31,8 +31,8 @@ class MyCallback(callbacks.Callback):
         epoch = self.find_latest_epoch()
         epoch = epoch + 1
         print(f"save dir: {self.save_directory} + {epoch}")
-        generator_filename = os.path.join(self.save_directory, f"generator_epoch_{epoch}.h5")
-        discriminator_filename = os.path.join(self.save_directory, f"discriminator_epoch_{epoch}.h5")
+        generator_filename = os.path.join(self.save_directory, f"generator_epoch_{epoch}.weights.h5")
+        discriminator_filename = os.path.join(self.save_directory, f"discriminator_epoch_{epoch}.weights.h5")
         generator_optimiser_filename = os.path.join(self.save_directory, f"generator_optimiser_epoch_{epoch}.pkl")
         discriminator_optimiser_filename = os.path.join(self.save_directory, f"discriminator_optimiser_epoch_{epoch}.pkl")
 

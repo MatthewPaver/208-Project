@@ -8,6 +8,7 @@ in the future in order to load and preprocess our custom dataset
 import tensorflow_datasets as tfds
 import tensorflow as tf
 from pathlib import Path
+import numpy as np
 
 IMAGE_DIMENSIONS = (128, 128)
 PATH = str(Path(__file__).parent.parent) + "/data_pre_processing/processed_images/train"
@@ -37,7 +38,19 @@ def load_dataset():
         follow_links=False,
         crop_to_aspect_ratio=False,
     )
-    return dataset
+    images = []
+    labels = []
+
+    for x, y in dataset:
+        x = x / 255.0
+        images.append(x)
+        labels.append(y)
+    images = images[:20]
+    labels = labels[:20]
+    images = np.array(images)
+    labels = np.array(labels)
+
+    return images, labels
 
 
 def load_test_dataset():
@@ -62,7 +75,19 @@ def load_test_dataset():
         follow_links=False,
         crop_to_aspect_ratio=False,
     )
-    return dataset
+    images = []
+    labels = []
+
+    for x, y in dataset:
+        x = x / 255.0
+        images.append(x)
+        labels.append(y)
+    images = images[:20]
+    labels = labels[:20]
+    images = np.array(images)
+    labels = np.array(labels)
+
+    return images, labels
 
 
 def load_dataset_rock_paper_scissors():

@@ -91,8 +91,8 @@ class Distributed_Tuner(tuners.RandomSearch):
                     discriminator_optimizer_config = pickle.load(f)
                 model.discriminator_optimizer = Adam(**discriminator_optimizer_config)
 
-                model.generator.load_weights(os.path.join(save_directory, f"generator_epoch_{epoch}.h5"))
-                model.discriminator.load_weights(os.path.join(save_directory, f"discriminator_epoch_{epoch}.h5"))
+                model.generator.load_weights(os.path.join(save_directory, f"generator_epoch_{epoch}.weights.h5"))
+                model.discriminator.load_weights(os.path.join(save_directory, f"discriminator_epoch_{epoch}.weights.h5"))
 
                 kwargs['epochs'] -= epoch
                 print("Loaded model weights")
