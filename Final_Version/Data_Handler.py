@@ -10,7 +10,7 @@ import tensorflow as tf
 from pathlib import Path
 
 IMAGE_DIMENSIONS = (128, 128)
-PATH = Path(__file__)
+PATH = str(Path(__file__).parent.parent) + "/data_pre_processing/processed_images/train"
 
 
 def load_dataset():
@@ -21,9 +21,8 @@ def load_dataset():
     will need to be adjusted
     """
 
-    parent_directory = PATH.parent
     dataset = tf.keras.utils.image_dataset_from_directory(
-        directory=str(str(parent_directory) + "/data_pre_processing/processed_images/train"),
+        directory=PATH,
         labels='inferred',
         label_mode='int',
         class_names=None,
@@ -47,9 +46,8 @@ def load_test_dataset():
     evaluate the models performance
     """
 
-    parent_directory = PATH.parent
     dataset = tf.keras.utils.image_dataset_from_directory(
-        directory=str(str(parent_directory) + "/data_pre_processing/processed_images/train"),
+        directory=PATH,
         labels='inferred',
         label_mode='int',
         class_names=None,
