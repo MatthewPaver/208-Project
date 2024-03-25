@@ -9,7 +9,7 @@ from multiprocessing import Pool
 from concurrent.futures import ThreadPoolExecutor
 import keras_tuner
 import pika
-from final_version import Data_Handler, HyperCGAN
+from Final_Version import Data_Handler, HyperCGAN
 import Distributed_Tuner
 
 FILE_PATH = "tasks.json"

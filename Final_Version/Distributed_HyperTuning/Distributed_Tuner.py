@@ -6,7 +6,7 @@ Distributed_Oracle for each trial
 from keras_tuner import tuners
 from keras_tuner.src.engine import tuner_utils
 import copy
-from final_version.Solo_HyperTuning.Callback import MyCallback
+from Final_Version.Solo_HyperTuning.Callback import MyCallback
 import os
 import pickle
 from tensorflow.keras.optimizers import Adam
