@@ -45,6 +45,8 @@ def load_dataset():
         x = x / 255.0
         images.append(x)
         labels.append(y)
+    images = images[:20]
+    labels = labels[:20]
     images = np.array(images)
     labels = np.array(labels)
 
@@ -100,6 +102,7 @@ def load_dataset_rock_paper_scissors():
         x = x / 255
         images.append(x)
         labels.append(y)
+
     images = tf.stack(images)
     labels = tf.stack(labels)
     return images, labels
