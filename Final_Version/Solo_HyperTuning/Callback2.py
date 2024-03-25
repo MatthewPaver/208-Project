@@ -15,6 +15,8 @@ class MyCallback2(callbacks.Callback):
         num_classes = 9
         generated_images = []
 
+        fig, axs = plt.subplots(3, 3, figsize=(9, 9))
+
         for i in range(num_classes):
             noise = tf.random.normal([1, latent_dim])
             class_label = tf.expand_dims(tf.constant(i), axis=-1)
@@ -23,9 +25,11 @@ class MyCallback2(callbacks.Callback):
 
         for i, generated_image in enumerate(generated_images):
             generated_image = np.squeeze(generated_image, axis=0)
-            plt.imshow(generated_image)
-            plt.axis('off')
-            path = os.path.join(self.save_directory, f"epoch_{epoch}_class_{i}.png")
-            plt.savefig(path, bbox_inches='tight', pad_inches=0)
-            plt.close()
+            ax = axs[i // 3, i % 3]
+            ax.imshow(generated_image)
+            ax.axis('off')
 
+        plt.subplots_adjust(wspace=0, hspace=0)
+        path = os.path.join(self.save_directory, f"epoch_{epoch}_grid.png")
+        plt.savefig(path, bbox_inches='tight', pad_inches=0)
+        plt.close()

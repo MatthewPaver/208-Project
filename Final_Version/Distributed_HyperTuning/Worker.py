@@ -67,7 +67,7 @@ def run_trial(task):
         overwrite=False,
         trial_id=f"{task_id}",
     )
-    tuner.search(images, labels, epochs=2)
+    tuner.search(images, labels, epochs=200)
     remove_task(task_id)
 
 
@@ -127,7 +127,6 @@ def run_a_thread():
 
 
 if __name__ == "__main__":
-    run_a_thread()
     paused_tasks = load_tasks()
     if paused_tasks:
         with Pool(processes=MAX_WORKERS) as pool:

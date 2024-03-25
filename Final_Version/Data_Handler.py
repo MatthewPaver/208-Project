@@ -45,8 +45,6 @@ def load_dataset():
         x = x / 255.0
         images.append(x)
         labels.append(y)
-    images = images[:20]
-    labels = labels[:20]
     images = np.array(images)
     labels = np.array(labels)
 
