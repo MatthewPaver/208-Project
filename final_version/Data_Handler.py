@@ -18,11 +18,10 @@ def load_dataset():
     changes so that the relative path below data_pre_processing changes, the relative path
     will need to be adjusted
     """
-
     python_file_path = Path(__File__)
 
     parent_directory = python_file_path.parent
-    tf.keras.utils.image_dataset_from_directory(
+    dataset = tf.keras.utils.image_dataset_from_directory(
         directory=str(str(parent_directory) + "/data_pre_processing/processed_images/train"),
         labels='inferred',
         label_mode='int',
@@ -38,17 +37,18 @@ def load_dataset():
         follow_links=False,
         crop_to_aspect_ratio=False,
     )
-    return images, labels
+    return dataset
 
 
 def load_test_dataset():
     """
-    I have also taken the liberty of adding a load_test_dataset function, for when we want to evaluate the models performance
+    I have also taken the liberty of adding a load_test_dataset function, for when we want to
+    evaluate the models performance
     """
     python_file_path = Path(__File__)
 
     parent_directory = python_file_path.parent
-    tf.keras.utils.image_dataset_from_directory(
+    dataset = tf.keras.utils.image_dataset_from_directory(
         directory=str(str(parent_directory) + "/data_pre_processing/processed_images/train"),
         labels='inferred',
         label_mode='int',
@@ -64,9 +64,7 @@ def load_test_dataset():
         follow_links=False,
         crop_to_aspect_ratio=False,
     )
-    return images, labels
-
-
+    return dataset
 
 
 def load_dataset_rock_paper_scissors():
@@ -78,7 +76,7 @@ def load_dataset_rock_paper_scissors():
     ds = tfds.load('RockPaperScissors', split='train', as_supervised=True, shuffle_files=True)
     images = []
     labels = []
-    for x,y in ds:
+    for x, y in ds:
         x = tf.image.resize(x, IMAGE_DIMENSIONS)
         x = x / 255
         images.append(x)

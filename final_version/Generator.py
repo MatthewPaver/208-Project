@@ -5,6 +5,7 @@ This module handles building of the generator model
 from tensorflow.keras import layers
 import tensorflow as tf
 
+
 def normalized_tanh(x):
     """
     Defines Tanh function normalised for positive values only
@@ -13,6 +14,7 @@ def normalized_tanh(x):
     :return: Result after passing through the layer
     """
     return (tf.tanh(x) + 1) / 2
+
 
 def build_generator(latent_dim=100):
     """
@@ -32,13 +34,13 @@ def build_generator(latent_dim=100):
     x = layers.ELU()(x)
 
     # Up samples latent vector (B, 4, 4, 512) B = batch_size
-    input_stream1 = layers.Reshape((4,4,512))(x)
+    input_stream1 = layers.Reshape((4, 4, 512))(x)
 
     inputs2 = layers.Input(shape=(1,))
-    x = layers.Embedding(3,50)(inputs2) # Encoding the label as a tensor
-    x = layers.Dense((4*4)) (x)
-    input_stream2 = layers.Reshape((4,4,1))(x) # Reshapes tensor to be the same shape as the image
-    x = layers.Concatenate() ([input_stream1,input_stream2])  # Adds tensor as an extra colour channel in the image
+    x = layers.Embedding(3, 50)(inputs2)  # Encoding the label as a tensor
+    x = layers.Dense((4*4))(x)
+    input_stream2 = layers.Reshape((4, 4, 1))(x)  # Reshapes tensor to be the same shape as the image
+    x = layers.Concatenate()([input_stream1, input_stream2])  # Adds tensor as an extra colour channel in the image
     # (B, 4, 4, 513)
     
     x = layers.Conv2DTranspose(64*16, kernel_size=4, strides=2, padding='same')(x)
@@ -68,7 +70,6 @@ def build_generator(latent_dim=100):
 
     outputs = layers.Conv2D(3, kernel_size=4, padding='same', activation=normalized_tanh)(x)
     # (B, 128, 128, 3)
-    
-    
-    model = tf.keras.Model(inputs=[inputs1,inputs2], outputs=outputs, name='generator')
+
+    model = tf.keras.Model(inputs=[inputs1, inputs2], outputs=outputs, name='generator')
     return model
