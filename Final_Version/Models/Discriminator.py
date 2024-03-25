@@ -18,7 +18,8 @@ def build_discriminator() -> Model:
 
     con_label = layers.Input(shape=(1,))
     x = layers.Embedding(3, 50)(con_label)  # Encoding the label as a tensor
-    x = layers.Dense(tf.reduce_prod(IMAGE_DIMENSIONS))(x)
+    size = tf.reduce_prod(IMAGE_DIMENSIONS).numpy().item()
+    x = layers.Dense(size)(x)
     stream2_input = layers.Reshape(IMAGE_DIMENSIONS)(x)  # Reshapes tensor to be the same shape as the image
 
     stream1_input = layers.Input(shape=IMAGE_DIMENSIONS)

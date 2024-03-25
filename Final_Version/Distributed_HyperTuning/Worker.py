@@ -13,7 +13,7 @@ from Final_Version.Models import HyperCGAN
 from Final_Version import Data_Handler
 import Distributed_Tuner
 
-FILE_PATH = "tasks.json"
+FILE_PATH = "./tasks.json"
 MAX_WORKERS = 1
 
 
@@ -55,7 +55,7 @@ def run_trial(task):
     hp = keras_tuner.HyperParameters()
     for k, v in hyperparameters.items():
         hp.Choice(k, [v])
-    x, y = Data_Handler.load_dataset()
+    dataset = Data_Handler.load_dataset()
 
     print(f"Starting trial {task_id}")
     tuner = Distributed_Tuner.Distributed_Tuner(
@@ -67,7 +67,7 @@ def run_trial(task):
         overwrite=False,
         trial_id=f"{task_id}",
     )
-    tuner.search(x, y, epochs=2)
+    tuner.search(dataset, epochs=2)
     remove_task(task_id)
 
 
@@ -134,6 +134,7 @@ if __name__ == "__main__":
             pool.close()
             pool.join()
     print("All Paused Tasks Finished")
+    run_a_thread()
     with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
         for i in range(MAX_WORKERS):
             executor.submit(run_a_thread)
