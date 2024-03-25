@@ -6,11 +6,11 @@ Distributed_Oracle for each trial
 from keras_tuner import tuners
 from keras_tuner.src.engine import tuner_utils
 import copy
-from Solo_HyperTuning.Callback import MyCallback
+from final_version.Solo_HyperTuning.Callback import MyCallback
 import os
 import pickle
 from tensorflow.keras.optimizers import Adam
-from Distributed_HyperTuning import Distributed_Oracle
+import Distributed_Oracle
 
 
 class Distributed_Tuner(tuners.RandomSearch):
@@ -25,7 +25,7 @@ class Distributed_Tuner(tuners.RandomSearch):
         allow_new_entries=True,
         max_retries_per_trial=0,
         max_consecutive_failed_trials=3,
-        trial_id = None,
+        trial_id=None,
         **kwargs
     ):
         """
@@ -60,7 +60,6 @@ class Distributed_Tuner(tuners.RandomSearch):
             max_consecutive_failed_trials=max_consecutive_failed_trials,
         )
         super(tuners.RandomSearch, self).__init__(oracle, hypermodel, **kwargs)
-
 
     def run_trial(self, trial, *args, **kwargs):
         """

@@ -9,13 +9,12 @@ from multiprocessing import Pool
 from concurrent.futures import ThreadPoolExecutor
 import keras_tuner
 import pika
-import Data_Handler
-from Models import HyperCGAN
+from final_version import Data_Handler, HyperCGAN
 import Distributed_Tuner
-
 
 FILE_PATH = "tasks.json"
 MAX_WORKERS = 1
+
 
 def remove_task(trial_id):
     """
@@ -27,6 +26,7 @@ def remove_task(trial_id):
     tasks.pop(f"{trial_id}")
     with open(FILE_PATH, "w") as file:
         json.dump(tasks, file)
+
 
 def load_tasks():
     """
@@ -58,15 +58,15 @@ def run_trial(task):
 
     print(f"Starting trial {task_id}")
     tuner = Distributed_Tuner.Distributed_Tuner(
-        hypermodel= HyperCGAN.HyperCGAN(),
-        directory= "hyper_tuning",
-        objective= keras_tuner.Objective("Generator Loss", "min"),
+        hypermodel=HyperCGAN.HyperCGAN(),
+        directory="hyper_tuning",
+        objective=keras_tuner.Objective("Generator Loss", "min"),
         project_name='MyTuner',
-        hyperparameters= hp,
+        hyperparameters=hp,
         overwrite=False,
         trial_id=f"{task_id}",
     )
-    tuner.search(x,y, epochs=2)
+    tuner.search(x, y, epochs=2)
     remove_task(task_id)
 
 
@@ -82,6 +82,7 @@ def save_task(info, trial_id):
     tasks[trial_id] = info
     with open(FILE_PATH, "w") as file:
         json.dump(tasks, file)
+
 
 def callback(ch, method, _, body):
     """
@@ -101,8 +102,9 @@ def callback(ch, method, _, body):
     info = json.loads(body)
     trial_id = info["trial_id"]
     info.pop("trial_id")
-    save_task(info,trial_id)
+    save_task(info, trial_id)
     run_trial((trial_id, info))
+
 
 def run_a_thread():
     """

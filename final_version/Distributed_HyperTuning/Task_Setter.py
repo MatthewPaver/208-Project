@@ -7,6 +7,7 @@ import pika
 
 FILE_PATH = "../AllTasks.json"
 
+
 def set_tasks():
     """
     Sends trials to be run as messages to CloudAMPQ. Message bodies contain a dictionary of
@@ -30,13 +31,14 @@ def set_tasks():
 
     connection.close()
 
+
 def create_tasks():
     """
     Creates all tasks by using cross product to get all combinations. Writes all of them
     into FILE_PATH for permanent storage
     """
     lr = [1e-1, 1e-2, 1e-3, 1e-4, 1e-5, 1e-6]
-    batch_size = [4,8]
+    batch_size = [4, 8]
     latent_dim = [100]
     trial_id = 0
     combinations = product(lr, lr, batch_size, latent_dim)
@@ -48,5 +50,6 @@ def create_tasks():
         trial_id += 1
     with open(FILE_PATH, "w") as file:
         json.dump(list_of_trials, file)
+
 
 set_tasks()

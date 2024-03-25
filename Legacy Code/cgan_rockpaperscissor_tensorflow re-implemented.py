@@ -32,7 +32,6 @@ for image, label in ds.take(1):
 
 @tf.function
 def normalization(tensor):
-    #normalized_ds = data.map(lambda x: normalization_layer(x))
     tensor = tf.image.resize(
     tensor, (128,128))
     tensor = tf.subtract(tf.divide(tensor, 127.5), 1)

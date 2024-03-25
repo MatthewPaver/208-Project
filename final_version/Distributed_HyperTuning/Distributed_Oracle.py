@@ -6,6 +6,7 @@ import collections
 import keras_tuner.src.tuners.randomsearch as rs
 from keras_tuner.src.engine import trial as trial_module
 
+
 class Distributed_Oracle(rs.RandomSearchOracle):
     def __init__(
         self,
@@ -17,7 +18,7 @@ class Distributed_Oracle(rs.RandomSearchOracle):
         tune_new_entries=True,
         max_retries_per_trial=0,
         max_consecutive_failed_trials=3,
-        trial_id = None
+        trial_id=None
     ):
         """
         Instantiates a Distributed Oracle to handle a distributed trial
@@ -72,14 +73,11 @@ class Distributed_Oracle(rs.RandomSearchOracle):
             self._display.on_trial_begin(trial)
             return trial
 
-
         if self.trial_id:
             trial_id = self.trial_id
         else:
             trial_id = f"{{:0{len(str(self.max_trials))}d}}"
         trial_id = trial_id.format(len(self.trials))
-
-
 
         status = trial_module.TrialStatus.RUNNING
         values = self.hyperparameters.values
@@ -87,7 +85,6 @@ class Distributed_Oracle(rs.RandomSearchOracle):
             if self.trial_id == self.end_order[-1]:
                 status = trial_module.TrialStatus.STOPPED
                 values = None
-
 
         hyperparameters = self.hyperparameters.copy()
         hyperparameters.values = values or {}

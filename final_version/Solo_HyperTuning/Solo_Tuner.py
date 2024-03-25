@@ -6,13 +6,13 @@ each epoch without loosing any data
 from keras_tuner import tuners
 from keras_tuner.src.engine import tuner_utils
 import copy
-from Solo_HyperTuning.Callback import MyCallback
+from Callback import MyCallback
 import os
 import pickle
 from tensorflow.keras.optimizers import Adam
 import json
 import collections
-from Solo_HyperTuning import Solo_Oracle
+import Solo_Oracle
 
 
 class MyTuner(tuners.GridSearch):
