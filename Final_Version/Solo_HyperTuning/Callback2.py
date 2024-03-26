@@ -11,6 +11,7 @@ class MyCallback2(callbacks.Callback):
         self.save_directory = save_directory
 
     def on_epoch_end(self, epoch, logs=None):
+        epoch += 1
         latent_dim = 100
         num_classes = 9
         generated_images = []
