@@ -8,6 +8,9 @@ FILE_PATH = "../AllTasks.json"
 
 
 def send_tasks(tasks_to_be_sent):
+    """
+    This function sends tasks to the cloud queue ready for any available workers to pull down
+    """
     connection = pika.BlockingConnection(
         pika.URLParameters
         ('amqps://bfjzexuw:h91qsaFYNrHc8Ag_5WVOOVdFH2MpnOby@whale.rmq.cloudamqp.com/bfjzexuw'))
@@ -28,6 +31,10 @@ def send_tasks(tasks_to_be_sent):
 #{"Generator LR": 0.001, "Discriminator LR": 0.0001, "Batch Size": 128, "Latent Dim": 100, "trial_id": 1}
 
 def create_new_tasks():
+    """
+    This function loads all old tasks and adds new_tasks to it. It then calls send_tasks to issue the
+    new tasks to the cloud before writing all tasks to the file in FILE_PATH
+    """
     with open(FILE_PATH, "r") as file:
         old_tasks = json.load(file)
 
