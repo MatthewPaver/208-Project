@@ -3,6 +3,9 @@ Run this module to act as a worker for distributed tuning. Change num_workers ba
 hardware limitations.
 """
 
+import sys
+#Needed for VSCode users. Replace with path to 208-project on your machine
+sys.path.append("PATH")
 import os.path
 import json
 from multiprocessing import Pool
