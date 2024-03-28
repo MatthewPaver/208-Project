@@ -1,3 +1,8 @@
+"""
+This module contains a custom callback that's used to save the models output for
+all 9 classes of the custom dataset
+"""
+
 from keras import callbacks
 import matplotlib.pyplot as plt
 import tensorflow as tf
@@ -7,10 +12,21 @@ import numpy as np
 
 class MyCallback2(callbacks.Callback):
     def __init__(self, save_directory):
+        """
+        Instantiates the callback with an additional save_directory attribute
+
+        :param save_directory: The path to save the weights to
+        """
         super().__init__()
         self.save_directory = save_directory
 
     def on_epoch_end(self, epoch, logs=None):
+        """
+        Finds the last saved epoch by calling find_latest_epoch. Using that it saves an image
+        which is a grid of the 9 separate outputs of the model based on the 9 custom classes
+        of the dataset. This is saved in the trials directory with the name
+        epoch_{epoch}_grid.png
+        """
         epoch = self.find_latest_epoch()
         latent_dim = 100
         num_classes = 9
@@ -36,6 +52,11 @@ class MyCallback2(callbacks.Callback):
         plt.close()
 
     def find_latest_epoch(self):
+        """
+        Searches the trials directory for the last fully saved epoch
+
+        :return: The last saved epoch as an Int
+        """
         epochs_seen = []
         if os.path.exists(self.save_directory):
             for file in os.listdir(self.save_directory):

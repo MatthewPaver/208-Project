@@ -10,7 +10,7 @@ import pickle
 class MyCallback(callbacks.Callback):
     def __init__(self, save_directory):
         """
-        Instantiates the callback with an addition save_directory attribute
+        Instantiates the callback with an additional save_directory attribute
 
         :param save_directory: The path to save the weights to
         """
