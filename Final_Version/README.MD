@@ -1,8 +1,9 @@
-# README
+# README #
 
 This README provides a guide on how to run Worker.py to tune different sets of hyperparameters
-
-## **Download All Dependencies.** ##
+## **Pull all recent changes from GitHub before starting** ##
+## **Download All Dependencies** ##
+Run these commands in terminal for your python environment.  
 ```bash
 pip install keras_tuner
 pip install pika
@@ -34,12 +35,12 @@ Worker.py is also designed to save the progress of the training each epoch. The 
 Final_version>Distributed_HyperTuning>hyper_tuning>MyTuner>trial_{trialID} where the trialID is the ID used to identify
 that trial. This means that the python script can be terminated at any time with a maximum time loss of about 20 minutes
 
-Also saved in that directory is an image file containing a grid of 9 seperate images.
+Also saved in that directory is an image file for each epoch containing a grid of 9 seperate images.
 These correlate with the 9 different classes the CGAN can generate and can be used to see how well your model is learning
 
 tasks.json is also created in the Distributed_HyperTuning directory which helps with reloading the trial after a termination
 
-It is important all these files are not deleted. None of these should be uploaded to GitHub either until I tell you which 
+It is important all these files are not deleted. None of these new files or folders should be uploaded to GitHub until I tell you which 
 ones to upload. 
 
 # **DO NOT RUN Task_Setter.py**
