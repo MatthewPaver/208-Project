@@ -1,8 +1,6 @@
 """
-Module handles loading all datasets
-
-This module currently loads the RockPaperScissors dataset but will be adapted
-in the future in order to load and preprocess our custom dataset
+Module handles loading our custom dataset for training and evaluation as well as a pre-made
+dataset for testing purposes
 """
 
 import tensorflow_datasets as tfds
@@ -16,12 +14,12 @@ PATH = str(Path(__file__).parent.parent) + "/data_pre_processing/processed_image
 
 def load_dataset():
     """
-    This loads the training area of the dataset, setting batch size equal to the hyperparameter
-    value as passed in the run_trial function in HyperCGAN if the path to data_pre_processing
-    changes so that the relative path below data_pre_processing changes, the relative path
-    will need to be adjusted
-    """
+    This method loads the training portion of our custom dataset. The images are resized based on
+    the IMAGE_DIMENSIONS constant defined at the top of this file. The pixel values are then
+    normalised to be between 0 and 1 to speed up the training process.
 
+    :return: Images, Labels which are arrays where Labels[0] is the label for images[0]
+    """
     dataset = tf.keras.utils.image_dataset_from_directory(
         directory=PATH,
         labels='inferred',
@@ -53,8 +51,12 @@ def load_dataset():
 
 def load_test_dataset():
     """
-    I have also taken the liberty of adding a load_test_dataset function, for when we want to
-    evaluate the models performance
+    This method loads the test portion of our custom dataset. The images are resized based on
+    the IMAGE_DIMENSIONS constant defined at the top of this file. The pixel values are then
+    normalised to be between 0 and 1 to speed up the training process. This will be used
+    to evaluate the trained models
+
+    :return: Images, Labels which are arrays where Labels[0] is the label for images[0]
     """
 
     dataset = tf.keras.utils.image_dataset_from_directory(
