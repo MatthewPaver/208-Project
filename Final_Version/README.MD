@@ -21,14 +21,14 @@ This will be a quick run-down of what worker.py does if you don't want
 to know you're free to skip this section. 
 
 Hypertuning is just training a model multiple times with different settings (also called hyperparameters) and then picking
-the best set of these for your final model. I have sent some messages to a cloud server which corresponds to 
+the best set of these for your final model. I have sent some messages to a cloud server each of which corresponds to 
 a set of these hyperparameters. Your computers will pull down one message and fully train the model using these parameters.
 Each instance of doing this is known as a trial
 
 ## **Actually running trials** ##
 After downloading all dependencies, Worker.py in Final_version>Distributed_HyperTuning>Worker.py has been designed
 for you to run it and not really have to think about it again. It will automatically pull down a trial and
-start running that trial. Each trial will run for 200 epochs and it will automatically pick up a new trial once
+start running that trial. Each trial will run for 200 epochs, and it will automatically pick up a new trial once
 it's finished. 
 
 Worker.py is also designed to save the progress of the training each epoch. The files for this can be found in
@@ -42,5 +42,10 @@ tasks.json is also created in the Distributed_HyperTuning directory which helps 
 
 It is important all these files are not deleted. None of these new files or folders should be uploaded to GitHub until I tell you which 
 ones to upload. 
+
+In conclusion, Run Worker.py for as long as you can if you need to pause it you can just terminate the program. It's not 
+worth running it for <15 mins but anything more should make progress. I 100% understand these will be our main PCs running this
+so im not expecting this to run 24/7 but whenever you can (like at night or if your heading out) if you could stick it on to train
+it would be appreciated
 
 # **DO NOT RUN Task_Setter.py**
