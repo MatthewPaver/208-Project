@@ -2,17 +2,12 @@
 This module creates tasks and then sends them off as messages to CloudAMQP
 """
 import json
-from itertools import product
 import pika
 
 FILE_PATH = "../AllTasks.json"
 
 
-def set_tasks():
-    """
-    Sends trials to be run as messages to CloudAMPQ. Message bodies contain a dictionary of
-    hyperparameters and their values as well as the trial_id and its value
-    """
+def send_tasks(tasks_to_be_sent):
     connection = pika.BlockingConnection(
         pika.URLParameters
         ('amqps://bfjzexuw:h91qsaFYNrHc8Ag_5WVOOVdFH2MpnOby@whale.rmq.cloudamqp.com/bfjzexuw'))
@@ -20,10 +15,7 @@ def set_tasks():
 
     channel.queue_declare(queue='Tuning', durable=True)
 
-    with open(FILE_PATH, "r") as file:
-        tasks_to_be_set = json.load(file)
-
-    for i in tasks_to_be_set:
+    for i in tasks_to_be_sent:
         message = json.dumps(i)
         channel.basic_publish(exchange='', routing_key='Tuning', body=str(message),
                               properties=pika.BasicProperties(delivery_mode=2))
@@ -32,24 +24,22 @@ def set_tasks():
     connection.close()
 
 
-def create_tasks():
-    """
-    Creates all tasks by using cross product to get all combinations. Writes all of them
-    into FILE_PATH for permanent storage
-    """
-    lr = [1e-4]
-    batch_size = [128]
-    latent_dim = [100]
-    trial_id = 0
-    combinations = product(lr, lr, batch_size, latent_dim)
-    list_of_trials = []
-    for i in combinations:
-        trial = {'Generator LR': i[0], 'Discriminator LR': i[1], "Batch Size": i[2],
-                 "Latent Dim": i[3], "trial_id": trial_id}
-        list_of_trials.append(trial)
-        trial_id += 1
+#Template
+#{"Generator LR": 0.001, "Discriminator LR": 0.0001, "Batch Size": 128, "Latent Dim": 100, "trial_id": 1}
+
+def create_new_tasks():
+    with open(FILE_PATH, "r") as file:
+        old_tasks = json.load(file)
+
+    new_tasks = [{"Generator LR": 0.001, "Discriminator LR": 0.0001, "Batch Size": 128, "Latent Dim": 100, "trial_id": 1},
+                 {"Generator LR": 0.001, "Discriminator LR": 0.001, "Batch Size": 128, "Latent Dim": 100, "trial_id": 2},
+                 {"Generator LR": 0.01, "Discriminator LR": 0.001, "Batch Size": 128, "Latent Dim": 100,"trial_id": 3},
+                 {"Generator LR": 0.01, "Discriminator LR": 0.01, "Batch Size": 128, "Latent Dim": 100, "trial_id": 4},
+                 ]
+
+    old_tasks.append(new_tasks)
+
+    send_tasks(new_tasks)
+
     with open(FILE_PATH, "w") as file:
-        json.dump(list_of_trials, file)
-
-
-set_tasks()
+        json.dump(old_tasks, file)

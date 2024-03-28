@@ -11,7 +11,7 @@ class MyCallback2(callbacks.Callback):
         self.save_directory = save_directory
 
     def on_epoch_end(self, epoch, logs=None):
-        epoch += 1
+        epoch = self.find_latest_epoch()
         latent_dim = 100
         num_classes = 9
         generated_images = []
@@ -34,3 +34,13 @@ class MyCallback2(callbacks.Callback):
         path = os.path.join(self.save_directory, f"epoch_{epoch}_grid.png")
         plt.savefig(path, bbox_inches='tight', pad_inches=0)
         plt.close()
+
+    def find_latest_epoch(self):
+        epochs_seen = []
+        if os.path.exists(self.save_directory):
+            for file in os.listdir(self.save_directory):
+                if file.startswith("generator_epoch_"):
+                    epochs_seen.append(int(file.split("_")[2].split(".")[0]))
+            if epochs_seen:
+                return max(epochs_seen)
+        return 0
