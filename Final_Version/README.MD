@@ -26,6 +26,8 @@ a set of these hyperparameters. Your computers will pull down one message and fu
 Each instance of doing this is known as a trial
 
 ## **Actually running trials** ##
+Change line 8 of Worker.py to be the path to the 208-project on your machine
+
 After downloading all dependencies, Worker.py in Final_version>Distributed_HyperTuning>Worker.py has been designed
 for you to run it and not really have to think about it again. It will automatically pull down a trial and
 start running that trial. Each trial will run for 200 epochs, and it will automatically pick up a new trial once
