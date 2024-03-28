@@ -27,8 +27,8 @@ def send_tasks(tasks_to_be_sent):
     connection.close()
 
 
-#Template
-#{"Generator LR": 0.001, "Discriminator LR": 0.0001, "Batch Size": 128, "Latent Dim": 100, "trial_id": 1}
+# Template
+# {"Generator LR": 0.001, "Discriminator LR": 0.0001, "Batch Size": 128, "Latent Dim": 100, "trial_id": 1}
 
 def create_new_tasks():
     """
@@ -38,11 +38,12 @@ def create_new_tasks():
     with open(FILE_PATH, "r") as file:
         old_tasks = json.load(file)
 
-    new_tasks = [{"Generator LR": 0.001, "Discriminator LR": 0.0001, "Batch Size": 128, "Latent Dim": 100, "trial_id": 1},
-                 {"Generator LR": 0.001, "Discriminator LR": 0.001, "Batch Size": 128, "Latent Dim": 100, "trial_id": 2},
-                 {"Generator LR": 0.01, "Discriminator LR": 0.001, "Batch Size": 128, "Latent Dim": 100,"trial_id": 3},
-                 {"Generator LR": 0.01, "Discriminator LR": 0.01, "Batch Size": 128, "Latent Dim": 100, "trial_id": 4},
-                 ]
+    new_tasks = [
+        {"Generator LR": 0.001, "Discriminator LR": 0.0001, "Batch Size": 128, "Latent Dim": 100, "trial_id": 1},
+        {"Generator LR": 0.001, "Discriminator LR": 0.001, "Batch Size": 128, "Latent Dim": 100, "trial_id": 2},
+        {"Generator LR": 0.01, "Discriminator LR": 0.001, "Batch Size": 128, "Latent Dim": 100, "trial_id": 3},
+        {"Generator LR": 0.01, "Discriminator LR": 0.01, "Batch Size": 128, "Latent Dim": 100, "trial_id": 4},
+        ]
 
     old_tasks.append(new_tasks)
 
