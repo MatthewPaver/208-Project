@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARCHITEXA</title>
+    <style>
+        body 
+        {
+            background-color: #333; 
+            color: #fff;
+            margin: 20px;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #prompt
+        {
+            width: 300px;
+            padding: 5px;
+            margin-right: 10px;
+        }
+        .inputContainer 
+        {
+            background-color: #212020;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 5px;
+            border-radius: 5px;
+            margin: 35px auto;
+            display: flex;
+            justify-content: center;
+            position: fixed;
+            width: max-content;
+        }
+        #prompt 
+        {
+            border: 1px solid #fff;
+            color: #fff;
+            background-color: #333;
+            padding: 10px;
+            font-size: 16px;
+            margin-right: 10px;
+            border-radius: 5px;
+        }
+        .submitButton 
+        {
+            background-color: #444;
+            color: white;
+            border: 1px solid #fff;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .optionsContainer 
+        {
+            top: 0;
+            left: 0;
+            margin: 10px;
+            position: absolute; 
+            
+        }
+        .optButton 
+        {
+            background-color: #444;
+            color: white;
+            display: block; 
+            margin-bottom: 5px;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            width: auto; 
+            border: none;
+        }
+        body
+        {
+        margin: 0;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>ARCHITEXA</h1>
+
+    <div class="inputContainer">  
+         <input type="text" id="prompt" placeholder="Enter text">
+    <button class="submitButton "  onclick="getImageAPI()">Submit</button>
+    <img src = "" alt = " Generated image " id = "genImage" style="display: none">
+       <!-- Image will be inserted here -->
+
+    </div>
+
+    <div class="optionsContainer">
+       
+         <button class="optButton " onclick="document.location='pages/about.html'">About page </button>
+         <button class="optButton " onclick="document.location='pages/terms.html'">Terms of Service </button>
+    </div>
+
+    <script>
+
+
+       // Here is the JavaScript code to call the API.
+       // Reference Bro Code on YouTube
+
+       /* async function getImageAPI()
+        { 
+            const requestImage = document.getElementById("prompt").value;
+
+            try 
+            {
+                const response = await fetch(`https://Example.URL/api/${requestImage}`);
+
+                if (response.ok){
+
+                    const data = await response.json();
+                    const generatedImage = data. Where the image is stored  . Where is image is stored ;
+                    const imgElement = document.getElementById(" genImage ");
+
+                    imgElement.src = generatedImage();
+                    imgElement.style.display = "block";
+
+                }
+                throw new Error ("Could not fetch resource");
+            }
+            catch(error){
+                console.error(error);
+            }
+        
+        }
+        */
+
+
+    </script>
+</body>
+</html>
+
+
+
+
+
