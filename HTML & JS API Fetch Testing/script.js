@@ -1,4 +1,4 @@
-const apiKey = "0KQVHmGf295NtumVdVX2AESVuugIZJ82nRc8oi6OPG8"
+const apiKey = "0KQVHmGf295NtumVdVX2AESVuugIZJ82nRc8oi6O"
 
 const elementForm = document.querySelector("form");
 const elementPrompt = document.getElementById("prompt");
