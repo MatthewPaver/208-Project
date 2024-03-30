@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architexa - Architectural Design Visualization</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div id="wrapper">
+        <!-- Navigation Menu -->
+        <nav id="sideMenu">
+            <ul>
+                <li><a href="../pages/home.html" class="active">Home</a></li>
+                <li><a href="..//pages/about.html">About</a></li>
+                <li><a href="..//pages/terms.html">Terms of Service</a></li>
+                <li><a href="..//login/Logout.html">Log Out</a></li>
+            </ul>
+        </nav>
+        
+        <!-- Main Content Area -->
+        <main id="content">
+            <header>
+                <h1>Welcome to Architexa</h1>
+            </header>
+            
+            <section id="design-prompt-section">
+                <h2>Create Your Architectural Design</h2>
+                <!-- Image container for API output -->
+                <div id="imageContainer">
+                    <!-- Ensure the path to your placeholder image is correct -->
+                    <img src="..//Images/Image Holder.png" alt="Placeholder for architectural design" id="generatedImage" style="max-width: 100%; height: auto;">
+                </div>
+                
+                <!-- Textbox for user input -->
+                <div id="inputArea">
+                    <input type="text" id="promptInput" placeholder="Enter your design prompt" aria-label="Design Prompt">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <!-- Ensure the path to your main.js is correct and include type="module" for ES6 module support -->
+    <script src="../js/main.js" type="module"></script>
+</body>
+</html>
