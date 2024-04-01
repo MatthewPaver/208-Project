@@ -37,6 +37,10 @@ def build_discriminator() -> Model:
     x = layers.BatchNormalization()(x)
     x = layers.ReLU()(x)
 
+    x = layers.Conv2D(64, 4)(x)
+    x = layers.BatchNormalization()(x)
+    x = layers.ReLU()(x)
+
     x = layers.Flatten()(x)
     x = layers.Dropout(0.3)(x)
     x = layers.Dense(1, activation='sigmoid')(x)
