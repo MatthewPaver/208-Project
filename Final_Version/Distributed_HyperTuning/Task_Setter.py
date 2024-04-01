@@ -39,10 +39,7 @@ def create_new_tasks():
         old_tasks = json.load(file)
 
     new_tasks = [
-        {"Generator LR": 0.001, "Discriminator LR": 0.0001, "Batch Size": 128, "Latent Dim": 100, "trial_id": 1},
-        {"Generator LR": 0.001, "Discriminator LR": 0.001, "Batch Size": 128, "Latent Dim": 100, "trial_id": 2},
-        {"Generator LR": 0.01, "Discriminator LR": 0.001, "Batch Size": 128, "Latent Dim": 100, "trial_id": 3},
-        {"Generator LR": 0.01, "Discriminator LR": 0.01, "Batch Size": 128, "Latent Dim": 100, "trial_id": 4},
+        {"Generator LR": 0.001, "Discriminator LR": 0.001, "Batch Size": 64, "Latent Dim": 100, "trial_id": 6},
         ]
 
     old_tasks.append(new_tasks)
@@ -51,3 +48,5 @@ def create_new_tasks():
 
     with open(FILE_PATH, "w") as file:
         json.dump(old_tasks, file)
+
+create_new_tasks()

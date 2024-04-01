@@ -101,6 +101,15 @@ class CGAN(Model):
             gen_loss = generator_loss(fake_output)
             disc_loss = discriminator_loss(real_output, fake_output)
 
+            real_predictions = tf.cast(tf.math.greater_equal(real_output, 0.5), tf.float32)
+            fake_predictions = tf.cast(tf.math.less(fake_output, 0.5), tf.float32)
+
+            real_accuracy = tf.reduce_mean(
+                tf.cast(tf.equal(real_predictions, tf.ones_like(real_predictions)), tf.float32))
+            fake_accuracy = tf.reduce_mean(
+                tf.cast(tf.equal(fake_predictions, tf.zeros_like(fake_predictions)), tf.float32))
+            acc = (real_accuracy + fake_accuracy) / 2
+
         gradients_of_gen = gen_tape.gradient(gen_loss, self.generator.trainable_variables)
         gradients_of_disc = disc_tape.gradient(disc_loss, self.discriminator.trainable_variables)
 
@@ -114,7 +123,9 @@ class CGAN(Model):
         self.d_loss.update_state(d_loss)
         self.g_loss.update_state(g_loss)
 
-        return {"Generator Loss": self.g_loss.result(), "Discriminator Loss": self.d_loss.result()}
+        return {"Generator Loss": self.g_loss.result(),
+                "Discriminator Loss": self.d_loss.result(),
+                "Accuracy": acc}
 
     @property
     def metrics(self):
