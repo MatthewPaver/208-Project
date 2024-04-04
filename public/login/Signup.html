@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="icon" type= "image/png" href="Architexa Logo .png"> 
+    <link rel="stylesheet" href="../css/loginstyle.css"> <!-- Ensure this CSS file exists and is correctly linked -->
+</head>
+<body>
+    <div class="login-container">
+        <h2>Sign Up Form</h2>
+
+        <form id="signup-form">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </form>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script>
+        // Event listener for unhandled promise rejections
+        window.addEventListener('unhandledrejection', event => {
+            alert(event.reason.message); // Display error message
+            event.preventDefault(); // Prevent default handling of the rejection
+        });
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDkBZ3wI87PrjdoV7yYhYcXUXJ_7irT4Cs",
+            authDomain: "architexa-1f4ce.firebaseapp.com",
+            projectId: "architexa-1f4ce",
+            storageBucket: "architexa-1f4ce.appspot.com",
+            messagingSenderId: "334635524502",
+            appId: "1:334635524502:web:a6bfe1993cc6a2eea7fdb7"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // Sign up new users
+        const signupForm = document.getElementById('signup-form');
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            auth.createUserWithEmailAndPassword(email, password)
+            .then(() => {
+                // Successful sign up
+                window.location.href = 'Login.html'; // Redirect to login page
+            })
+            .catch((error) => {
+                // Handle errors
+                alert(error.message); // Display error message
+            });
+        });
+    </script>
+</body>
+</html>
