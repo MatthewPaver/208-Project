@@ -1,11 +1,14 @@
 """
 Run this module to act as a worker for distributed tuning. Change num_workers based on your
-hardware limitations.
+hardware limitations. Change line 8 to the root directory of the 208-Project on your machine.
+Just terminate the file to pause the training
 """
 
 import sys
-#Needed for VSCode users. Replace with path to 208-project on your machine
-sys.path.append("PATH")
+
+# Needed for VSCode. Replace with path to 208-project on your machine
+sys.path.append("C:/Users/steph/PycharmProjects/208-Project")
+
 import os.path
 import json
 from multiprocessing import Pool
@@ -130,13 +133,19 @@ def run_a_thread():
 
 
 if __name__ == "__main__":
-    paused_tasks = load_tasks()
-    if paused_tasks:
-        with Pool(processes=MAX_WORKERS) as pool:
-            pool.map(run_trial, paused_tasks.items())
-            pool.close()
-            pool.join()
-    print("All Paused Tasks Finished")
-    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
-        for i in range(MAX_WORKERS):
-            executor.submit(run_a_thread)
+    trial_id = 14
+    info = {"Generator LR": 0.001, "Discriminator LR": 0.001, "Batch Size": 128, "Latent Dim": 100}
+    run_trial((trial_id, info))
+#    paused_tasks = load_tasks()
+#    if paused_tasks:
+#        with Pool(processes=MAX_WORKERS) as pool:
+#            pool.map(run_trial, paused_tasks.items())
+#            pool.close()
+#            pool.join()
+#    print("All Paused Tasks Finished")
+#    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+#        for i in range(MAX_WORKERS):
+#            executor.submit(run_a_thread)
+
+
+#updated model from trial 7 onwards

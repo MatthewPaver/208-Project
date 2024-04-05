@@ -31,7 +31,7 @@ def build_generator(latent_dim=100):
     inputs1 = layers.Input(shape=(latent_dim,))
     x = layers.Dense(512*4*4)(inputs1)
     x = layers.BatchNormalization()(x)
-    x = layers.ELU()(x)
+    x = layers.LeakyReLU()(x)
 
     # Up samples latent vector (B, 4, 4, 512) B = batch_size
     input_stream1 = layers.Reshape((4, 4, 512))(x)
@@ -43,33 +43,38 @@ def build_generator(latent_dim=100):
     x = layers.Concatenate()([input_stream1, input_stream2])  # Adds tensor as an extra colour channel in the image
     # (B, 4, 4, 513)
     
+    x = layers.Conv2DTranspose(64*32, kernel_size=4, strides=1, padding='same')(x)
+    x = layers.BatchNormalization()(x)
+    x = layers.LeakyReLU()(x)
+    # (B, 8, 8, 2048)
+    
     x = layers.Conv2DTranspose(64*16, kernel_size=4, strides=2, padding='same')(x)
     x = layers.BatchNormalization()(x)
-    x = layers.ELU()(x)
-    # (B, 8, 8, 256)
-    
+    x = layers.LeakyReLU()(x)
+    # (B, 16, 16, 1024)
+
     x = layers.Conv2DTranspose(64*8, kernel_size=4, strides=2, padding='same')(x)
     x = layers.BatchNormalization()(x)
-    x = layers.ELU()(x)
-    # (B, 16, 16, 128)
+    x = layers.LeakyReLU()(x)
+    # (B, 32, 32, 512)
 
     x = layers.Conv2DTranspose(64*4, kernel_size=4, strides=2, padding='same')(x)
     x = layers.BatchNormalization()(x)
-    x = layers.ELU()(x)
-    # (B, 32, 32, 64)
+    x = layers.LeakyReLU()(x)
+    # (B, 64, 64, 256)
 
     x = layers.Conv2DTranspose(64*2, kernel_size=4, strides=2, padding='same')(x)
     x = layers.BatchNormalization()(x)
-    x = layers.ELU()(x)
-    # (B, 64, 64, 32)
+    x = layers.LeakyReLU()(x)
+    # (B, 128, 128, 128)
 
     x = layers.Conv2DTranspose(64*1, kernel_size=4, strides=2, padding='same')(x)
     x = layers.BatchNormalization()(x)
-    x = layers.ELU()(x)
-    # (B, 128, 128, 16)
+    x = layers.LeakyReLU()(x)
+    # (B, 256, 256, 64)
 
     outputs = layers.Conv2D(3, kernel_size=4, padding='same', activation=normalized_tanh)(x)
-    # (B, 128, 128, 3)
+    # (B, 256, 256, 3)
 
     model = tf.keras.Model(inputs=[inputs1, inputs2], outputs=outputs, name='generator')
     return model

@@ -101,14 +101,9 @@ class CGAN(Model):
             gen_loss = generator_loss(fake_output)
             disc_loss = discriminator_loss(real_output, fake_output)
 
-            real_predictions = tf.cast(tf.math.greater_equal(real_output, 0.5), tf.float32)
-            fake_predictions = tf.cast(tf.math.less(fake_output, 0.5), tf.float32)
+        fake_acc = tf.reduce_sum(tf.cast(fake_output <= 0.5, tf.int32)) / batch_size
 
-            real_accuracy = tf.reduce_mean(
-                tf.cast(tf.equal(real_predictions, tf.ones_like(real_predictions)), tf.float32))
-            fake_accuracy = tf.reduce_mean(
-                tf.cast(tf.equal(fake_predictions, tf.zeros_like(fake_predictions)), tf.float32))
-            acc = (real_accuracy + fake_accuracy) / 2
+        real_acc = tf.reduce_sum(tf.cast(real_output > 0.5, tf.int32)) / batch_size
 
         gradients_of_gen = gen_tape.gradient(gen_loss, self.generator.trainable_variables)
         gradients_of_disc = disc_tape.gradient(disc_loss, self.discriminator.trainable_variables)
@@ -125,7 +120,8 @@ class CGAN(Model):
 
         return {"Generator Loss": self.g_loss.result(),
                 "Discriminator Loss": self.d_loss.result(),
-                "Accuracy": acc}
+                "Real Acc": real_acc,
+                "Fake Acc": fake_acc}
 
     @property
     def metrics(self):
@@ -133,5 +129,5 @@ class CGAN(Model):
         A property dynamically set to the loss values. Needed to prevent error at end of epoch
         
         :return: Tuple of discriminator loss and generator loss
-        """""
+        """
         return [self.d_loss, self.g_loss]
