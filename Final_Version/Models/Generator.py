@@ -46,35 +46,38 @@ def build_generator(latent_dim=100):
     x = layers.Conv2DTranspose(64*32, kernel_size=4, strides=1, padding='same')(x)
     x = layers.BatchNormalization()(x)
     x = layers.LeakyReLU()(x)
-    # (B, 8, 8, 2048)
+    # (B, 4, 4, 2048)
     
     x = layers.Conv2DTranspose(64*16, kernel_size=4, strides=2, padding='same')(x)
     x = layers.BatchNormalization()(x)
     x = layers.LeakyReLU()(x)
-    # (B, 16, 16, 1024)
+    # (B, 8, 8, 1024)
 
     x = layers.Conv2DTranspose(64*8, kernel_size=4, strides=2, padding='same')(x)
     x = layers.BatchNormalization()(x)
     x = layers.LeakyReLU()(x)
-    # (B, 32, 32, 512)
+    # (B, 16, 16, 512)
 
     x = layers.Conv2DTranspose(64*4, kernel_size=4, strides=2, padding='same')(x)
     x = layers.BatchNormalization()(x)
     x = layers.LeakyReLU()(x)
-    # (B, 64, 64, 256)
+    # (B, 32, 32, 256)
 
     x = layers.Conv2DTranspose(64*2, kernel_size=4, strides=2, padding='same')(x)
     x = layers.BatchNormalization()(x)
     x = layers.LeakyReLU()(x)
-    # (B, 128, 128, 128)
+    # (B, 64, 64, 128)
 
     x = layers.Conv2DTranspose(64*1, kernel_size=4, strides=2, padding='same')(x)
     x = layers.BatchNormalization()(x)
     x = layers.LeakyReLU()(x)
-    # (B, 256, 256, 64)
+    # (B, 128, 128, 64)
 
     outputs = layers.Conv2D(3, kernel_size=4, padding='same', activation=normalized_tanh)(x)
-    # (B, 256, 256, 3)
+    # (B, 128, 128, 3)
 
     model = tf.keras.Model(inputs=[inputs1, inputs2], outputs=outputs, name='generator')
     return model
+
+g = build_generator()
+g.summary()
