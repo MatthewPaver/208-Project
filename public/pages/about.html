@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Architexa</title>
+    <link rel="icon" type= "image/png" href="Architexa Logo .png"> 
+    <link rel="stylesheet" href="../css/styles.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div id="wrapper">
+        <!-- Navigation Menu -->
+        <div class="sideMenu">
+
+            <!-- Top of the Navigation Bar -->
+            <div class="top"> 
+                <div class="icon">
+                    <img src="Architexa Logo .png">
+                  <span> &nbsp; &nbsp;&nbsp;ARCHITEXA</span>
+                </div>
+            </div>
+              <i class="bx bx-menu" id="btn"></i>
+              <div class="user">
+                  <img src="User Image.jpeg" alt="Me" class="user-img">
+                  <div> 
+                      <p class="bold">Admin</p>
+                  </div>
+              </div>
+
+            <!-- Pages -->
+            <ul>
+                <li>
+                    <a href="../index.html" class="active">
+                        <i class='bx bxs-home-alt-2'></i>
+                        <span class="bar-item">Home</span>
+                    </a>
+                    <span class="tooltip">Home</span>    
+                </li>
+
+                <li>
+                    <a href="../pages/about.html">
+                        <i class='bx bxs-detail'></i>
+                        <span class="bar-item">About Us</span>
+                     </a>
+                     <span class="tooltip">About Us</span>
+                </li>
+
+                <li>
+                    <a href="../pages/terms.html">
+                        <i class='bx bxs-book-open'></i>
+                        <span class="bar-item">Terms of service</span>
+                    </a>
+                    <span class="tooltip">Terms of service</span>
+                </li>
+
+                <li>
+                    <a href="../login/Logout.html">
+                        <i class='bx bx-log-out'></i>
+                        <span class="bar-item">Log out</span>
+                    </a>
+                    <span class="tooltip">Log out</span>
+                </li>
+            </ul>
+        </div>
+        
+        
+        <!-- Main Content Area -->
+        <main id="content">
+            <header>
+                <h1>About Architexa</h1>
+            </header>
+
+            <article class="about-content">
+                <h2>Our Mission</h2>
+                <p>Architexa is a revolutionary software with the aim of disrupting the untapped industry of architecture.
+                    It leverages AI technology to visualize intricate architectural designs.
+                    This tool is great for concept exploration, without the time, and resources usually associated with this task.
+                    It provides the ability to envision detailed design concepts in seconds, while also meeting architectural style, structural integrity, and material texture.
+                    No room for hallucinations. Our goal is to be among the first to bring and  pioneer AI in the field of architecture.</p>
+            </article>
+
+            <article class="about-content">
+                <h2>How Arichtexa Works</h2>
+                <p>First users must sign up with their email to enter the web application.
+                    Afterwards, they will be directed to the home page where the magic begins.
+                    Users can write prompts with detail to any extent desired and click enter. 
+                    Using CGANs Architexa will create a design based on their prompt. 
+                    Writing further prompts will change the generated design the new details given will be added in the original design, this is the exploration feature. 
+                    The amount of change the design goes through is directly related to the new prompt written, the greater the change in detail the more drastic the design will drift from the original concept, and vice versa.</p>
+            </article>
+
+            <article class="about-content">
+                <h2>The Team</h2>
+                <p> We are all Computer Scientist Students at the University of Liverpool. Roles are next to each person’s name. </p>
+                <br></br>
+                <ul class="team-list">
+                    <li><strong>Emmanuel Adegoke</strong> - Data Scientist</li>
+                    <li><strong>Fahad Alsharaf</strong> - Web Developer</li>
+                    <li><strong>Matt Paver</strong> - Data Scientist</li>
+                    <li><strong>Meshari Alshammari</strong> - Web Developer</li>
+                    <li><strong>Stephen Bromley</strong> - AI Engineer</li>
+                    <li><strong>Wilf Morlidge</strong> - AI Engineer</li>
+                </ul>
+            </article>
+
+
+            <article class="about-content">
+                <h2>Vision For the Future</h2>
+                <p>Instead of only creating designs with textual prompts, we will be adding sketch prompts to further unleash your creativity.
+                   The feature is simple, upload a file of your hand-drawn sketch and Architexa will then render it as an image, and you can change it as you desire.
+                   For instance, upload a black and white sketch of a house, and ask Architexa to re-imagine it in modern style, or in a Najidi style house. Editing designs will be as easy as writing a prompt. 
+                   Users will simply highlight any portion of the design, specify what change they want and watch as it materialises in seconds. 
+                   For example, highlight a plain wall and write “add a Victorian style window”.
+                   Architexa will be on every laptop, phone, and PC of all architects and designers, whether a junior, senior, hobbyist, or professional.
+                   For the reason being, Architexa will become a vital too for the future of architecture. </p>
+            </article>
+        </main>
+    </div>
+
+    <script src="../js/main.js" type="module"></script>
+</body>
+
+<script>
+    let btn = document.querySelector('#btn');
+    let sideMenu = document.querySelector('.sideMenu');
+
+    btn.onclick = function(){
+        sideMenu.classList.toggle('active');
+    };
+
+ </script>
+
+
+</html>

@@ -1,0 +1,363 @@
+/* Reset and Basic Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    
+}
+
+body, button, input {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #333;
+    text-align: center;
+    margin: 20px;
+}
+
+/* Main Layout Styles */
+#wrapper {
+    position: fixed;
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    
+}
+
+ /* NEW SIDE MENU */
+
+ .sideMenu .top .icon img{
+    max-height: 30px;
+}
+
+.user-img{
+    width: 50px;
+    border-radius: 100%;
+}
+
+.sideMenu{
+    position: fixed;
+    top: 0; 
+    left: 0;
+    height: 100vh;
+    width: 80px;
+    background-color: black;
+    padding: .4rem .8rem;
+    transition: all 0.5s ease;
+}
+
+.sideMenu.active{
+    width: 250px;
+}
+
+.sideMenu #btn{
+    position: absolute;
+    color: white;
+    top: .4rem;
+    left: 50%;
+    font-size: 1.2rem;
+    height: 50px;
+    transform: translateX(-50%);
+    cursor: pointer;
+}
+
+.sideMenu.active #btn{
+    left: 90%;
+}
+
+.sideMenu .top .icon {
+
+    color: #ffffff;
+    
+    display: flex;
+    height: 50px;
+    width: 100px;
+    align-items: center;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.sideMenu.active .top .icon{
+    opacity: 1;
+}
+
+.top .icon i{
+    font-size: 2rem;
+    margin-right: 5px;
+}
+
+.user{
+    display: flex;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.user p {
+    color: white;
+    opacity: 1;
+    margin-left: 1rem;
+}
+
+.sideMenu p{
+    opacity: 0;
+}
+
+.sideMenu.active p{
+
+    opacity: 1;
+}
+
+.sideMenu ul li{
+    position: relative;
+    list-style-type: none;
+    height: 50%;
+    width: 90%;
+    margin: 0.8rem auto;
+    line-height: 50px;
+}
+
+.sideMenu ul li a{
+    color: white;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    border-radius: 0.8rem;
+}
+
+.sideMenu ul li a:hover {
+    background-color: white;
+    color: black;
+}
+
+.sideMenu ul li a i{
+    min-width: 50px;
+    text-align: center;
+    height: 50px;
+    border-radius: 12px;
+    line-height: 50px;
+}
+
+.sideMenu .bar-item{
+    opacity: 0;
+}
+
+.sideMenu.active .bar-item{
+    opacity: 1;
+}
+
+.sideMenu ul li .tooltip{
+    color: white;
+    background-color: black;
+    position: absolute;
+    left: 125px;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0.05rem 0.08rem black;
+    border-radius: 0.7rem;
+    padding: .4rem 1.2rem;
+    line-height: 1.8rem;
+    z-index: 20;
+    opacity: 0;
+}
+
+.sideMenu ul li:hover .tooltip{
+
+    opacity: 1;
+}
+
+.sideMenu.active ul li .tooltip{
+    display: none;
+}
+
+
+ /* OLD SIDE MENU */
+
+ 
+/* Content Area */
+#content {
+    flex-grow: 1;
+    background-color: #f4f4f4;
+    overflow-y: scroll;
+    padding: 25px;
+}
+
+header {
+    text-align: center;
+    padding: 30px;
+    background-color: #4A4A4A;
+    color: #FFF;
+}
+
+header h1 {
+    font-size: 3rem;
+    font-weight: 300;
+}
+
+/* Image Generated Styles*/
+
+.imageDispay{
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+
+.imageAPI{
+    margin-bottom: 60px;
+    width: 60%;
+    height: 100%;
+    border-radius: 5px;
+    overflow: hidden ;
+    box-shadow: 0 0 10px #212020;
+    left: 50%;
+    transform: translateX(30%);
+}
+
+.imageAPI img{
+            
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.1s;
+ }
+
+.imageAPI :hover{
+    opacity: 0.9;
+
+}
+
+
+/*  Prompt Bar Input Styles*/
+
+#prompt {
+    width: 650px;
+    padding: 5px;
+    margin-right: 10px;
+}
+
+#prompt  {
+    position: absolute;
+    bottom: 0%;
+    left: 30%;
+    border: 1px solid #fff;
+    color: #fff;
+    background-color: #333;
+    padding: 10px;
+    font-size: 16px;
+    margin-right: 10px;
+    border-radius: 5px;
+    z-index: 10;
+}
+
+
+.submitButton {
+    position: absolute;
+    bottom: 0.5%;
+    right: 22.5%;
+    background-color: #444;
+    color: white;
+    border: 1px solid #444;
+    font-size: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 10;
+    height: 2rem;
+    width: 3rem;
+ }
+
+/* Shared Section Styles for About and Terms Content */
+#design-prompt-section, .about-content, .terms-content, .terms-section {
+    text-align: center;
+    padding: 50px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+.updated-terms {
+    justify-content: space-between;
+    display: flex;
+ }
+
+/* Login Page Styles */
+.login-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.login-form h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.input-group label {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #999;
+    pointer-events: none;
+    transition: transform 0.2s ease-in-out, font-size 0.2s ease-in-out;
+}
+
+.input-group input:focus + label,
+.input-group input:valid + label {
+    transform: translateY(-24px);
+    font-size: 14px;
+    color: #007bff;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    letter-spacing: 1px;
+    transition: background-color 0.3s ease;
+}
+
+.login-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    /* Adjust styles for smaller screens as needed */
+}
