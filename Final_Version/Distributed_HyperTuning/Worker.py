@@ -11,8 +11,6 @@ sys.path.append("C:/Users/steph/PycharmProjects/208-Project")
 
 import os.path
 import json
-from multiprocessing import Pool
-from concurrent.futures import ThreadPoolExecutor
 import keras_tuner
 import pika
 from Final_Version.Models import HyperCGAN
@@ -61,19 +59,20 @@ def run_trial(task):
     hp = keras_tuner.HyperParameters()
     for k, v in hyperparameters.items():
         hp.Choice(k, [v])
-    images, labels = Data_Handler.load_dataset()
+    images, labels = Data_Handler.load_test_dataset()
 
     print(f"Starting trial {task_id}")
     tuner = Distributed_Tuner.Distributed_Tuner(
         hypermodel=HyperCGAN.HyperCGAN(),
         directory="hyper_tuning",
-        objective=keras_tuner.Objective("Generator Loss", "min"),
+        objective=keras_tuner.Objective("Discriminator Loss", "min"),
         project_name='MyTuner',
         hyperparameters=hp,
         overwrite=False,
         trial_id=f"{task_id}",
+
     )
-    tuner.search(images, labels, epochs=200)
+    tuner.search(images, labels, epochs=500)
     remove_task(task_id)
 
 
@@ -133,19 +132,6 @@ def run_a_thread():
 
 
 if __name__ == "__main__":
-    trial_id = 14
-    info = {"Generator LR": 0.001, "Discriminator LR": 0.001, "Batch Size": 128, "Latent Dim": 100}
+    trial_id = 75
+    info = {"Generator LR": 0.00005, "Discriminator LR": 0.0001, "Batch Size": 32, "Latent Dim": 100}
     run_trial((trial_id, info))
-#    paused_tasks = load_tasks()
-#    if paused_tasks:
-#        with Pool(processes=MAX_WORKERS) as pool:
-#            pool.map(run_trial, paused_tasks.items())
-#            pool.close()
-#            pool.join()
-#    print("All Paused Tasks Finished")
-#    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
-#        for i in range(MAX_WORKERS):
-#            executor.submit(run_a_thread)
-
-
-#updated model from trial 7 onwards

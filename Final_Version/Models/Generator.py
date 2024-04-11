@@ -78,6 +78,3 @@ def build_generator(latent_dim=100):
 
     model = tf.keras.Model(inputs=[inputs1, inputs2], outputs=outputs, name='generator')
     return model
-
-g = build_generator()
-g.summary()

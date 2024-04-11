@@ -10,6 +10,7 @@ import numpy as np
 
 IMAGE_DIMENSIONS = (128, 128)
 PATH = str(Path(__file__).parent.parent) + "/data_pre_processing/processed_images/train"
+PATH2 = str(Path(__file__).parent.parent) + "/data_pre_processing/test"
 
 
 def load_dataset():
@@ -60,7 +61,7 @@ def load_test_dataset():
     """
 
     dataset = tf.keras.utils.image_dataset_from_directory(
-        directory=PATH,
+        directory=PATH2,
         labels='inferred',
         label_mode='int',
         class_names=None,

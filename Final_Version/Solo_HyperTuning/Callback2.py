@@ -29,7 +29,7 @@ class MyCallback2(callbacks.Callback):
         """
         epoch = self.find_latest_epoch()
         latent_dim = 100
-        num_classes = 9
+        num_classes = 1
         generated_images = []
 
         fig, axs = plt.subplots(3, 3, figsize=(9, 9))

@@ -18,7 +18,7 @@ def build_discriminator() -> Model:
 
     con_label = layers.Input(shape=(1,))
     x = layers.Embedding(3, 50)(con_label)  # Encoding the label as a tensor
-    size = tf.reduce_prod((128,128, 1)).numpy().item()
+    size = tf.reduce_prod((128, 128, 1)).numpy().item()
     x = layers.Dense(size)(x)
     stream2_input = layers.Reshape((128, 128, 1))(x)  # Reshapes tensor to be the same shape as the image
 
@@ -26,24 +26,24 @@ def build_discriminator() -> Model:
     merge = layers.Concatenate()([stream1_input, stream2_input])  # Adds tensor as an extra colour channel in the image
     
     x = layers.Conv2D(64, 4)(merge)
-    x = layers.BatchNormalization()(x)
-    x = layers.ReLU()(x)
+    x = layers.LayerNormalization()(x)
+    x = layers.LeakyReLU()(x)
 
     x = layers.Conv2D(64, 4)(x)
-    x = layers.BatchNormalization()(x)
-    x = layers.ReLU()(x)
+    x = layers.LayerNormalization()(x)
+    x = layers.LeakyReLU()(x)
 
     x = layers.Conv2D(64, 4)(x)
-    x = layers.BatchNormalization()(x)
-    x = layers.ReLU()(x)
+    x = layers.LayerNormalization()(x)
+    x = layers.LeakyReLU()(x)
 
     x = layers.Conv2D(64, 4)(x)
-    x = layers.BatchNormalization()(x)
-    x = layers.ReLU()(x)
+    x = layers.LayerNormalization()(x)
+    x = layers.LeakyReLU()(x)
 
     x = layers.Flatten()(x)
     x = layers.Dropout(0.3)(x)
-    x = layers.Dense(1, activation="sigmoid")(x)
+    x = layers.Dense(1)(x)
 
     model = tf.keras.Model([stream1_input, con_label], x)
 
