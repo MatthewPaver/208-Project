@@ -34,8 +34,8 @@ class HyperCGAN(HyperModel):
         lr1 = hp['Generator LR']
         lr2 = hp['Discriminator LR']
 
-        gen_optim = Adam(learning_rate=lr1, beta_1=0.5, beta_2=0.9)
-        disc_optim = Adam(learning_rate=lr2, beta_1=0.5, beta_2=0.9)
+        gen_optim = Adam(learning_rate=lr1, beta_1=0, beta_2=0.9)
+        disc_optim = Adam(learning_rate=lr2, beta_1=0, beta_2=0.9)
 
         cgan.compile(
             gen_optimiser=gen_optim,

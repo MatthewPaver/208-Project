@@ -12,8 +12,9 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Optimizer
 import tensorflow as tf
 from keras import metrics
+import datetime
 
-logdir = "logs/scalars/6"
+logdir = "logs/scalars/9"
 file_writer = tf.summary.create_file_writer(logdir + "/metrics")
 file_writer.set_as_default()
 
@@ -80,7 +81,7 @@ class CGAN(Model):
                 real_loss = tf.reduce_mean(real_output)
                 fake_loss = tf.reduce_mean(fake_output)
                 gp = self.gp(batch_size, images, generated_images, labels)
-                disc_loss = (fake_loss - real_loss) + (gp * 30)
+                disc_loss = (-(real_loss - fake_loss) + (gp * 20))
                 tf.summary.scalar('fake_loss', data=fake_loss, step=self.batches)
                 tf.summary.scalar('real_loss', data=real_loss, step=self.batches)
                 tf.summary.scalar('gp', data=gp, step=self.batches)
@@ -88,6 +89,8 @@ class CGAN(Model):
                 self.batches += 1
             gradients_of_disc = disc_tape.gradient(disc_loss, self.discriminator.trainable_variables)
             self.d_optimiser.apply_gradients(zip(gradients_of_disc, self.discriminator.trainable_variables))
+            for i, grad in enumerate(gradients_of_disc):
+                tf.summary.histogram(f'gradient_{i}', grad, step=self.batches)
             b_size = tf.cast(batch_size, dtype=tf.float32)
             disc_loss = disc_loss / b_size
             tf.summary.scalar('Disc loss', data=disc_loss, step=self.batches)

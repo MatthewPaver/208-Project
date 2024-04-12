@@ -132,6 +132,6 @@ def run_a_thread():
 
 
 if __name__ == "__main__":
-    trial_id = 75
-    info = {"Generator LR": 0.00005, "Discriminator LR": 0.0001, "Batch Size": 32, "Latent Dim": 100}
+    trial_id = 77
+    info = {"Generator LR": 0.0001, "Discriminator LR": 0.0001, "Batch Size": 32, "Latent Dim": 100}
     run_trial((trial_id, info))
