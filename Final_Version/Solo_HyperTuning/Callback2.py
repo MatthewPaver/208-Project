@@ -1,67 +1,57 @@
 """
 This module contains a custom callback that's used to save the models output for
-all 9 classes of the custom dataset
+all the classes of the custom dataset
 """
 
 from keras import callbacks
-import matplotlib.pyplot as plt
 import tensorflow as tf
 import os
 import numpy as np
+import cv2
 
 
 class MyCallback2(callbacks.Callback):
-    def __init__(self, save_directory):
-        """
-        Instantiates the callback with an additional save_directory attribute
-
-        :param save_directory: The path to save the weights to
-        """
+    def __init__(
+            self,
+            noise_dim: int,
+            output_path: str,
+            examples_to_generate: int = 5,
+            grid_size: tuple = (5, 1),
+            spacing: int = 5,
+            gif_size: tuple = (416, 416),
+            duration: float = 0.1,
+            save_model: bool = True
+    ) -> None:
         super().__init__()
-        self.save_directory = save_directory
+        self.seed = tf.random.normal([examples_to_generate, noise_dim])
+        self.results = []
+        self.results_path = output_path + '/results'
+        self.grid_size = grid_size
+        self.spacing = spacing
+        self.gif_size = gif_size
+        self.duration = duration
+        self.save_model = save_model
 
-    def on_epoch_end(self, epoch, logs=None):
-        """
-        Finds the last saved epoch by calling find_latest_epoch. Using that it saves an image
-        which is a grid of the 9 separate outputs of the model based on the 9 custom classes
-        of the dataset. This is saved in the trials directory with the name
-        epoch_{epoch}_grid.png
-        """
-        epoch = self.find_latest_epoch()
-        latent_dim = 100
-        num_classes = 1
-        generated_images = []
+        os.makedirs(self.results_path, exist_ok=True)
 
-        fig, axs = plt.subplots(3, 3, figsize=(9, 9))
+    def save_plt(self, epoch: int, results: np.ndarray):
+        w, h, c = results[0].shape
+        grid = np.zeros((self.grid_size[0] * w + (self.grid_size[0] - 1) * self.spacing,
+                         self.grid_size[1] * h + (self.grid_size[1] - 1) * self.spacing, c), dtype=np.uint8)
+        for i in range(self.grid_size[0]):
+            for j in range(self.grid_size[1]):
+                grid[i * (w + self.spacing):i * (w + self.spacing) + w,
+                j * (h + self.spacing):j * (h + self.spacing) + h] = results[i * self.grid_size[1] + j]
 
-        for i in range(num_classes):
-            noise = tf.random.normal([1, latent_dim])
-            class_label = tf.expand_dims(tf.constant(i), axis=-1)
-            generated_image = self.model.generator([noise, class_label], training=False)
-            generated_images.append(generated_image)
+        grid = cv2.cvtColor(grid, cv2.COLOR_RGB2BGR)
 
-        for i, generated_image in enumerate(generated_images):
-            generated_image = np.squeeze(generated_image, axis=0)
-            ax = axs[i // 3, i % 3]
-            ax.imshow(generated_image)
-            ax.axis('off')
+        cv2.imwrite(f'{self.results_path}/img_{epoch}.png', grid)
 
-        plt.subplots_adjust(wspace=0, hspace=0)
-        path = os.path.join(self.save_directory, f"epoch_{epoch}_grid.png")
-        plt.savefig(path, bbox_inches='tight', pad_inches=0)
-        plt.close()
+        self.results.append(cv2.resize(grid, self.gif_size, interpolation=cv2.INTER_AREA))
 
-    def find_latest_epoch(self):
-        """
-        Searches the trials directory for the last fully saved epoch
+    def on_epoch_end(self, epoch: int, logs: dict = None):
+        labels = tf.constant([1, 2, 3, 4, 5])
+        predictions = self.model.generator([self.seed, labels], training=False)
+        predictions_uint8 = (predictions * 127.5 + 127.5).numpy().astype(np.uint8)
+        self.save_plt(epoch, predictions_uint8)
 
-        :return: The last saved epoch as an Int
-        """
-        epochs_seen = []
-        if os.path.exists(self.save_directory):
-            for file in os.listdir(self.save_directory):
-                if file.startswith("generator_epoch_"):
-                    epochs_seen.append(int(file.split("_")[2].split(".")[0]))
-            if epochs_seen:
-                return max(epochs_seen)
-        return 0
