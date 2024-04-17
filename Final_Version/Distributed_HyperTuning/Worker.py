@@ -68,7 +68,7 @@ def run_trial(task):
         objective=keras_tuner.Objective("Discriminator Loss", "min"),
         project_name='MyTuner',
         hyperparameters=hp,
-        overwrite=False,
+        overwrite=True,
         trial_id=f"{task_id}",
 
     )
@@ -132,6 +132,6 @@ def run_a_thread():
 
 
 if __name__ == "__main__":
-    trial_id = 76
-    info = {"Generator LR": 0.0001, "Discriminator LR": 0.0001, "Batch Size": 32, "Latent Dim": 100}
+    trial_id = 77
+    info = {"Generator LR": 0.0001, "Discriminator LR": 0.0001, "Batch Size": 32, "Latent Dim": 128}
     run_trial((trial_id, info))

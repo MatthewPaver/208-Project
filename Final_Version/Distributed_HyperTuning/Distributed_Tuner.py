@@ -103,7 +103,7 @@ class Distributed_Tuner(tuners.RandomSearch):
                 self.reloaded = False
         self.save()
         model_checkpoint = MyCallback(save_directory)
-        callback2 = MyCallback2(save_directory)
+        callback2 = MyCallback2(noise_dim=128, output_path=save_directory)
         original_callbacks = kwargs.pop("callbacks", [])
         copied_kwargs = copy.copy(kwargs)
         callbacks = self._deepcopy_callbacks(original_callbacks)

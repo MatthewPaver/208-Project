@@ -8,7 +8,7 @@ import tensorflow as tf
 from pathlib import Path
 import numpy as np
 
-IMAGE_DIMENSIONS = (128, 128)
+IMAGE_DIMENSIONS = (64, 64)
 PATH = str(Path(__file__).parent.parent) + "/data_pre_processing/processed_images/train"
 PATH2 = str(Path(__file__).parent.parent) + "/data_pre_processing/test"
 
@@ -85,6 +85,7 @@ def load_test_dataset():
         labels.append(y)
     images = np.array(images)
     labels = np.array(labels)
+    images = tf.squeeze(images, axis=1)
 
     return images, labels
 

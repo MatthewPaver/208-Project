@@ -9,9 +9,10 @@ called metrics that can be used by other code
 
 import tensorflow as tf
 from keras import metrics
+from tensorflow.keras.models import Model
 
 
-def gp(real_images, fake_images, discriminator, labels):
+def gp_func(real_images, fake_images, discriminator, labels):
     batch_size = tf.shape(real_images)[0]
 
     alpha = tf.random.uniform(shape=[batch_size, 1, 1, 1], minval=0, maxval=1)
@@ -31,7 +32,7 @@ def gp(real_images, fake_images, discriminator, labels):
     return gradient_penalty
 
 
-class CGAN:
+class CGAN(Model):
     def __init__(self, generator, discriminator):
         """
         Instantiates an instance of a CGAN
@@ -46,8 +47,8 @@ class CGAN:
         self.d_optimiser = None
         self.g_optimiser = None
         self.gradient_penalty = metrics.Mean()
-        self.discriminator_loss = metrics.Metric()
-        self.generator_loss = metrics.Metric()
+        self.discriminator_loss = metrics.Mean()
+        self.generator_loss = metrics.Mean()
 
     def compile(self, gen_optimiser, disc_optimiser):
         """
@@ -80,7 +81,7 @@ class CGAN:
                 pred_real = self.discriminator([real_samples, labels], training=True)
                 pred_fake = self.discriminator([fake_samples, labels], training=True)
 
-                gp = gp(real_samples, fake_samples, self.discriminator, labels)
+                gp = gp_func(real_samples, fake_samples, self.discriminator, labels)
                 gps.append(gp)
 
                 real_loss = tf.reduce_mean(pred_real)
