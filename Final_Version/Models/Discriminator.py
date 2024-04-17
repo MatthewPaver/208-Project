@@ -3,48 +3,54 @@ This module handles building of the discriminator model
 """
 
 import tensorflow as tf
-from tensorflow.keras.models import Model
 from tensorflow.keras import layers
 
-IMAGE_DIMENSIONS = (128, 128, 3)  # (H,W,C) - Input Image Dimensions
 
-
-def build_discriminator() -> Model:
+def build_discriminator():
     """
-    Defines the architecture of the discriminator
+    Defines and builds the architecture for the discriminator
 
-    :return: The fully built model
+    :return: The built model
     """
-
+    img_shape = (64, 64, 3)
     con_label = layers.Input(shape=(1,))
-    x = layers.Embedding(3, 50)(con_label)  # Encoding the label as a tensor
-    size = tf.reduce_prod((128, 128, 1)).numpy().item()
-    x = layers.Dense(size)(x)
-    stream2_input = layers.Reshape((128, 128, 1))(x)  # Reshapes tensor to be the same shape as the image
+    # B = batch_size
+    # (B, 1)
 
-    stream1_input = layers.Input(shape=IMAGE_DIMENSIONS)
-    merge = layers.Concatenate()([stream1_input, stream2_input])  # Adds tensor as an extra colour channel in the image
-    
-    x = layers.Conv2D(64, 4)(merge)
-    x = layers.LayerNormalization()(x)
-    x = layers.LeakyReLU()(x)
+    label_embedding = layers.Embedding(5, 10)(con_label)
+    label_embedding = layers.Flatten()(label_embedding)
+    # (B, 10)
 
-    x = layers.Conv2D(64, 4)(x)
-    x = layers.LayerNormalization()(x)
-    x = layers.LeakyReLU()(x)
+    label_embedding = layers.Dense(img_shape[0] * img_shape[1])(label_embedding)
+    label_embedding = layers.Reshape((img_shape[0], img_shape[1], 1))(label_embedding)
+    # (B, 64, 64, 1)
 
-    x = layers.Conv2D(64, 4)(x)
-    x = layers.LayerNormalization()(x)
-    x = layers.LeakyReLU()(x)
+    stream1_input = layers.Input(shape=(64, 64, 3))
+    merge = layers.Concatenate()([stream1_input, label_embedding])
+    # (B, 64, 64, 4)
 
-    x = layers.Conv2D(64, 4)(x)
-    x = layers.LayerNormalization()(x)
+    x = layers.Conv2D(64, (5, 5), strides=(2, 2), padding='same', use_bias=False)(merge)
     x = layers.LeakyReLU()(x)
+    # (B, 32, 32, 64)
+
+    x = layers.Conv2D(128, (5, 5), strides=(2, 2), padding='same', use_bias=False)(x)
+    x = layers.LeakyReLU()(x)
+    # (B, 16, 16, 128)
+
+    x = layers.Conv2D(256, (5, 5), strides=(2, 2), padding='same', use_bias=False)(x)
+    x = layers.LeakyReLU()(x)
+    # (B, 8, 8, 256)
+
+    x = layers.Conv2D(512, (5, 5), strides=(2, 2), padding='same', use_bias=False)(x)
+    x = layers.LeakyReLU()(x)
+    # (B, 4, 4, 512)
 
     x = layers.Flatten()(x)
     x = layers.Dropout(0.3)(x)
-    x = layers.Dense(1)(x)
+    # (B, 8192)
+
+    x = layers.Dense(1, dtype='float32')(x)
+    # (B, 1)
 
     model = tf.keras.Model([stream1_input, con_label], x)
-
     return model
