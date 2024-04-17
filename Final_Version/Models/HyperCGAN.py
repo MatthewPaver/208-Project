@@ -11,6 +11,7 @@ from tensorflow.keras.models import Model
 from keras_tuner import HyperModel
 from Final_Version.Models import CGAN, Discriminator, Generator
 
+
 class HyperCGAN(HyperModel):
     def build(self, hp) -> Model:
         """
