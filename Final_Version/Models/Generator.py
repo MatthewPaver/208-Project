@@ -13,7 +13,7 @@ def normalized_tanh(x):
     :param x: Layer to be passed into normalised tanh
     :return: Result after passing through the layer
     """
-    return (tf.tanh(x) + 1) / 2
+    return tf.tanh(x)
 
 
 def build_generator(latent_dim=100):

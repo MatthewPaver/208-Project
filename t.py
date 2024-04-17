@@ -9,6 +9,7 @@ def words_to_classes(labels):
 
 #Somehow get the label using an api call
 def get_label():
+
     return []
 
 

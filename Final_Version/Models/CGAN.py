@@ -19,6 +19,9 @@ file_writer = tf.summary.create_file_writer(logdir + "/metrics")
 file_writer.set_as_default()
 
 
+def add_instance_noise(x, batch_size):
+    noise = tf.random.normal(batch_size, mean=0.5, stddev=0.05)
+    return x + noise
 
 class CGAN(Model):
     def __init__(self, generator: Model, discriminator: Model) -> None:
@@ -111,6 +114,8 @@ class CGAN(Model):
         return {"Generator Loss": self.g_loss.result(),
                 "Discriminator Loss": self.d_loss.result()
                 }
+
+
 
     @property
     def metrics(self):

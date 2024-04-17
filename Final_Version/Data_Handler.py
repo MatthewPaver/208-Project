@@ -41,7 +41,7 @@ def load_dataset():
     labels = []
 
     for x, y in dataset:
-        x = x / 255.0
+        x = (x - 127.5) / 127.5
         images.append(x)
         labels.append(y)
     images = np.array(images)
@@ -80,7 +80,7 @@ def load_test_dataset():
     labels = []
 
     for x, y in dataset:
-        x = x / 255.0
+        x = (x - 127.5) / 127.5
         images.append(x)
         labels.append(y)
     images = np.array(images)
@@ -100,7 +100,7 @@ def load_dataset_rock_paper_scissors():
     labels = []
     for x, y in ds:
         x = tf.image.resize(x, IMAGE_DIMENSIONS)
-        x = x / 255
+        x = (x - 127.5) / 127.5
         images.append(x)
         labels.append(y)
 
