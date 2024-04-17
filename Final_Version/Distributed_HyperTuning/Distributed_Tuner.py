@@ -7,7 +7,6 @@ from keras_tuner import tuners
 from keras_tuner.src.engine import tuner_utils
 import copy
 from Final_Version.Solo_HyperTuning.Callback import MyCallback
-from Final_Version.Solo_HyperTuning.Callback2 import MyCallback2
 import os
 import pickle
 from tensorflow.keras.optimizers import Adam
@@ -103,14 +102,14 @@ class Distributed_Tuner(tuners.RandomSearch):
                 self.reloaded = False
         self.save()
         model_checkpoint = MyCallback(save_directory)
-        callback2 = MyCallback2(noise_dim=128, output_path=save_directory)
+        #callback2 = MyCallback2(noise_dim=128, output_path=save_directory)
         original_callbacks = kwargs.pop("callbacks", [])
         copied_kwargs = copy.copy(kwargs)
         callbacks = self._deepcopy_callbacks(original_callbacks)
         self._configure_tensorboard_dir(callbacks, trial, 0)
         callbacks.append(tuner_utils.TunerCallback(self, trial))
         callbacks.append(model_checkpoint)
-        callbacks.append(callback2)
+        #callbacks.append(callback2)
         copied_kwargs["callbacks"] = callbacks
         results = self.hypermodel.fit(hp, model, *args, **copied_kwargs)
         return results

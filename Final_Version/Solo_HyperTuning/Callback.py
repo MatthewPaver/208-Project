@@ -5,38 +5,33 @@ This module contains a custom callback that's used to save model weights each ep
 from keras import callbacks
 import os
 import pickle
+import cv2
+import tensorflow as tf
+import numpy as np
 
 
 class MyCallback(callbacks.Callback):
     def __init__(self, save_directory):
-        """
-        Instantiates the callback with an additional save_directory attribute
-
-        :param save_directory: The path to save the weights to
-        """
         super().__init__()
         self.save_directory = save_directory
+        self.image_directory = save_directory + "/Images"
+        os.makedirs(self.save_directory, exist_ok=True)
+        os.makedirs(self.image_directory, exist_ok=True)
+        self.seed = tf.random.normal([5, 128])
+        self.grid_size = (5, 1)
+        self.spacing = 5
 
-    def on_epoch_end(self, epoch, logs=None):
-        """
-        Saves the current states of all parts of CGAN
+    def on_epoch_end(self, _, logs=None):
+        curr_epoch = self.find_latest_epoch
+        self.save_the_weights(curr_epoch)
+        self.save_the_images(curr_epoch)
 
-        This method saves the model weights of the generator and discriminator in the .h5
-        format and the current state of the two optimisers as pickle dump files (.pkl)
-        all files follow patter {part_name}_{epoch}.{file extension}
-
-        :param epoch: Int value of the current epoch
-        :param logs: Not used, added only to match superclass method signature
-        """
-        epoch = self.find_latest_epoch()
-        epoch = epoch + 1
+    def save_the_weights(self, epoch):
         print(f"save dir: {self.save_directory} + {epoch}")
         generator_filename = os.path.join(self.save_directory, f"generator_epoch_{epoch}.weights.h5")
         discriminator_filename = os.path.join(self.save_directory, f"discriminator_epoch_{epoch}.weights.h5")
         generator_optimiser_filename = os.path.join(self.save_directory, f"generator_optimiser_epoch_{epoch}.pkl")
         discriminator_optimiser_filename = os.path.join(self.save_directory, f"discriminator_optimiser_epoch_{epoch}.pkl")
-
-        os.makedirs(self.save_directory, exist_ok=True)
 
         self.model.generator.save_weights(generator_filename)
         self.model.discriminator.save_weights(discriminator_filename)
@@ -49,6 +44,23 @@ class MyCallback(callbacks.Callback):
 
         print(f"\n Models and optimizers saved for epoch {epoch}.")
 
+    def save_the_images(self, epoch):
+        labels = tf.constant([1, 2, 3, 4, 5])
+        generated_images = self.model.generator([self.seed, labels], training=False)
+        images_as_RGB = (generated_images * 127.5 + 127.5).numpy().astype(np.uint8)
+        w, h, c = images_as_RGB[0].shape
+        grid = np.zeros((self.grid_size[0] * w + (self.grid_size[0] - 1) * self.spacing,
+                         self.grid_size[1] * h + (self.grid_size[1] - 1) * self.spacing, c), dtype=np.uint8)
+        for i in range(self.grid_size[0]):
+            for j in range(self.grid_size[1]):
+                grid[i * (w + self.spacing):i * (w + self.spacing) + w,
+                j * (h + self.spacing):j * (h + self.spacing) + h] = images_as_RGB[i * self.grid_size[1] + j]
+
+        grid = cv2.cvtColor(grid, cv2.COLOR_RGB2BGR)
+
+        cv2.imwrite(f'{self.image_directory}/img_{epoch}.png', grid)
+
+    @property
     def find_latest_epoch(self):
         epochs_seen = []
         if os.path.exists(self.save_directory):
@@ -56,5 +68,5 @@ class MyCallback(callbacks.Callback):
                 if file.startswith("generator_epoch_"):
                     epochs_seen.append(int(file.split("_")[2].split(".")[0]))
             if epochs_seen:
-                return max(epochs_seen)
-        return 0
+                return max(epochs_seen) + 1
+        return 1
