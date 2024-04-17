@@ -16,6 +16,8 @@ import pika
 from Final_Version.Models import HyperCGAN
 from Final_Version import Data_Handler
 import Distributed_Tuner
+from multiprocessing import Pool
+from concurrent.futures import ThreadPoolExecutor
 
 FILE_PATH = "./tasks.json"
 MAX_WORKERS = 1
@@ -68,7 +70,7 @@ def run_trial(task):
         objective=keras_tuner.Objective("Discriminator Loss", "min"),
         project_name='MyTuner',
         hyperparameters=hp,
-        overwrite=True,
+        overwrite=False,
         trial_id=f"{task_id}",
 
     )
@@ -133,5 +135,16 @@ def run_a_thread():
 
 if __name__ == "__main__":
     trial_id = 77
-    info = {"Generator LR": 0.0001, "Discriminator LR": 0.0001, "Batch Size": 32, "Latent Dim": 128}
+    info = {"Generator LR": 0.0001, "Discriminator LR": 0.0001, "Batch Size": 128, "Latent Dim": 128}
     run_trial((trial_id, info))
+    paused_tasks = load_tasks()
+#    if paused_tasks:
+#        with Pool(processes=MAX_WORKERS) as pool:
+#            pool.map(run_trial, paused_tasks.items())
+#            pool.close()
+#            pool.join()
+#    print("All Paused Tasks Finished")
+#    run_a_thread()
+#    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+#        for i in range(MAX_WORKERS):
+#            executor.submit(run_a_thread)

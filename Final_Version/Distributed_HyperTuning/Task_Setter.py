@@ -49,4 +49,5 @@ def create_new_tasks():
     with open(FILE_PATH, "w") as file:
         json.dump(old_tasks, file)
 
+
 create_new_tasks()
