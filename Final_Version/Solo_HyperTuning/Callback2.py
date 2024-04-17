@@ -18,19 +18,12 @@ class MyCallback2(callbacks.Callback):
             examples_to_generate: int = 5,
             grid_size: tuple = (5, 1),
             spacing: int = 5,
-            gif_size: tuple = (416, 416),
-            duration: float = 0.1,
-            save_model: bool = True
     ) -> None:
         super().__init__()
         self.seed = tf.random.normal([examples_to_generate, noise_dim])
-        self.results = []
         self.results_path = output_path + '/results'
         self.grid_size = grid_size
         self.spacing = spacing
-        self.gif_size = gif_size
-        self.duration = duration
-        self.save_model = save_model
 
         os.makedirs(self.results_path, exist_ok=True)
 
@@ -46,8 +39,6 @@ class MyCallback2(callbacks.Callback):
         grid = cv2.cvtColor(grid, cv2.COLOR_RGB2BGR)
 
         cv2.imwrite(f'{self.results_path}/img_{epoch}.png', grid)
-
-        self.results.append(cv2.resize(grid, self.gif_size, interpolation=cv2.INTER_AREA))
 
     def on_epoch_end(self, epoch: int, logs: dict = None):
         labels = tf.constant([1, 2, 3, 4, 5])

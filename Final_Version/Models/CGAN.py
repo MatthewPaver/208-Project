@@ -31,7 +31,7 @@ def gp(real_images, fake_images, discriminator, labels):
     return gradient_penalty
 
 
-class CGAN():
+class CGAN:
     def __init__(self, generator, discriminator):
         """
         Instantiates an instance of a CGAN

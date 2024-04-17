@@ -41,7 +41,7 @@ def load_dataset():
     labels = []
 
     for x, y in dataset:
-        x = (x - 127.5) / 127.5
+        x = (x / 127.5) - 1.0
         images.append(x)
         labels.append(y)
     images = np.array(images)
@@ -80,7 +80,7 @@ def load_test_dataset():
     labels = []
 
     for x, y in dataset:
-        x = (x - 127.5) / 127.5
+        x = (x / 127.5) - 1.0,
         images.append(x)
         labels.append(y)
     images = np.array(images)
