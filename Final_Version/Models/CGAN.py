@@ -50,18 +50,18 @@ class CGAN(Model):
         :param data: The batch of images and labels
         :return: The result of the training
         """
-        real_samples, labels = data
-        batch_size = tf.shape(real_samples)[0]
+        real_images, labels = data
+        batch_size = tf.shape(real_images)[0]
         noise = tf.random.normal([batch_size, 128])
         gps = []
 
         for _ in range(5):
             with tf.GradientTape() as tape:
-                fake_samples = self.generator([noise, labels], training=True)
-                pred_real = self.discriminator([real_samples, labels], training=True)
-                pred_fake = self.discriminator([fake_samples, labels], training=True)
+                fake_images = self.generator([noise, labels], training=True)
+                pred_real = self.discriminator([real_images, labels], training=True)
+                pred_fake = self.discriminator([fake_images, labels], training=True)
 
-                gp = self.gp_func(real_samples, fake_samples, labels)
+                gp = self.gp_func(real_images, fake_images, labels)
                 gps.append(gp)
 
                 real_loss = tf.reduce_mean(pred_real)
@@ -73,8 +73,8 @@ class CGAN(Model):
             self.d_optimiser.apply_gradients(zip(grads, self.discriminator.trainable_variables))
 
         with tf.GradientTape() as tape:
-            fake_samples = self.generator([noise, labels], training=True)
-            pred_fake = self.discriminator([fake_samples, labels], training=True)
+            fake_images = self.generator([noise, labels], training=True)
+            pred_fake = self.discriminator([fake_images, labels], training=True)
             gen_loss = -tf.reduce_mean(pred_fake)
 
         grads = tape.gradient(gen_loss, self.generator.trainable_variables)
