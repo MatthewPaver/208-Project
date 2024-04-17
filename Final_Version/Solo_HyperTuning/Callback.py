@@ -22,11 +22,24 @@ class MyCallback(callbacks.Callback):
         self.spacing = 5
 
     def on_epoch_end(self, _, logs=None):
+        """
+        Called at the end of each epoch. Calls other methods of this class
+
+        :param _: Current epoch, placeholder used as it's not necessarily correct
+        :param logs: A list of the results of the batches in the epoch
+        """
+
         curr_epoch = self.find_latest_epoch
         self.save_the_weights(curr_epoch)
         self.save_the_images(curr_epoch)
 
     def save_the_weights(self, epoch):
+        """
+        Saves the weights in a way that allows pausing and resuming of training
+
+        :param epoch: The current epoch to save weights for
+        """
+
         print(f"save dir: {self.save_directory} + {epoch}")
         generator_filename = os.path.join(self.save_directory, f"generator_epoch_{epoch}.weights.h5")
         discriminator_filename = os.path.join(self.save_directory, f"discriminator_epoch_{epoch}.weights.h5")
@@ -45,6 +58,12 @@ class MyCallback(callbacks.Callback):
         print(f"\n Models and optimizers saved for epoch {epoch}.")
 
     def save_the_images(self, epoch):
+        """
+        Saves an image for each class in one grid and saves the resulting image with the
+        epoch number
+
+        :param epoch: The current epoch
+        """
         labels = tf.constant([1, 2, 3, 4, 5])
         generated_images = self.model.generator([self.seed, labels], training=False)
         images_as_RGB = (generated_images * 127.5 + 127.5).numpy().astype(np.uint8)
@@ -62,6 +81,11 @@ class MyCallback(callbacks.Callback):
 
     @property
     def find_latest_epoch(self):
+        """
+        Searches for the latest epoch saved
+
+        :return: The current epoch to be saved
+        """
         epochs_seen = []
         if os.path.exists(self.save_directory):
             for file in os.listdir(self.save_directory):

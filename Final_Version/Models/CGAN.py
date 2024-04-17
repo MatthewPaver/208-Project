@@ -12,26 +12,6 @@ from keras import metrics
 from tensorflow.keras.models import Model
 
 
-def gp_func(real_images, fake_images, discriminator, labels):
-    batch_size = tf.shape(real_images)[0]
-
-    alpha = tf.random.uniform(shape=[batch_size, 1, 1, 1], minval=0, maxval=1)
-
-    interpolated_images = alpha * real_images + ((1 - alpha) * fake_images)
-
-    with tf.GradientTape() as tape:
-        tape.watch(interpolated_images)
-        logits = discriminator([interpolated_images, labels], training=True)
-
-    gradients = tape.gradient(logits, interpolated_images)
-
-    gradients_norm = tf.sqrt(tf.reduce_sum(tf.square(gradients), axis=[1, 2, 3]))
-
-    gradient_penalty = tf.reduce_mean((gradients_norm - 1.0) ** 2)
-
-    return gradient_penalty
-
-
 class CGAN(Model):
     def __init__(self, generator, discriminator):
         """
@@ -81,7 +61,7 @@ class CGAN(Model):
                 pred_real = self.discriminator([real_samples, labels], training=True)
                 pred_fake = self.discriminator([fake_samples, labels], training=True)
 
-                gp = gp_func(real_samples, fake_samples, self.discriminator, labels)
+                gp = self.gp_func(real_samples, fake_samples, labels)
                 gps.append(gp)
 
                 real_loss = tf.reduce_mean(pred_real)
@@ -110,6 +90,38 @@ class CGAN(Model):
                 "generator_loss": self.generator_loss.result(),
                 "gradient_penalty": self.gradient_penalty.result()}
 
+    def gp_func(self, real_images, fake_images, labels):
+        """
+        Calculates the gradient penalty according to the WGAN-GP paper
+
+        :param real_images: The batch of real images
+        :param fake_images: The corresponding batch of generated images
+        :param labels: The labels for the images
+        :return: The calculated gradient penalty
+        """
+        batch_size = tf.shape(real_images)[0]
+
+        alpha = tf.random.uniform(shape=[batch_size, 1, 1, 1], minval=0, maxval=1)
+
+        interpolated_images = alpha * real_images + ((1 - alpha) * fake_images)
+
+        with tf.GradientTape() as tape:
+            tape.watch(interpolated_images)
+            logits = self.discriminator([interpolated_images, labels], training=True)
+
+        gradients = tape.gradient(logits, interpolated_images)
+
+        gradients_norm = tf.sqrt(tf.reduce_sum(tf.square(gradients), axis=[1, 2, 3]))
+
+        gradient_penalty = tf.reduce_mean((gradients_norm - 1.0) ** 2)
+
+        return gradient_penalty
+
     @property
     def metrics(self):
+        """
+        Dynamic property needed to reset metrics each epoch
+
+        :return: An array of all the loss items
+        """
         return [self.discriminator_loss, self.generator_loss, self.gradient_penalty]
