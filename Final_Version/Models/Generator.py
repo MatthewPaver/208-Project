@@ -6,75 +6,53 @@ from tensorflow.keras import layers
 import tensorflow as tf
 
 
-def normalized_tanh(x):
+def build_generator(noise_dim = 128):
     """
-    Defines Tanh function normalised for positive values only
+    Defines the model architecture. Strides and kernel size adapted to
+    reduce artifacts
 
-    :param x: Layer to be passed into normalised tanh
-    :return: Result after passing through the layer
+    :param noise_dim: The size of the latent vector to be passed to the model
+    :return: The built model
     """
-    return tf.tanh(x)
+    inputs1 = layers.Input(shape=(noise_dim,))
+    # B = batch_size
+    # (B, noise_dim)
 
+    label_input = layers.Input(shape=(1,))
+    # (B, 1)
 
-def build_generator(latent_dim=100):
-    """
-    Defines the architecture for the generator
+    label_embedding = layers.Embedding(5, 10)(label_input)
+    label_embedding = layers.Flatten()(label_embedding)
+    # (B, 10)
 
-    :param latent_dim: The size of the latent vector that will be inputted
-    :return: The fully constructed model
-    """
-    # Activation function will be Tanh and ELU (Can change to Leaky ReLU/ReLU if needed)
-    # Strides are doubling the input size, Batch normalization to ensure smooth training
-    # Tanh is typically better and outputs to [-1, 1] but using a normalized tanh function
-    # it outputs [0,1] instead
+    concatenated_input = layers.Concatenate()([inputs1, label_embedding])
+    x = layers.Dense(512 * 4 * 4, use_bias=False)(concatenated_input)
+    x = layers.Reshape((4, 4, 512))(x)
+    # (B, 4, 4, 512)
 
-    inputs1 = layers.Input(shape=(latent_dim,))
-    x = layers.Dense(512*4*4)(inputs1)
+    x = layers.Conv2DTranspose(64 * 8, kernel_size=5, strides=2, padding='same')(x)
     x = layers.BatchNormalization()(x)
-    x = layers.LeakyReLU()(x)
+    x = layers.LeakyReLU(0.2)(x)
+    # (B, 8, 8, 512)
 
-    # Up samples latent vector (B, 4, 4, 512) B = batch_size
-    input_stream1 = layers.Reshape((4, 4, 512))(x)
-
-    inputs2 = layers.Input(shape=(1,))
-    x = layers.Embedding(3, 50)(inputs2)  # Encoding the label as a tensor
-    x = layers.Dense((4*4))(x)
-    input_stream2 = layers.Reshape((4, 4, 1))(x)  # Reshapes tensor to be the same shape as the image
-    x = layers.Concatenate()([input_stream1, input_stream2])  # Adds tensor as an extra colour channel in the image
-    # (B, 4, 4, 513)
-    
-    x = layers.Conv2DTranspose(64*32, kernel_size=4, strides=1, padding='same')(x)
+    x = layers.Conv2DTranspose(64 * 4, kernel_size=5, strides=2, padding='same')(x)
     x = layers.BatchNormalization()(x)
-    x = layers.LeakyReLU()(x)
-    # (B, 4, 4, 2048)
-    
-    x = layers.Conv2DTranspose(64*16, kernel_size=4, strides=2, padding='same')(x)
+    x = layers.LeakyReLU(0.2)(x)
+    # (B, 16, 16, 256)
+
+    x = layers.Conv2DTranspose(64 * 2, kernel_size=5, strides=2, padding='same')(x)
     x = layers.BatchNormalization()(x)
-    x = layers.LeakyReLU()(x)
-    # (B, 8, 8, 1024)
+    x = layers.LeakyReLU(0.2)(x)
+    # (B, 32, 32, 128)
 
-    x = layers.Conv2DTranspose(64*8, kernel_size=4, strides=2, padding='same')(x)
+    x = layers.Conv2DTranspose(64 * 1, kernel_size=5, strides=2, padding='same')(x)
     x = layers.BatchNormalization()(x)
-    x = layers.LeakyReLU()(x)
-    # (B, 16, 16, 512)
+    x = layers.LeakyReLU(0.2)(x)
+    x = layers.Dropout(0.3)(x)
+    # (B, 64, 64, 64)
 
-    x = layers.Conv2DTranspose(64*4, kernel_size=4, strides=2, padding='same')(x)
-    x = layers.BatchNormalization()(x)
-    x = layers.LeakyReLU()(x)
-    # (B, 32, 32, 256)
+    outputs = layers.Conv2D(3, kernel_size=5, padding='same', activation="tanh", dtype='float32')(x)
+    # (B, 64, 64, 3)
 
-    x = layers.Conv2DTranspose(64*2, kernel_size=4, strides=2, padding='same')(x)
-    x = layers.BatchNormalization()(x)
-    x = layers.LeakyReLU()(x)
-    # (B, 64, 64, 128)
-
-    x = layers.Conv2DTranspose(64*1, kernel_size=4, strides=2, padding='same')(x)
-    x = layers.BatchNormalization()(x)
-    x = layers.LeakyReLU()(x)
-    # (B, 128, 128, 64)
-
-    outputs = layers.Conv2D(3, kernel_size=4, padding='same', activation=normalized_tanh)(x)
-    # (B, 128, 128, 3)
-
-    model = tf.keras.Model(inputs=[inputs1, inputs2], outputs=outputs, name='generator')
+    model = tf.keras.Model(inputs=[inputs1, label_input], outputs=outputs, name='generator')
     return model
