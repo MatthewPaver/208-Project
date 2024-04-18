@@ -35,13 +35,11 @@ def build_generator(noise_dim):
     return model
 
 
-number_of_images_to_generate = 1
-class_number = 2
-
+class_number = 4
 
 gen = build_generator(128)  # This loads a blank neural network with our architecture
-gen.load_weights("./Models/17/model/generator.h5")  # This loads the weights from training
-noise = tf.random.normal([number_of_images_to_generate, 128])
+gen.load_weights("./generator.h5")  # This loads the weights from training
+noise = tf.random.normal([1, 128])
 label = tf.constant([class_number])
 image = gen([noise, label])
 img = image.numpy()
