@@ -10,7 +10,7 @@ import numpy as np
 
 IMAGE_DIMENSIONS = (64, 64)
 PATH = str(Path(__file__).parent.parent) + "/data_pre_processing/processed_images/train"
-PATH2 = str(Path(__file__).parent.parent) + "/data_pre_processing/test"
+PATH2 = str(Path(__file__).parent.parent) + "/data_pre_processing/unedited"
 
 
 def load_dataset():
