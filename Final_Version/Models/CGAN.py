@@ -57,6 +57,7 @@ class CGAN(Model):
 
         for _ in range(5):
             with tf.GradientTape() as tape:
+
                 fake_images = self.generator([noise, labels], training=True)
                 pred_real = self.discriminator([real_images, labels], training=True)
                 pred_fake = self.discriminator([fake_images, labels], training=True)
