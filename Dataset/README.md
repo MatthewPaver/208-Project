@@ -16,8 +16,6 @@ Houses images sourced from the `generate_images` script, which are not further p
 
 ## generated_images/code
 
-# Dataset Contents
-
 This folder contains scripts and configuration files for automating the image generation process. The main components include:
 
 - **Environment Setup**: Instructions to configure the terminal environment to integrate Go binaries.
