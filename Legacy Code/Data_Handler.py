@@ -18,7 +18,7 @@ def load_dataset():
     changes the relative path will need to be adjusted
     """
     dataset = tf.keras.utils.image_dataset_from_directory(
-        directory="data_pre_processing/processed_images/train",
+        directory="data_pre_processing/Completed Dataset/train",
         labels='inferred',
         label_mode='int',
         class_names=None,
@@ -42,7 +42,7 @@ def load_test_dataset():
     evaluate the models performance
     """
     dataset = tf.keras.utils.image_dataset_from_directory(
-        directory="data_pre_processing/processed_images/test",
+        directory="data_pre_processing/Completed Dataset/test",
         labels='inferred',
         label_mode='int',
         class_names=None,
