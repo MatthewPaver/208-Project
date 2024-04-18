@@ -24,5 +24,3 @@ This folder contains scripts and configuration files for automating the image ge
 
 The `Generate Images.py` script assists in generating images by collecting user inputs (like album name and image prompts) and managing configurations through a YAML file located at `INSERT FILE PATH/bulkai.yaml`. It provides options for customization such as image download, upscale, and variation features.
 
-For more comprehensive details and updates, the BulkAI GitHub page can be referenced.
-
