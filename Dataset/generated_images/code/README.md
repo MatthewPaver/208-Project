@@ -1,6 +1,6 @@
 # README
 
-This README provides a comprehensive guide on how to run the `bulkai` generate command in Terminal using your YAML configuration file.
+This README provides a comprehensive guide on how to run the `bulkai generate` command in Terminal using your YAML configuration file and gives an overview of the `Generate Images.py` script used to automate the image generation process.
 
 ## Getting Started
 
@@ -46,4 +46,31 @@ This README provides a comprehensive guide on how to run the `bulkai` generate c
 
     You can stop the generation process anytime using `Ctrl+C` and resume later by rerunning the same command.
 
-For more detailed information and the latest updates, please visit the [BulkAI GitHub page](https://github.com/bulkai).
+   For more detailed information and the latest updates, please visit the [BulkAI GitHub page](https://github.com/bulkai).
+   
+
+## Generate Images.py
+
+The `Generate Images.py` script automates the process of generating images. Below is a detailed breakdown of its functionality:
+
+### Input Collection
+- **Album Name**: Users are prompted to enter a name for the image album.
+- **Image Prompt**: Users provide a base prompt which is used to define the theme or concept for the images.
+- **Number of Images**: Users specify how many images they want to generate.
+
+### Prompt Construction
+- The script constructs a list of unique prompts for each image by appending an index to the base prompt.
+
+### Configuration and Output
+- **Configuration**: All user inputs and settings are compiled into a configuration dictionary.
+- **YAML Configuration**: The configuration is saved to a YAML file, allowing for repeated use or modification.
+- **Bot Compatibility**: The script is tailored to interact with the `midjourney` bot.
+- **Options**:
+  - **Download**: Enables downloading of generated images.
+  - **Upscale**: Allows for the enhancement of image resolution.
+  - **Variation**: Offers variation in image generation.
+  - **Thumbnail**: Option to generate thumbnails is available but disabled by default.
+  - **Suffix**: Custom suffixes can be added to commands as needed.
+  - **Wait Time**: Configurable wait time between issuing prompts to manage API calls or bot interactions.
+
+The YAML configuration file location is set by default to `~/Desktop/Generated Images/Code/bulkai.yaml`, and users are notified of the file path upon successful creation.

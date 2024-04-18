@@ -77,8 +77,8 @@ def process_folders(root_dir, processed_images_directory):
             images = process_images(folder_path)
             split_and_save_images(images, processed_images_directory, folder_path)
 
-root_dir = r'C:\\Users\\MattPaver\\Desktop\\208 - Group Project\\208-Project\\data_pre_processing\\generated_images\\unlabelled_data'
-processed_images_directory = r'C:\\Users\\MattPaver\\Desktop\\208 - Group Project\\208-Project\\data_pre_processing\\Completed Dataset'
+root_dir = r'C:\\Users\\MattPaver\\INSERT DIRECTORY HERE'
+processed_images_directory = r'C:\\Users\\INSERT DIRECTORY HERE'
 
 # Call the function to start processing
 process_folders(root_dir, processed_images_directory)

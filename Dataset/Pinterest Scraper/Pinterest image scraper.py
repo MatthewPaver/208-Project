@@ -44,7 +44,7 @@ def get_deepest_folders(base_directory):
     return deepest_folders
 
 # Base directory where the folders are located
-base_directory = "/Users/mattpaver/Desktop/Images"
+base_directory = "INSERT DIRECTORY HERE"
 
 # Get the deepest folders
 deepest_folders = get_deepest_folders(base_directory)

@@ -23,7 +23,7 @@ config = {
 }
 
 # Define the YAML file path
-yaml_file_path = os.path.expanduser("~/Desktop/Generated Images/Code/bulkai.yaml")
+yaml_file_path = os.path.expanduser("~/INSERT FILE PATH HERE/bulkai.yaml")
 
 # Save the configuration to a YAML file
 with open(yaml_file_path, "w") as file:
