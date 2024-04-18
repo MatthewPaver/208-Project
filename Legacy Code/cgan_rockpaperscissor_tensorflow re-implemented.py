@@ -55,7 +55,7 @@ def build_generator():
     x = layers.BatchNormalization()(x)
     x = layers.ELU()(x)
     input_stream1 = layers.Reshape((4,4,512))(x)
-    #pre_processing for second input stream
+    #Pre Processing for second input stream
     inputs2 = layers.Input(shape=(1,))
     x = layers.Embedding(3,50)(inputs2)
     x = layers.Dense((4*4)) (x)
