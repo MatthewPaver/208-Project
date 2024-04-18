@@ -35,19 +35,9 @@ it's finished.
 
 Worker.py is also designed to save the progress of the training each epoch. The files for this can be found in
 Final_version>Distributed_HyperTuning>hyper_tuning>MyTuner>trial_{trialID} where the trialID is the ID used to identify
-that trial. This means that the python script can be terminated at any time with a maximum time loss of about 20 minutes
+that trial. This means that the python script can be terminated at any time with a maximum time loss of a single epoch
 
 Also saved in that directory is an image file for each epoch containing a grid of 9 seperate images.
 These correlate with the 9 different classes the CGAN can generate and can be used to see how well your model is learning
 
 tasks.json is also created in the Distributed_HyperTuning directory which helps with reloading the trial after a termination
-
-It is important all these files are not deleted. None of these new files or folders should be uploaded to GitHub until I tell you which 
-ones to upload. 
-
-In conclusion, Run Worker.py for as long as you can if you need to pause it you can just terminate the program. It's not 
-worth running it for <15 mins but anything more should make progress. I 100% understand these will be our main PCs running this
-so im not expecting this to run 24/7 but whenever you can (like at night or if your heading out) if you could stick it on to train
-it would be appreciated
-
-# **DO NOT RUN Task_Setter.py**
