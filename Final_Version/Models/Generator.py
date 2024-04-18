@@ -6,7 +6,7 @@ from tensorflow.keras import layers
 import tensorflow as tf
 
 
-def build_generator(noise_dim = 128):
+def build_generator(noise_dim):
     """
     Defines the model architecture. Strides and kernel size adapted to
     reduce artifacts
@@ -51,7 +51,7 @@ def build_generator(noise_dim = 128):
     x = layers.Dropout(0.3)(x)
     # (B, 64, 64, 64)
 
-    outputs = layers.Conv2D(3, kernel_size=5, padding='same', activation="tanh", dtype='float32')(x)
+    outputs = layers.Conv2D(3, kernel_size=5, padding='same', activation="tanh")(x)
     # (B, 64, 64, 3)
 
     model = tf.keras.Model(inputs=[inputs1, label_input], outputs=outputs, name='generator')
