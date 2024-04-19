@@ -13,8 +13,9 @@ import os.path
 import json
 import keras_tuner
 import pika
-from Final_Version.Models import HyperCGAN
-from Final_Version import Data_Handler
+
+from Neural_Network_Code.Models import HyperCGAN
+from Neural_Network_Code import Data_Handler
 import Distributed_Tuner
 from multiprocessing import Pool
 from concurrent.futures import ThreadPoolExecutor

@@ -9,8 +9,8 @@ from pathlib import Path
 import numpy as np
 
 IMAGE_DIMENSIONS = (64, 64)
-PATH = str(Path(__file__).parent.parent) + "/data_pre_processing/Completed Dataset/train"
-PATH2 = str(Path(__file__).parent.parent) + "/data_pre_processing/unedited"
+PATH = str(Path(__file__).parent.parent) + "/Dataset/Completed Dataset/train"
+PATH2 = str(Path(__file__).parent.parent) + "/Dataset/Unaugmented Dataset"
 
 
 def load_dataset():

@@ -9,7 +9,7 @@ the training process before each epoch
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.models import Model
 from keras_tuner import HyperModel
-from Final_Version.Models import CGAN, Discriminator, Generator
+from Neural_Network_Code.Models import CGAN, Discriminator, Generator
 
 
 class HyperCGAN(HyperModel):
