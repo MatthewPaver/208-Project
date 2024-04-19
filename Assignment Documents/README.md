@@ -1,7 +1,6 @@
-# Project Documentation Links
+# Project Documentation
 
-This README provides an overview of all essential documentation links associated with the project. Each link directs to a Google Docs or Google Drive resource detailing different aspects of the project.
-
+This provides an overview of all essential documentation links associated with the project.
 ## Documentation Overview
 
 ### 10 Page Report
@@ -9,7 +8,7 @@ This README provides an overview of all essential documentation links associated
 
 ### BCS Code of Conduct
 - **Description**: Outlines the professional standards and ethical considerations adhered to during the project.
-- 
+
 ### Test Documentation
 - **Description**: Documentation detailing the testing strategies, test cases, and results for the system validation.
 
