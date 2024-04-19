@@ -1,4 +1,4 @@
-# Project Documentation Links
+# Project Documentation
 
 This provides an overview of all essential documentation links associated with the project.
 ## Documentation Overview
