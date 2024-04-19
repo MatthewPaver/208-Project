@@ -13,3 +13,7 @@
 
 # Public v2
 ###The Final stages of website Development 
+
+# Flask_AI 
+
+Is the original REST API made with Express translated to a Flask app so that the AI model could run on the hosting provider's environment.
