@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - Architexa</title>
+    <link rel="icon" type= "image/png" href="Architexa Logo .png"> 
+    <link rel="stylesheet" href="../css/styles.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div id="wrapper">
+        <!-- Navigation Menu -->
+         <!-- Navigation Menu -->
+         <div class="sideMenu">
+
+            <!-- Top of the Navigation Bar -->
+            <div class="top"> 
+                <div class="icon">
+                    <img src="Architexa Logo .png">
+                  <span> &nbsp; &nbsp;&nbsp;ARCHITEXA</span>
+                </div>
+            </div>
+              <i class="bx bx-menu" id="btn"></i>
+              <div class="user">
+                  <img src="User Image.jpeg" alt="Me" class="user-img">
+                  <div> 
+                      <p class="bold">Admin</p>
+                      
+                  </div>
+              </div>
+
+            <!-- Pages -->
+            <ul>
+                <li>
+                    <a href="../pages/home.html" class="active">
+                        <i class='bx bxs-home-alt-2'></i>
+                        <span class="bar-item">Home</span>
+                    </a>
+                    <span class="tooltip">Home</span>    
+                </li>
+
+                <li>
+                    <a href="../pages/about.html">
+                        <i class='bx bxs-detail'></i>
+                        <span class="bar-item">About Us</span>
+                     </a>
+                     <span class="tooltip">About Us</span>
+                </li>
+
+                <li>
+                    <a href="../pages/terms.html" class="glow">
+                        <i class='bx bxs-book-open'></i>
+                        <span class="bar-item">Terms of service</span>
+                    </a>
+                    <span class="tooltip">Terms of service</span>
+                </li>
+
+                <li>
+                    <a href="../index.html">
+                        <i class='bx bx-log-out'></i>
+                        <span class="bar-item">Log out</span>
+                    </a>
+                    <span class="tooltip">Log out</span>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Main Content Area -->
+        <main id="content">
+            <header>
+                <h1>Terms of Service</h1>
+            </header>
+
+            <article class="terms-section">
+                
+              <div class="updated-terms">   
+                    <span>  Updated: April 12, 2024  </span>
+                    <span>  Effective Date: April 3, 2024 </span>
+              </div>
+
+                <h2>Welcome to Architexa</h2>
+                <br></br>
+                <p> Thank you for using Achitexa  🤍</p>
+                <br></br>
+                <p>These Terms of Service clearly explain your rights regarding generated images, the prompts used to generate them (the “Content”), and your use of the service. 
+                    These terms form an agreement that You and Archtiexa enter into.
+                    The agreement is effective when Archtiexa Services is used. 
+                    If you disagree with any part of these terms and conditions, kindly stop using our service. 
+                    You will be notified by email of any changes to the terms of service. </p>
+            </article>
+
+            <article class="terms-section">
+                <h2>Content Rights and Ownership</h2>
+                <p>To the extent under applicable law, you retain the ownership of the prompts entered into our service and all images generated from our service.
+                   You are responsible for the content and for following and not violating these terms or applicable laws. 
+                   For your knowledge, we cannot guarantee the uniqueness of the images generated because of the nature of artificial intelligence;
+                   other users could obtain similar images.</p>
+            </article>
+
+            <article class="terms-section">
+                <h2>User Conduct</h2>
+                <p>Acceptable Use: Under these Terms, you may use our services, and in doing so, you must adhere to our Sharing Policies (see below) and jurisdictional law.</p>
+                <p>Unacceptable Use: You may not use our services for any harmful, illegal, or abusive activities. 
+                   Architexa reserves the right to suspend or ban your account for any reason and at any time. </p>
+            </article>
+
+            <article class="terms-section">
+                <h2>Registration</h2>
+                <p>You are responsible for keeping your account information confidential. 
+                   You may not share your account information with anyone.
+                   You are responsible for all usage that happens on your account. 
+                   If you desire to terminate your account, contact our customer service team at CustomerService@Architexa.com 
+                </p>
+            </article>
+
+            <article class="terms-section">
+                <h2>Age Acceses</h2>
+                <p>You must meet the minimum age of digital consent in your country and be above the age of 13 years old.
+                   If you can access the services in your country but cannot consent to the terms of service due to not being old enough,
+                   you must have a parent or guardian accept our terms on your behalf. 
+                   If you are a parent or guardian and you accept the terms on behalf of your teenager, 
+                   you will be held responsible for your teenager’s use of our services. 
+                </p>
+            </article>
+
+            <article class="terms-section">
+                <h2>Privacy</h2>
+                <p>The data Architexa may collect includes emails, image prompts entered, usage data, and cookies.
+                   We use these data to maintain, perform research, and improve our services. 
+                   Furthermore, to comply with regulatory obligations and processes. 
+                   Lastly, get in contact and inform You of special offers, news, and events.
+                </p>
+            </article>
+
+            <article class="terms-section">
+                <h2>Sharing Policy</h2>
+                <p>Sharing and circulating generated content on social media and in professional settings is generally permissible, provided you adhere to the following rules:
+                   You must state that the content is AI-generated in a reasonable manner that no one could misunderstand.
+                   For commercial use, You must obtain permission by contacing our legal team at LegalDepartment@Architexa.com.
+                </p>
+            </article>
+
+           
+
+        </main>
+    </div>
+
+    <script src="../js/main.js" type="module"></script>
+</body>
+
+<!-- For the Side bar interactivity-->
+
+<script>
+    let btn = document.querySelector('#btn');
+    let sideMenu = document.querySelector('.sideMenu');
+
+    btn.onclick = function(){
+        sideMenu.classList.toggle('active');
+    };
+
+ </script>
+
+</html>

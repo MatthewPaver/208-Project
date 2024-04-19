@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architexa - Architectural Design Visualization</title>
+    <link rel="icon" type= "image/png" href="Architexa Logo .png"> 
+    <link rel="stylesheet" href="../css/styles.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
+</head>
+<body>
+
+ <div id="wrapper">
+    <!-- Input prompt section ( Reseaon being up here is the API call seems can only work like this)-->
+    <form action="">
+        <input type="text" id="prompt" placeholder="Enter prompt">
+        <button
+         id="generate-button" class="submitButton ">  
+         <i class='bx bx-up-arrow-alt bx-md'></i>
+         
+        </button> 
+    </form>
+
+    <main id="content">
+        <header>
+            <h1>Welcome to Architexa</h1>
+        </header>
+        
+        <section id="design-prompt-section">
+            <h2>Create Your Architectural Design</h2>
+            <!-- Image container for API output -->
+            <div id="imageContainer" class="imageDispay">
+
+                <div class=" imageAPI" >
+
+                  <img src="https://images.unsplash.com/photo-1611602132416-da2045990f76?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt=" Seat Turtle" >
+                  <a href=" https://unsplash.com/photos/white-and-brown-wooden-house-near-green-trees-during-daytime-u-Hb93V6IWI" target=" _blank"> Blue House </a>
+                </div>
+
+                <!-- Ensure the path to your placeholder image is correct -->
+              
+            </div>
+            
+            <!-- Textbox for user input -->
+            
+        </section>
+    </main>
+    
+
+     
+        <!-- Navigation Menu -->
+        <div class="sideMenu">
+
+            <!-- Top of the Navigation Bar -->
+            <div class="top"> 
+                <div class="icon">
+                    <img src="Architexa Logo .png">
+                  <span> &nbsp; &nbsp;&nbsp;ARCHITEXA</span>
+                </div>
+            </div>
+              <i class="bx bx-menu" id="btn"></i>
+              <div class="user">
+                  <img src="User Image.jpeg" alt="Me" class="user-img">
+                  <div> 
+                      <p class="bold">Admin</p>
+                      
+                  </div>
+              </div>
+
+            <!-- Pages -->
+            <ul>
+                <!-- BIG NOT CHANGED THE DIRECTORIES -->
+                <li>
+                    <a href="home.html" class="glow">
+                        <i class='bx bxs-home-alt-2'></i>
+                        <span class="bar-item">Home</span>
+                    </a>
+                    <span class="tooltip">Home</span>    
+                </li>
+
+                <li>
+                    <a href="/pages/about.html">
+                        <i class='bx bxs-detail'></i>
+                        <span class="bar-item">About Us</span>
+                     </a>
+                     <span class="tooltip">About Us</span>
+                </li>
+
+                <li>
+                    <a href="/pages/terms.html">
+                        <i class='bx bxs-book-open'></i>
+                        <span class="bar-item">Terms of service</span>
+                    </a>
+                    <span class="tooltip">Terms of service</span>
+                </li>
+
+                <li>
+                    <a href="../index.html">
+                        <i class='bx bx-log-out'></i>
+                        <span class="bar-item">Log out</span>
+                    </a>
+                    <span class="tooltip">Log out</span>
+                </li>
+            </ul>
+        </div>
+        
+  </div>  
+        <!-- Main Content Area -->
+       
+  
+    
+    <!-- Ensure the path to your main.js is correct and include type="module" for ES6 module support -->
+    <script src="../js/script.js"></script>
+    <!-- <script src="main.js" type="module"></script> -->
+
+</body>
+
+<script>
+    let btn = document.querySelector('#btn');
+    let sideMenu = document.querySelector('.sideMenu');
+
+    btn.onclick = function(){
+        sideMenu.classList.toggle('active');
+    };
+
+ </script>
+
+</html>

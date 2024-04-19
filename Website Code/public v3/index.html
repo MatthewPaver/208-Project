@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="icon" type= "image/png" href="Architexa Logo .png"> 
+    <link rel="stylesheet" type="text/css" href="css/loginstyle.css">
+    <script src="https://www.gstatic.com/firebasejs/9.2.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.2.0/firebase-auth-compat.js"></script>
+</head>
+<body>
+
+    
+
+    <div class="login-container">
+        <h2>Login Form</h2>
+
+        <form id="login-form">
+            <div class="form-group">
+                <div class="text">
+                    <input type="email" id="email" name="email" required>
+                    <span></span>
+
+                    <label for="email">Email:</label>
+               </div>
+            </div>
+
+            <div class="form-group">
+                <div class="text">
+                    <input type="password" id="password" name="password" required>
+                    <span></span> 
+                    
+                    <label for="password">Password:</label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Sign In</button>
+        </form>
+
+        <div class="additional-links">
+            <a href="/login/ForgotPassword.html">Forgot Password</a>
+            <a href="/login/Signup.html">Sign Up Here</a>
+        </div>
+    </div>
+
+   
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDkBZ3wI87PrjdoV7yYhYcXUXJ_7irT4Cs",
+            authDomain: "architexa-1f4ce.firebaseapp.com",
+            projectId: "architexa-1f4ce",
+            storageBucket: "architexa-1f4ce.appspot.com",
+            messagingSenderId: "334635524502",
+            appId: "1:334635524502:web:a6bfe1993cc6a2eea7fdb7"
+        };
+
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        const loginForm = document.getElementById('login-form');
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = loginForm['email'].value;
+            const password = loginForm['password'].value;
+
+            auth.signInWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                alert('Sign in successful!');
+                window.location.href = 'pages/home.html'; // Redirect to home page
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // Display a pop-up message for incorrect email/password
+                alert('Incorrect email/password. Please try again.');
+            });
+        });
+    </script>
+</body>
+</html>
