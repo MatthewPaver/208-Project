@@ -1,4 +1,4 @@
-# Project Directory Overview
+# Welcome to the Architexa Repository!
 
 This README provides a comprehensive overview of the various folders within the project directory, detailing their contents and purposes.
 
