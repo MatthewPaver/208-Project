@@ -73,4 +73,4 @@ The `Generate Images.py` script automates the process of generating images. Belo
   - **Suffix**: Custom suffixes can be added to commands as needed.
   - **Wait Time**: Configurable wait time between issuing prompts to manage API calls or bot interactions.
 
-The YAML configuration file location is set by default to `~/Desktop/Generated Images/Code/bulkai.yaml`, and users are notified of the file path upon successful creation.
+The YAML configuration file location is set by default to `~INSERT FILE PATH/bulkai.yaml`, and users are notified of the file path upon successful creation.
