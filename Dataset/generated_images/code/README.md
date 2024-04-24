@@ -21,7 +21,7 @@ This README provides a comprehensive guide on how to run the `bulkai generate` c
     Change the current directory to where your YAML file is located:
 
     ```shell
-    cd /Users/mattpaver/Desktop/Generated Images/Code
+    cd /Users/INSERT DIRECTORY HERE
     ```
 
 ### Creating a Session
