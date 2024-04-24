@@ -1,3 +1,5 @@
+Website live at https://architexa.io 
+
 ###  HTML & JS API Fetch Testing
 
 This repository contains example files aimed at helping users understand and learn how APIs work through HTML and JavaScript.
