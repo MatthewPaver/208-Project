@@ -4,10 +4,6 @@ This README provides a comprehensive overview of the various folders within the 
 
 ## Folder Structure and Descriptions
 
-### Current Documents
-- **Description**: Contains all current documents related to this assignment. This includes active scripts, configuration files, and any other essential documents currently in use.
-- **Purpose**: Primarily for reference; these are not necessary for running the project but are kept as up-to-date backups.
-
 ### Legacy Code
 - **Description**: Houses all old versions of scripts and codebases previously used or considered during the development process.
 - **Purpose**: Serves as a historical archive and backup. These files are not required for the project's operation.
