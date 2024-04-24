@@ -1,4 +1,4 @@
-album: /Users/mattpaver/opt/anaconda3/bin/python "/Users/INSERT FILE DIRECTORY
+album: /Users/opt/anaconda3/bin/python "/Users/INSERT FILE DIRECTORY
   Images/Generate Images.py"
 bot: midjourney
 download: true
